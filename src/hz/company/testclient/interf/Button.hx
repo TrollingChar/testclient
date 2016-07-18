@@ -1,4 +1,4 @@
-package src.interf;
+package hz.company.testclient.interf;
 
 import openfl.events.*;
 import openfl.filters.*;
