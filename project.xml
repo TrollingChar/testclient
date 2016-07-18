@@ -8,7 +8,7 @@
 	<!-- output -->
 	<app main="hz.company.testclient.Main" file="TestClient" path="bin" />
 	
-	<window background="#000000" fps="60" />
+	<window background="#BBDDEE" fps="60" />
 	<window width="800" height="480" unless="mobile" />
 	<window orientation="landscape" vsync="false" antialiasing="0" if="cpp" />
 	
@@ -16,9 +16,11 @@
 	<source path="src" />
 	<haxelib name="openfl" />
 	<haxelib name="actuate" />
+	<haxelib name="svg" />
 	
 	<!-- assets -->
 	<icon path="assets/openfl.svg" />
+	<assets path="assets/font" rename="font" />
 	<assets path="assets/img" rename="img" />
 	
 	<!-- optimize output
