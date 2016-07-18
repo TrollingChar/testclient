@@ -69,7 +69,7 @@ class Button extends Sprite
 		textfield.textColor = 0xFFFFFF;
 		
 		var filt = textfield.filters;
-		filt.push(new GlowFilter(0x00FFFF));
+		filt.push(new GlowFilter(0xFFFF00));
 		textfield.filters = filt;
 		/*
 		addChildAt(shapePressed, 0);
