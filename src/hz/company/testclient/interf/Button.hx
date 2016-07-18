@@ -17,7 +17,7 @@ class Button extends Sprite
 	var shapePressed:Shape;
 	
 	var tf:TextFormat;
-	var textfield:TextField;
+	public var textfield:TextField;
 	
 	public function new(s:String, func:MouseEvent->Void) 
 	{
@@ -69,7 +69,7 @@ class Button extends Sprite
 		textfield.textColor = 0xFFFFFF;
 		
 		var filt = textfield.filters;
-		filt.push(new GlowFilter(0xFFFF00));
+		filt.push(new GlowFilter(0x00FFFF));
 		textfield.filters = filt;
 		/*
 		addChildAt(shapePressed, 0);
