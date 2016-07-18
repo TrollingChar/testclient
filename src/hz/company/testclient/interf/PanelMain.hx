@@ -5,7 +5,7 @@ import haxe.macro.PositionTools;
  * ...
  * @author 
  */
-class PanelMain
+class PanelMain extends Panel
 {
 	public function new() 
 	{
