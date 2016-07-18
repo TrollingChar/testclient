@@ -1,7 +1,8 @@
 package hz.company.testclient;
 
-import openfl.display.Sprite;
-import openfl.Lib;
+import flash.events.Event;
+import hz.company.testclient.interf.*;
+import openfl.display.*;
 
 /**
  * ...

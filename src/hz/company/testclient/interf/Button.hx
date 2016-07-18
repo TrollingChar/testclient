@@ -28,9 +28,6 @@ class Button extends Sprite
 		svg = new SVG(Assets.getText("img/button.svg"));
 		shape = new Shape();
 		svg.render(shape.graphics);
-		/*svg = new SVG(Assets.getText("img/button4.svg"));
-		shapePressed = new Shape();
-		svg.render(shapePressed.graphics);*/
 		
 		addChild(shape);
 		

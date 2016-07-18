@@ -11,7 +11,7 @@ import format.*;
  * ...
  * @author 
  */
-class Button extends Sprite
+class ButtonIcon extends Sprite
 {
 	var shape:Shape;
 	var shapePressed:Shape;
@@ -36,7 +36,7 @@ class Button extends Sprite
 		tf.align = TextFormatAlign.CENTER;
 		
 		textfield = new TextField();
-		textfield.width = 300;
+		textfield.width = 120;
 		textfield.height = 100;
 		textfield.defaultTextFormat = tf;
 		textfield.selectable = false;
