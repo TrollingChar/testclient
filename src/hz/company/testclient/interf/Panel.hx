@@ -4,7 +4,7 @@ import openfl.*;
 import openfl.events.*;
 import openfl.display.*;
 import openfl.text.*;
-import Main;
+import openfl.geom.Point;
 
 /**
  * ...
@@ -15,6 +15,12 @@ class Panel extends Sprite
 	var st:Stage;
 	var input:TextBox;
 	public var text:TextField;
+	
+	var posHidden:Point;
+	var posShown:Point;
+	@:isVar var position(get, set):Float;
+	var hidden:Bool;
+	
 
 	public function new() 
 	{
@@ -31,14 +37,14 @@ class Panel extends Sprite
 		btn = new Button("Вход", function(e:MouseEvent) {
 			var i:Null<Int> = Std.parseInt(input.text);			
 			if (i != null) {
-				Main.connection.sendAuth(i);
+				//Main.connection.sendAuth(i);
 			}
 		});
 		btn.x = 200;
 		btn.y = 250;
 		addChild(btn);
 		btn = new Button("Играть", function(e:MouseEvent) {
-			Main.connection.sendReady();			
+			//Main.connection.sendReady();			
 		});
 		btn.x = 350;
 		btn.y = 150;
@@ -89,6 +95,18 @@ class Panel extends Sprite
 		var scale:Float = scaleX = scaleY = Math.min(scX, scY);
 		x = stage.stageWidth / 2 - 500 * scale;
 		y = stage.stageHeight / 2 - 300 * scale;
+	}
+	
+	function get_position():Float 
+	{
+		return position;
+	}
+	
+	function set_position(value:Float):Float 
+	{
+		// 0 - hidden, 1 - shown
+		this.x = (1 - value) * posHidden.x + value * posShown.x;
+		return position = value;
 	}
 	
 }

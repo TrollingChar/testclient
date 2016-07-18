@@ -10,13 +10,17 @@ import openfl.display.*;
  */
 class Main extends Sprite 
 {
+	static var I:Main;
+	//public var connection:Connection;
+	public var pan1:Panel;
+	public var pan2:Panel;
+	public var pan3:Panel;
 
 	public function new() 
 	{
 		super();
 		
-		// Assets:
-		// openfl.Assets.getBitmapData("img/assetname.jpg");
+		I = this;
 	}
 
 }
