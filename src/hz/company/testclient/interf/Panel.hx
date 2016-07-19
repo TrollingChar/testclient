@@ -12,10 +12,7 @@ import openfl.geom.Point;
  */
 class Panel extends Sprite
 {
-	var st:Stage;
-	var input:TextBox;
-	public var btn:Button;
-	
+	var st:Stage;	
 	public var posHidden:Point;
 	public var posShown:Point;
 	@:isVar public var position(get, set):Float;
@@ -30,13 +27,13 @@ class Panel extends Sprite
 		posShown = new Point();
 		
 		addEventListener(Event.ADDED_TO_STAGE, Added);
-				
+		/*
 		btn = new Button(Std.string(Math.random()), function(e:Event) { Main.I.showRandom(); });
 		btn.y = 200;
 		btn.x = Math.random() * 700;
 		addChild(btn);
-		
-		hidden = false;
+		*/
+		hidden = true;
 	}
 	
 	function Added(event:Event) {
@@ -51,7 +48,6 @@ class Panel extends Sprite
 	
 	private function Update(e:Event):Void 
 	{
-		btn.textfield.text = Std.string(Math.random());
 		if (hidden) {
 			if (position > 0.1) position -= 0.1; else position = 0.0;
 		} else {

@@ -14,44 +14,34 @@ class Main extends Sprite
 	//public var connection:Connection;
 	public var activePan:Panel;
 	
-	public var pan1:Panel;
-	public var pan2:Panel;
-	public var pan3:Panel;
+	public var panMain:Panel;
+	public var panTop:Panel;
+	public var panArs:Panel;
 
 	public function new() 
 	{
 		super();
 		
 		I = this;
-		pan1 = new Panel();
-		pan2 = new Panel();
-		pan3 = new Panel();
-		addChild(pan1);
-		addChild(pan2);
-		addChild(pan3);
+		
+		panMain = new PanelMain();
+		addChild(panMain);
+		
+		panTop = new PanelTop();
+		addChild(panTop);
+		
+		panArs = new PanelArsenal();
+		addChild(panArs);
 	}
-	
-	public function showRandom() {
-		/*if (activePan != null) {
+	/*
+	public function showPanel(pan:Panel) {
+		if (activePan != null) {
 			activePan.hidden = true;
-		}*/
-		if (Math.random() < 1.0 / 3.0) {
-			//activePan = pan1;
-			pan1.hidden = false;
-			pan2.hidden =
-			pan3.hidden = true;
-		} else if (Math.random() < 0.5) {
-			//activePan = pan2;
-			pan2.hidden = false;
-			pan1.hidden =
-			pan3.hidden = true;
-		} else {
-			//activePan = pan3;
-			pan3.hidden = false;
-			pan2.hidden =
-			pan1.hidden = true;
 		}
-		//activePan.hidden = false;
-	}
-
+		activePan = pan;
+		if (activePan != null) {
+			activePan.hidden = false;
+		}
+	}*/
+	
 }

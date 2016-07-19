@@ -1,5 +1,7 @@
 package hz.company.testclient.interf;
 import hz.company.testclient.interf.*;
+import openfl.display.*;
+import openfl.events.*;
 
 /**
  * ...
@@ -11,21 +13,25 @@ class PanelTop extends Panel
 
 	public function new() 
 	{
+		super();
 		addEventListener(Event.ADDED_TO_STAGE, Added);
 		
-		btn = new ButtonIcon(" ", function(e:MouseEvent) {
-			var i:Null<Int> = Std.parseInt(input.text);			
-			if (i != null) {
-				Main.connection.sendAuth(i);
+		btn = new ButtonIcon("", function(e:MouseEvent) {
+			if (stage.displayState == StageDisplayState.NORMAL) {
+				stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+			} else {
+				stage.displayState = StageDisplayState.NORMAL;
 			}
 		});
 		
 		btn.x = 880;
 		btn.y = 0;
 		addChild(btn);
+		
+		hidden = false;
 	}
 	
-	function override Resize(event:Event)
+	override function Resize(event:Event)
 	{
 		var h:Float = stage.stageHeight * .05;
 		btn.scaleX = btn.scaleY = h / 100;
