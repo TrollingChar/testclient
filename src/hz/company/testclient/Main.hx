@@ -17,6 +17,7 @@ class Main extends Sprite
 	public var panMain:Panel;
 	public var panTop:Panel;
 	public var panArs:Panel;
+	public var panInGame:Panel;
 
 	public function new() 
 	{
@@ -32,6 +33,9 @@ class Main extends Sprite
 		
 		panArs = new PanelArsenal();
 		addChild(panArs);
+		
+		panInGame = new PanelInGame();
+		addChild(panInGame);
 	}
 	/*
 	public function showPanel(pan:Panel) {
