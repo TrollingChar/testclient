@@ -31,7 +31,8 @@ class PanelMain extends Panel
 		//addChild(btn);
 		btn = new Button("Играть", function(e:MouseEvent) {
 			hidden = true;
-			Main.I.panArs.hidden = false;
+			Main.I.panArs.hidden =
+			Main.I.panInGame.hidden = false;
 		});
 		btn.x = 350;
 		btn.y = 150;
