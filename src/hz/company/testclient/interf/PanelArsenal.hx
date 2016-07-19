@@ -9,13 +9,15 @@ import openfl.events.*;
  */
 class PanelArsenal extends Panel
 {
+	static inline var cols:Int = 10;
+	static inline var rows:Int = 7;
 	
 	public function new() 
 	{
 		super();
-		for (x in 0...10)
+		for (x in 0...cols)
 		{
-			for (y in 0...7)
+			for (y in 0...rows)
 			{
 				var btn:Sprite = new ButtonIcon(Std.string(Std.int(Math.random()*10)), function(e:MouseEvent) 
 				{
@@ -31,11 +33,11 @@ class PanelArsenal extends Panel
 	
 	override function Resize(event:Event)
 	{
-		var scX:Float = stage.stageWidth / 1200;				// ширина зависит от содержимого
-		var scY:Float = stage.stageHeight / 840 * 0.8;
+		var scX:Float = stage.stageWidth / 120 / cols;				// ширина зависит от содержимого
+		var scY:Float = stage.stageHeight / 120 / rows * 0.8;
 		var scale:Float = scaleX = scaleY = Math.min(scX, scY);
-		posShown.x = stage.stageWidth / 2 - 600 * scale;
-		posShown.y = stage.stageHeight * .45 - 420 * scale;
+		posShown.x = stage.stageWidth / 2 - 60 * cols * scale;
+		posShown.y = stage.stageHeight * .45 - 60 * rows * scale;
 		posHidden.x = posShown.x;
 		posHidden.y = stage.stageHeight;
 		position = position;
