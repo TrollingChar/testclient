@@ -31,11 +31,13 @@ class World extends Sprite
 	public function add(object:Object)
 	{
 		// ...
+		object.
 		object.onAdd();
 	}
 	public function remove(object:Object)
 	{
-		object.
+		// ...
+		object.onRemove();
 	}
 	
 }
