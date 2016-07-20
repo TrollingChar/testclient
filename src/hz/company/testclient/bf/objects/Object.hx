@@ -9,7 +9,8 @@ import openfl.display.Sprite;
  */
 class Object extends Sprite
 {
-	@isVar public var colliders(get, set):List<Collider>;
+	public var world:World;
+	public var colliders:List<Collider>;
 	@isVar public var controller(get, set):Controller;
 	
 	public var x:Float;
@@ -20,16 +21,6 @@ class Object extends Sprite
 	public function new() 
 	{
 		
-	}
-	
-	function get_colliders():List<Collider> 
-	{
-		return colliders;
-	}
-	
-	function set_colliders(value:List<Collider>):List<Collider> 
-	{
-		return colliders = value;
 	}
 	
 	function get_controller():Controller 
@@ -51,6 +42,11 @@ class Object extends Sprite
 	public function onRemove() 
 	{
 		
+	}
+	
+	public function add(collider:Collider) {
+		colliders.add(collider);
+		collider.onAdd();
 	}
 	
 }
