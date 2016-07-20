@@ -12,7 +12,7 @@ class Tile
 	
 	public function new() 
 	{
-		this.colliders = new List<Collider>;
+		colliders = new List<Collider>();
 	}
 		
 }

@@ -2,6 +2,7 @@ package hz.company.testclient;
 
 import flash.events.Event;
 import hz.company.testclient.interf.*;
+import hz.company.testclient.bf.World;
 import openfl.display.*;
 
 /**
@@ -18,12 +19,17 @@ class Main extends Sprite
 	public var panTop:Panel;
 	public var panArs:Panel;
 	public var panInGame:Panel;
+	
+	public var world:World;
 
 	public function new() 
 	{
 		super();
 		
 		I = this;
+		
+		world = new World();
+		addChild(world);
 		
 		panMain = new PanelMain();
 		addChild(panMain);

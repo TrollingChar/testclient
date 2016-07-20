@@ -12,7 +12,7 @@ class World extends Sprite
 	var objects : List<Object>;
 	var colliders : List<Collider>;
 	
-		
+	var layers:Array<Sprite>;
 
 	public function new() 
 	{		
@@ -31,13 +31,29 @@ class World extends Sprite
 	public function add(object:Object)
 	{
 		// ...
-		object.
+		object.world = this;
 		object.onAdd();
 	}
+	
+	public function move(object:Object) {
+		// фильтр коллайдеров по тайлам
+		
+		// фильтр перекрывающихся с коллайдером объектов
+		
+		// сталкивание с картой всех примитивов объекта
+		
+		// сталкивание с другими коллайдерами всех примитивов объекта
+		
+		// само столкновение с вычислением нормали к поверхности
+		
+		// сдвинуть объект и его коллайдеры
+	}	
+	
 	public function remove(object:Object)
 	{
-		// ...
 		object.onRemove();
+		// ...
+		object.world = null;
 	}
 	
 }

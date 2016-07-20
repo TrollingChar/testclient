@@ -17,23 +17,18 @@ class Collider
 	}
 	
 	public function collideWithPoint():Collision {
-		
+		return null;
 	}
 	
 	public function collideWithLine():Collision {
-		
+		return null;
 	}
 	
 	public function collideWithCircle():Collision {
-		
+		return null;
 	}
 	
-	public function onAdd() 
-	{
-		
-	}
-	
-	public function addToTiles() {
+	public function updateTiles() {
 		
 	}
 	

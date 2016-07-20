@@ -8,7 +8,7 @@ import openfl.display.Sprite;
  * ...
  * @author 
  */
-class Object extends Sprite
+class Object // extends Sprite (спрайты добавляются отдельно, объект может вовсе не иметь их)
 {
 	public var world:World;
 	public var colliders:List<Collider>;
@@ -40,6 +40,33 @@ class Object extends Sprite
 	}
 	
 	public function onAdd()
+	{
+		initController();
+		initColliders();
+		renderSprites();
+	}
+	
+	function initController() 
+	{
+		// controller = new ...
+	}
+	
+	function initColliders() 
+	{
+		// addCollider(new ...
+		// addCollider(new ...
+	}
+	
+	public function addCollider(collider:Collider) {
+		collider.object = this;
+		collider.updateTiles();
+	}
+	
+	public function removeCollider(collider:Collider) {
+		
+	}
+	
+	function renderSprites() 
 	{
 		
 	}
