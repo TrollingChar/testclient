@@ -24,4 +24,9 @@ class Collider
 		
 	}
 	
+	public function onAdd() 
+	{
+		
+	}
+	
 }
