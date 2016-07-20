@@ -1,4 +1,6 @@
 package hz.company.testclient.bf.colliders;
+import hz.company.testclient.bf.Tile;
+import hz.company.testclient.bf.objects.Object;
 
 /**
  * ...
@@ -6,6 +8,8 @@ package hz.company.testclient.bf.colliders;
  */
 class Collider
 {
+	public var object:Object;
+	var tiles:List<Tile>;
 
 	public function new() 
 	{
@@ -26,6 +30,14 @@ class Collider
 	
 	public function onAdd() 
 	{
+		
+	}
+	
+	public function addToTiles() {
+		
+	}
+	
+	public function freeTiles() {
 		
 	}
 	

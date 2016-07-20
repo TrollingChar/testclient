@@ -1,4 +1,5 @@
 package hz.company.testclient.bf.objects;
+import hz.company.testclient.bf.World;
 import hz.company.testclient.bf.colliders.Collider;
 import hz.company.testclient.bf.controllers.Controller;
 import openfl.display.Sprite;
@@ -32,6 +33,10 @@ class Object extends Sprite
 	{
 		if (controller != null) controller.remove();
 		return controller = value;
+	}
+	
+	public function update() {
+		controller.update();
 	}
 	
 	public function onAdd()

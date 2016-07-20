@@ -24,4 +24,9 @@ class Controller
 		
 	}
 	
+	public function update() 
+	{
+		
+	}
+	
 }
