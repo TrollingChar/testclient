@@ -12,4 +12,16 @@ class Collider
 		
 	}
 	
+	public function collideWithPoint():Collision {
+		
+	}
+	
+	public function collideWithLine():Collision {
+		
+	}
+	
+	public function collideWithCircle():Collision {
+		
+	}
+	
 }
