@@ -1,4 +1,5 @@
 package hz.company.testclient.bf.controllers;
+import hz.company.testclient.bf.objects.Object;
 
 /**
  * ...
@@ -6,8 +7,19 @@ package hz.company.testclient.bf.controllers;
  */
 class Controller
 {
+	public var object:Object;
 
 	public function new() 
+	{
+		
+	}
+	
+	public function onAdd()
+	{
+		
+	}
+	
+	public function onRemove() 
 	{
 		
 	}
