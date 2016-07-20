@@ -11,8 +11,8 @@ import openfl.display.*;
 class Main extends Sprite 
 {
 	static public var I:Main;
+	
 	//public var connection:Connection;
-	public var activePan:Panel;
 	
 	public var panMain:Panel;
 	public var panTop:Panel;

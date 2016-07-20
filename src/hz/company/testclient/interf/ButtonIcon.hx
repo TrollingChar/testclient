@@ -44,6 +44,7 @@ class ButtonIcon extends Sprite
 		textfield.embedFonts = true;
 		textfield.y = 25;
 		textfield.autoSize = TextFieldAutoSize.CENTER;
+		textfield.cacheAsBitmap = true;
 		
 		addChild(textfield);		
 		addEventListener(MouseEvent.MOUSE_OVER, MouseOver);

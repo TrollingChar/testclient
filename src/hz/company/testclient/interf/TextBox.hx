@@ -47,6 +47,8 @@ class TextBox extends Sprite
 		textfield.y = 25;
 		textfield.autoSize = TextFieldAutoSize.CENTER;
 		textfield.type = TextFieldType.INPUT;
+		textfield.cacheAsBitmap = true;
+		
 		addChild(textfield);
 	}	
 	

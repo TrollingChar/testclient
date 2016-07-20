@@ -30,9 +30,8 @@ class PanelInGame extends Panel
 		
 		btn2.x = 880;
 		btn2.y = 500;
-		addChild(btn2);
-		
-		hidden = false;
+		addChild(btn2);		
+		//hidden = false;
 	}
 	
 	override function Resize(event:Event)
