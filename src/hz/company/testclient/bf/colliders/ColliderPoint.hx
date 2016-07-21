@@ -1,4 +1,5 @@
 package hz.company.testclient.bf.colliders;
+import openfl.geom.Point;
 
 /**
  * ...
@@ -6,10 +7,12 @@ package hz.company.testclient.bf.colliders;
  */
 class ColliderPoint extends Collider
 {
+	var offset:Point;
+	var cachePoint:Point;
+	
 
-	public function new() 
+	public function new(offset:Point) 
 	{
-		super();
 		
 	}
 	

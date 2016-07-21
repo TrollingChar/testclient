@@ -8,11 +8,11 @@ import hz.company.testclient.bf.colliders.Collider;
 class Tile
 {
 	public var colliders : List<Collider>;
-	public var ground : Bool;
+	public var land : Bool;
 	
 	public function new() 
 	{
 		colliders = new List<Collider>();
 	}
-		
+	
 }

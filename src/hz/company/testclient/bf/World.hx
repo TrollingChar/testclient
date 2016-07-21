@@ -1,4 +1,6 @@
 package hz.company.testclient.bf;
+import haxe.ds.HashMap;
+import haxe.ds.IntMap;
 import hz.company.testclient.bf.colliders.Collider;
 import hz.company.testclient.bf.objects.Object;
 import openfl.display.Sprite;
@@ -10,7 +12,8 @@ import openfl.display.Sprite;
 class World extends Sprite
 {
 	var objects : List<Object>;
-	var colliders : List<Collider>;
+	//var colliders : List<Collider>;
+	var tiles:IntMap < IntMap<Tile> > ;
 	
 	var layers:Array<Sprite>;
 

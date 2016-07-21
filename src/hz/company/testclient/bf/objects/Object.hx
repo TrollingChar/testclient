@@ -12,7 +12,7 @@ class Object // extends Sprite (спрайты добавляются отдел
 {
 	public var world:World;
 	public var colliders:List<Collider>;
-	@isVar public var controller(get, set):Controller;
+	@:isVar public var controller(get, set):Controller;
 	
 	public var x:Float;
 	public var y:Float;
@@ -73,12 +73,12 @@ class Object // extends Sprite (спрайты добавляются отдел
 	
 	public function onRemove() 
 	{
-		
+		controller = null;
 	}
 	
 	public function add(collider:Collider) {
 		colliders.add(collider);
-		collider.onAdd();
+		collider.updateTiles();
 	}
 	
 }
