@@ -1,8 +1,10 @@
 package hz.company.testclient.bf;
+import flash.events.Event;
 import haxe.ds.HashMap;
 import haxe.ds.IntMap;
 import hz.company.testclient.bf.colliders.Collider;
 import hz.company.testclient.bf.objects.Object;
+import openfl.display.BitmapData;
 import openfl.display.Sprite;
 
 /**
@@ -11,6 +13,7 @@ import openfl.display.Sprite;
  */
 class World extends Sprite
 {
+	var land:BitmapData;
 	var objects : List<Object>;
 	//var colliders : List<Collider>;
 	var tiles:IntMap < IntMap<Tile> > ;
@@ -18,16 +21,24 @@ class World extends Sprite
 	var layers:Array<Sprite>;
 
 	public function new() 
-	{		
+	{
+		super();
 		this.objects = new List<Object>();
-		this.colliders = new List<Collider>();
+		//this.colliders = new List<Collider>();
+		addEventListener(Event.ADDED_TO_STAGE, addedToStage);
+	}
+	
+	private function addedToStage(e:Event):Void 
+	{
+		removeEventListener(Event.ADDED_TO_STAGE, addedToStage);
+		
 	}
 	
 	public function update()
 	{
 	//var iterator : Iterator;
 	//iterator = this.objects.iterator;
-		for (iterator in objects.iterator) {
+		for (object in objects) {
 		}
 	}
 	

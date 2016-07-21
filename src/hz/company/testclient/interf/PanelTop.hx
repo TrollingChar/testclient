@@ -14,7 +14,6 @@ class PanelTop extends Panel
 	public function new() 
 	{
 		super();
-		addEventListener(Event.ADDED_TO_STAGE, Added);
 		
 		btn = new ButtonIcon("", function(e:MouseEvent) {
 			if (stage.displayState == StageDisplayState.NORMAL) {

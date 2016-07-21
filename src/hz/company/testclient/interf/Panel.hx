@@ -26,7 +26,7 @@ class Panel extends Sprite
 		posHidden = new Point();
 		posShown = new Point();
 		
-		addEventListener(Event.ADDED_TO_STAGE, Added);
+		addEventListener(Event.ADDED_TO_STAGE, addedToStage);
 		/*
 		btn = new Button(Std.string(Math.random()), function(e:Event) { Main.I.showRandom(); });
 		btn.y = 200;
@@ -36,7 +36,8 @@ class Panel extends Sprite
 		hidden = true;
 	}
 	
-	function Added(event:Event) {
+	function addedToStage(event:Event) {
+		removeEventListener(Event.ADDED_TO_STAGE, addedToStage);
 		stage.addEventListener(Event.RESIZE, Resize);
 		stage.addEventListener(Event.ENTER_FRAME, Update);
 		stage.addEventListener(MouseEvent.MOUSE_MOVE, MouseMove);
