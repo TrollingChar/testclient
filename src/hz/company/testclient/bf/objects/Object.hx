@@ -31,7 +31,9 @@ class Object // extends Sprite (спрайты добавляются отдел
 	
 	function set_controller(value:Controller):Controller 
 	{
-		if (controller != null) controller.remove();
+		if (controller != null) controller.onRemove();
+		value.object = this;
+		value.onAdd();
 		return controller = value;
 	}
 	
