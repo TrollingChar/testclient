@@ -6,22 +6,26 @@ package hz.company.testclient.bf.colliders;
  */
 class ColliderCircle extends Collider
 {
-
+	var offset:Point;
+	var cachePoint:Point;
+	var radius:Float;
+	
 	public function new() 
 	{
 		super();
 		
 	}
 	
-	override public function collideWithPoint():Collision {
+	override public function collideWithPoint(collider:ColliderPoint):Collision {
+		
 		
 	}
 	
-	override public function collideWithLine():Collision {
+	override public function collideWithLine(collider:ColliderLine):Collision {
 		
 	}
 	
-	override public function collideWithCircle():Collision {
+	override public function collideWithCircle(collider:ColliderCircle):Collision {
 		
 	}
 	

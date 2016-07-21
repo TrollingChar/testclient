@@ -16,15 +16,15 @@ class ColliderPoint extends Collider
 		
 	}
 	
-	override public function collideWithPoint():Collision {
+	override public function collideWithPoint(collider:ColliderPoint):Collision {
 		
 	}
 	
-	override public function collideWithLine():Collision {
+	override public function collideWithLine(collider:ColliderLine):Collision {
 		
 	}
 	
-	override public function collideWithCircle():Collision {
+	override public function collideWithCircle(collider:ColliderCircle):Collision {
 		
 	}
 	
