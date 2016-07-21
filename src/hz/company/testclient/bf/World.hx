@@ -39,6 +39,7 @@ class World extends Sprite
 	}
 	
 	public function move(object:Object) {
+		
 		// фильтр коллайдеров по тайлам
 		
 		// фильтр перекрывающихся с коллайдером объектов

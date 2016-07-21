@@ -16,15 +16,15 @@ class Collider
 		
 	}
 	
-	public function collideWithPoint():Collision {
+	public function collideWithPoint(collider:ColliderPoint):Collision {
 		return null;
 	}
 	
-	public function collideWithLine():Collision {
+	public function collideWithLine(collider:ColliderLine):Collision {
 		return null;
 	}
 	
-	public function collideWithCircle():Collision {
+	public function collideWithCircle(collider:ColliderCircle):Collision {
 		return null;
 	}
 	
