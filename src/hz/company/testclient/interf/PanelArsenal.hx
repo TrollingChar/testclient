@@ -32,7 +32,7 @@ class PanelArsenal extends Panel
 		}
 	}
 	
-	override function Resize(event:Event)
+	override function resize(event:Event)
 	{
 		var scX:Float = stage.stageWidth / 120 / cols;				// ширина зависит от содержимого
 		var scY:Float = stage.stageHeight / 120 / rows * 0.8;

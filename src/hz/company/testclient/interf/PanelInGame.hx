@@ -34,7 +34,7 @@ class PanelInGame extends Panel
 		//hidden = false;
 	}
 	
-	override function Resize(event:Event)
+	override function resize(event:Event)
 	{
 		var h:Float = stage.stageHeight * .15;
 		btn1.scaleX =

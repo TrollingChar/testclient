@@ -52,7 +52,7 @@ class TextBox extends Sprite
 		addChild(textfield);
 	}	
 	
-	function Deactivate(event:Event)
+	function deactivate(event:Event)
 	{
 		textfield.textColor = 0x889999;
 		
@@ -61,7 +61,7 @@ class TextBox extends Sprite
 		textfield.filters = filt;
 	}
 	
-	function Activate(event:Event)
+	function activate(event:Event)
 	{		
 		textfield.textColor = 0xFFFFFF;
 		

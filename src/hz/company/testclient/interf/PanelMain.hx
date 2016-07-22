@@ -66,7 +66,7 @@ class PanelMain extends Panel
 		hidden = false;
 	}
 	
-	override function Resize(event:Event)
+	override function resize(event:Event)
 	{
 		var scX:Float = stage.stageWidth / 1000;
 		var scY:Float = stage.stageHeight / 600;

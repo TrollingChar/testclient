@@ -51,8 +51,8 @@ class UIElement extends Sprite
 		textfield.cacheAsBitmap = true;
 		
 		addChild(textfield);		
-		addEventListener(MouseEvent.MOUSE_OVER, MouseOver);
-		addEventListener(MouseEvent.MOUSE_OUT, MouseOut);
+		addEventListener(MouseEvent.MOUSE_OVER, mouseOver);
+		addEventListener(MouseEvent.MOUSE_OUT, mouseOut);
 		addEventListener(MouseEvent.CLICK, func);
 	}
 	
@@ -62,7 +62,7 @@ class UIElement extends Sprite
 		return s; 
 	} 
 	
-	function MouseOut(event:MouseEvent)
+	function mouseOut(event:MouseEvent)
 	{
 		textfield.textColor = coff;
 		
@@ -75,7 +75,7 @@ class UIElement extends Sprite
 		*/
 	}
 	
-	function MouseOver(event:MouseEvent)
+	function mouseOver(event:MouseEvent)
 	{		
 		textfield.textColor = con;
 		

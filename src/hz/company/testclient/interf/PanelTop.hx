@@ -30,7 +30,7 @@ class PanelTop extends Panel
 		hidden = false;
 	}
 	
-	override function Resize(event:Event)
+	override function resize(event:Event)
 	{
 		var h:Float = stage.stageHeight * .05;
 		btn.scaleX = btn.scaleY = h / 100;

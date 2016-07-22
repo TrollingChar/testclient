@@ -47,12 +47,12 @@ class ButtonIcon extends Sprite
 		textfield.cacheAsBitmap = true;
 		
 		addChild(textfield);		
-		addEventListener(MouseEvent.MOUSE_OVER, MouseOver);
-		addEventListener(MouseEvent.MOUSE_OUT, MouseOut);
+		addEventListener(MouseEvent.MOUSE_OVER, mouseOver);
+		addEventListener(MouseEvent.MOUSE_OUT, mouseOut);
 		addEventListener(MouseEvent.CLICK, func);		
 	}
 	
-	function MouseOut(event:MouseEvent)
+	function mouseOut(event:MouseEvent)
 	{
 		textfield.textColor = 0x889999;
 		
@@ -65,7 +65,7 @@ class ButtonIcon extends Sprite
 		*/
 	}
 	
-	function MouseOver(event:MouseEvent)
+	function mouseOver(event:MouseEvent)
 	{		
 		textfield.textColor = 0xFFFFFF;
 		

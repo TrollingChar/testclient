@@ -38,16 +38,16 @@ class Panel extends Sprite
 	
 	function addedToStage(event:Event) {
 		removeEventListener(Event.ADDED_TO_STAGE, addedToStage);
-		stage.addEventListener(Event.RESIZE, Resize);
-		stage.addEventListener(Event.ENTER_FRAME, Update);
-		stage.addEventListener(MouseEvent.MOUSE_MOVE, MouseMove);
+		stage.addEventListener(Event.RESIZE, resize);
+		stage.addEventListener(Event.ENTER_FRAME, update);
+		stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMove);
 		//stage.addEventListener(MouseEvent.RIGHT_MOUSE_DOWN, function(e:MouseEvent) {text.text = "mouse down"; });
 		//stage.addEventListener(MouseEvent.RIGHT_MOUSE_UP, function(e:MouseEvent) {text.text = "mouse up"; });
-		Resize(null);
+		resize(null);
 		position = hidden ? 0 : 1;
 	}
 	
-	private function Update(e:Event):Void 
+	private function update(e:Event):Void 
 	{
 		if (hidden) {
 			if (position > 0.1) position -= 0.1; else position = 0.0;
@@ -56,13 +56,13 @@ class Panel extends Sprite
 		}
 	}
 	
-	function MouseMove(event:MouseEvent) {
+	function mouseMove(event:MouseEvent) {
 		//text.x = event.stageX;
 		//text.y = event.stageY;
 		//text.text = event.stageX + ", " + event.stageY;
 	}
 	
-	function Resize(event:Event) {
+	function resize(event:Event) {
 		var scX:Float = stage.stageWidth / 1000;
 		var scY:Float = stage.stageHeight / 600;
 		var scale:Float = scaleX = scaleY = Math.min(scX, scY);
