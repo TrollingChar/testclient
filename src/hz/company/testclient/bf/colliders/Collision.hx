@@ -8,14 +8,23 @@ import openfl.geom.Point;
 class Collision
 {
 	// shoild be null if no collision detected
-	public var path:Float;			// how much time passed before objects collide
-	public var collider:Collider;	// collider that was moved
-	public var collided:Collider;	// collider that caused collision (null if it's immobile land)
-	public var normal:Point;
+	public var relativePath:Float;	// относительный путь объекта
+	public var collider:Collider;	// двигавшийся объект
+	public var collided:Collider;	// объект, в который он врезался (null если это земля)
+	public var point:Point;			// точка столкновения
+	public var normal:Point;		// вектор нормали от поверхности второго объекта
 	
-	public function new() 
+	public function new(relativePath:Float,
+						collider:Collider,
+						collided:Collider,
+						point:Point,
+						normal:Point) 
 	{
-		
+		this.relativePath = relativePath;
+		this.collider = collider;
+		this.collided = collided;
+		this.point = point;
+		this.normal = normal;
 	}
 	
 }

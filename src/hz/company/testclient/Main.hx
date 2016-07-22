@@ -3,6 +3,8 @@ package hz.company.testclient;
 import flash.events.Event;
 import hz.company.testclient.interf.*;
 import hz.company.testclient.bf.World;
+import hz.company.testclient.bf.colliders.Collider;
+import hz.company.testclient.bf.colliders.ColliderCircle;
 import openfl.display.*;
 
 /**
@@ -43,15 +45,9 @@ class Main extends Sprite
 		panInGame = new PanelInGame();
 		addChild(panInGame);
 	}
-	/*
-	public function showPanel(pan:Panel) {
-		if (activePan != null) {
-			activePan.hidden = true;
-		}
-		activePan = pan;
-		if (activePan != null) {
-			activePan.hidden = false;
-		}
-	}*/
+	
+	public function log(msg:String) {
+		// здесь мы выводим сообщение о том, что именно пошло не так
+	}
 	
 }

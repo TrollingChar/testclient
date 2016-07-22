@@ -17,50 +17,69 @@ class ColliderCircle extends Collider
 	}
 	
 	override public function collideWithCircle(collider:ColliderCircle):Collision {
-		//
-		//if ((this.radius == 0) && (collider.radius == 0))
-			//return null;
-		//
-		//if ((((collider.cachePoint.x - this.cachePoint.x) * this.object.vx) + 
-		//((collider.cachePoint.y - this.cachePoint.y) * this.object.vy)) < 0)
-			//return 0;
-		//
-		//var v:Float = Math.sqrt(this.object.vx * this.object.x +
-		                        //this.object.vy * this.object.vy);
-		//
-		//var a:Float = Math.sqrt( Math.pow((this.cachePoint.x - collider.cachePoint.x), 2) + 
-		                         //Math.pow((this.cachePoint.y - collider.cachePoint.y), 2));
-		//
-		//var b:Float = Math.sqrt( Math.pow((this.cachePoint.x + this.object.vx - collider.cachePoint.x), 2) +
-		                         //Math.pow((this.cachePoint.y + this.object.vy - collider.cachePoint.y), 2));
-								 //
-		//var p:Float = (a + b + v) / 2;
-		//var S:Float = Math.sqrt(p * (p - a) * (p - b) * (p - v));
-		//var h:Flaot = (2 * S) / v;
-		//
-		//if ((this.radius + collider.radius) > h)
-			//return null;
-		//
-		//var d:Float = Math.sqrt(a * a - h * h) - Math.sqrt(Math.pow(this.radius + collider.radius) - h * h);
-		//
-		//if ((d < 0) || (d >= v))
-			//return null;
-				                   //
-		//if (Math.isNaN(d))
-			//return null;
-		//
-		//if (d)
-		//{
-			//this.cachePoint.x += this.object.vx * d / v;
-			//this.cachePoint.y += this.object.vy * d / v;
-		//}
-		//
-		//if ((Math.isNaN(this.cachePoint.x) || (Math.isNaN(collider.cachePoint.x))
-			//return null;
-		//
-		//return new Collision(/* Parametrs */);
 		
-		return null;
+		// Проверить, не нулевые ли у них радиусы (2 точки)
+		if (radius == 0 && collider.radius == 0)
+			return null;
+		
+		var a:Point = cachePoint;			// центр первого объекта
+		var b:Point = collider.cachePoint;	// центр второго объекта
+		//	с - точка, в которую первый объект движется без учета столкновений
+		//	d - точка, в которой объект реально окажется при столкновении
+		//	h - точка на прямой ac, ближайшая к b
+		
+		// скалярное произведение векторов меньше 0 -> объект движется не к другому объекту, а от него
+		if ((b.x - a.x) * object.vx + (b.y - a.y) * object.vy < 0)
+			return null;		
+		
+		// скорость объекта (пройденный путь на данном шаге симуляции)
+		var ac:Float = Math.sqrt(object.vx * object.vx + object.vy * object.vy);
+		if (ac == 0) return null;
+		
+		// расстояние между центрами объектов
+		var ab:Float = Math.sqrt((a.x - b.x)*(a.x - b.x) + (a.y - b.y)*(a.y - b.y));
+		
+		// расстояние между концом пути первого объекта и вторым
+		var bc:Float = Math.sqrt(
+			Math.pow((a.x + object.vx - b.x), 2) +
+		    Math.pow((a.y + object.vy - b.y), 2));
+		
+		// по формуле Герона находим площадь, затем находим высоту (расстояние
+		// от центра второго объекта до прямой
+		var p:Float = (ab + bc + ac) / 2;
+		var S:Float = Math.sqrt(p * (p - ab) * (p - bc) * (p - ac));		
+		var bh:Float = (2 * S) / ac;		// высота треугольника abc
+		
+		// длина этого отрезка равна сумме радиусов объектов
+		var bd:Float = radius + collider.radius;
+		
+		// если объекты никогда не столкнутся
+		if (bd > bh)
+			return null;
+		
+		var ah:Float = Math.sqrt(ab * ab - bh * bh);
+		var dh:Float = Math.sqrt(bd * bd - bh * bh);
+		var ad:Float = ah - dh;				// расстояние, которое пролетает объект
+		
+		// объект либо слишком далеко, либо сзади
+		if (ad < 0 || ad > ac)
+			return null;
+		
+		// так не бывает
+		if (Math.isNaN(ad)) {
+			Main.I.log("Error: ColliderCircle.collideWithCircle : ad == NaN!");
+			return null;
+		}
+		
+		// 1.0 - это длина ac, мы должны вычислить ad
+		var relativePath:Float = ad / ac;
+		var d:Point = new Point(a.x + relativePath * object.vx, a.y + relativePath * object.vy);
+		var collisionPoint:Point = new Point(
+			(d.x * radius + b.x * collider.radius) / bd,
+			(d.y * radius + b.y * collider.radius) / bd);
+		var normal:Point = new Point(d.x - b.x, d.y - b.y);		// вектор нормали
+		
+		return new Collision(relativePath, this, collider, collisionPoint, normal);
 	}
 	
 }
