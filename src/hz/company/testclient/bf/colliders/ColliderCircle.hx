@@ -11,7 +11,7 @@ class ColliderCircle extends Collider
 {
 	public var offset:Point2D;
 	public var cachePoint:Point2D;
-	public var radius:Point2D;
+	public var radius:Float;
 	
 	public function new() 
 	{
