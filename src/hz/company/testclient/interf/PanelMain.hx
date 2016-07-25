@@ -14,7 +14,7 @@ class PanelMain extends Panel
 		super();		
 		
 		var btn:Sprite;
-		
+		var btn2:Sprite;
 		//input = new TextBox("введите id");
 		//input.x = 500;
 		//input.y = 250;
@@ -35,8 +35,17 @@ class PanelMain extends Panel
 			Main.I.panInGame.hidden = false;
 		});
 		btn.x = 350;
-		btn.y = 250;
+		btn.y = 150;
 		addChild(btn);
+		
+		btn2 = new Button("Помощь", function(e:MouseEvent) {
+			hidden = true;
+			Main.I.panHelp.hidden = false;
+			
+		});
+		btn2.x = 350;
+		btn2.y = 300;
+		addChild(btn2);
 		//btn = new Button("Экран", function(e:MouseEvent) {
 			//if (stage.displayState == StageDisplayState.FULL_SCREEN_INTERACTIVE)			
 				//stage.displayState = StageDisplayState.NORMAL;

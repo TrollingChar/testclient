@@ -26,7 +26,7 @@ class Main extends Sprite
 	public var panInGame:Panel;
 	public var panConnection:Panel;
 	public var panCancel:Panel;
-	
+	public var panHelp:Panel;
 	public var world:World;
 
 	public function new() 
@@ -35,8 +35,8 @@ class Main extends Sprite
 		
 		I = this;
 		
-		panConnection = new PanelConnection();
-		addChild(panConnection);
+		//panConnection = new PanelConnection();
+		//addChild(panConnection);
 		
 		//panCancel = new PanelCancel();
 		//addChild(panCancel);
@@ -44,8 +44,11 @@ class Main extends Sprite
 		//world = new World();
 		//addChild(world);
 		//
-		//panMain = new PanelMain();
-		//addChild(panMain);
+		panMain = new PanelMain();
+		addChild(panMain);
+		
+		panHelp = new PanelHelp();
+		addChild(panHelp);
 		//
 		//panTop = new PanelTop();
 		//addChild(panTop);
