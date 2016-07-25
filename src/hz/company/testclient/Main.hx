@@ -1,11 +1,14 @@
 package hz.company.testclient;
 
-import flash.events.Event;
+import openfl.events.Event;
+import openfl.geom.Point;
 import hz.company.testclient.interf.*;
 import hz.company.testclient.bf.World;
 import hz.company.testclient.bf.colliders.Collider;
 import hz.company.testclient.bf.colliders.ColliderCircle;
 import openfl.display.*;
+import hz.company.testclient.geom.Point2D;
+import openfl.text.TextField;
 
 /**
  * ...

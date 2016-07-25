@@ -9,8 +9,8 @@ import openfl.events.*;
  */
 class PanelArsenal extends Panel
 {
-	static inline var cols:Int = 10;
-	static inline var rows:Int = 7;
+	static inline var cols:Int = 8;
+	static inline var rows:Int = 5;
 	
 	public function new() 
 	{

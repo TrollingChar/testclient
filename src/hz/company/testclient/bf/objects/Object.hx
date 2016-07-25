@@ -2,6 +2,7 @@ package hz.company.testclient.bf.objects;
 import hz.company.testclient.bf.World;
 import hz.company.testclient.bf.colliders.Collider;
 import hz.company.testclient.bf.controllers.Controller;
+import hz.company.testclient.geom.Point2D;
 import openfl.display.Sprite;
 
 /**
@@ -14,10 +15,8 @@ class Object // extends Sprite (спрайты добавляются отдел
 	public var colliders:List<Collider>;
 	@:isVar public var controller(get, set):Controller;
 	
-	public var x:Float;
-	public var y:Float;
-	public var vx:Float;
-	public var vy:Float;
+	public var position:Point2D;
+	public var velocity:Point2D;
 	
 	public function new() 
 	{

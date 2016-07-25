@@ -34,8 +34,8 @@ class World extends Sprite
 	{
 		removeEventListener(Event.ADDED_TO_STAGE, addedToStage);
 		
-		land = Assets.getBitmapData("img/coffee_map.png");
-		addChild(new Bitmap(land));
+		//land = Assets.getBitmapData("img/coffee_map.png");
+		//addChild(new Bitmap(land));
 	}
 	
 	public function update()
