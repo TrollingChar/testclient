@@ -25,24 +25,38 @@ class ColliderCircle extends Collider
 		var c:Point2D = cachePoint;				// центр окружности
 		var v:Point2D = object.velocity;
 		
-		// находим пересечение прямых
-		var x:Point2D = Geometry.intersection(a, b, c, c + v);
-		
-		// если прямые параллельны
-		if (x == null)
+		var ab:Float = a ^ b;
+		if (ab == 0)
 			return null;
 		
-		// нам надо найти расстояние от точки c до прямой ab
-		var ab:Float = a ^ b;
-		var ac:Float = a ^ c;
-		var bc:Float = b ^ c;		
-		// по формуле Герона находим площадь, затем находим высоту
-		// (то самое расстояние)
-		var p:Float = (ab + bc + ac) / 2;
-		var S:Float = Math.sqrt(p * (p - ab) * (p - bc) * (p - ac));		
-		var h:Float = (2 * S) / ac;
+		var i:Point2D = (b - a) / ab;
+		var j:Point2D = new Point2D(-i.y, i.x);	// 90° по часовой стрелке
 		
-		return null;
+		// раскладываем вектор c-a по базису векторов (i, j)
+		var ac_ij:Point2D = Geometry.convertToBasis(a - c, i, j);
+		
+		ac_ij.y -= radius;
+		// объект вообще не с той стороны прямой, поэтому его не обрабатываем
+		if (ac_ij.y < 0)
+			return null;
+		
+		// вектор скорости тоже раскладываем
+		var v_ij:Point2D = Geometry.convertToBasis(v, i, j);
+		
+		// объект движется не в ту сторону
+		if (v_ij.y <= ac_ij.y)
+			return null;
+		
+		var relativePath:Float = ac_ij.y / v_ij.y;
+		
+		var offsetI:Float = ac_ij.x + v_ij.x * relativePath;
+		
+		// столкнулись с прямой но не с отрезком
+		if (offsetI - ac_ij.x < 0 ||
+			offsetI - ac_ij.x > ab)
+			return null;
+		
+		return new Collision(relativePath, this, collider, -j, null);
 	}
 	
 	override public function collideWithCircle(collider:ColliderCircle):Collision {
@@ -105,9 +119,9 @@ class ColliderCircle extends Collider
 		var d:Point2D = a + v * relativePath;
 		var collisionPoint = (d * radius + b * collider.radius) / bd;
 		
-		var normal:Point2D = d - b;			// вектор нормали
+		var normal:Point2D = d - b;			// вектор нормали (от поверхности к this)
 		
-		return new Collision(relativePath, this, collider, collisionPoint, normal);
+		return new Collision(relativePath, this, collider, normal, collisionPoint);
 	}
 	
 }
