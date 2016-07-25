@@ -1,4 +1,4 @@
-package;
+package hz.company.testclient;
 import haxe.ds.HashMap;
 
 /**

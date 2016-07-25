@@ -18,12 +18,14 @@ class Main extends Sprite
 {
 	static public var I:Main;
 	
-	//public var connection:Connection;
+	public var connection:Connection;
 	
 	public var panMain:Panel;
 	public var panTop:Panel;
 	public var panArs:Panel;
 	public var panInGame:Panel;
+	public var panConnection:Panel;
+	public var panCancel:Panel;
 	
 	public var world:World;
 
@@ -33,20 +35,26 @@ class Main extends Sprite
 		
 		I = this;
 		
-		world = new World();
-		addChild(world);
+		panConnection = new PanelConnection();
+		addChild(panConnection);
 		
-		panMain = new PanelMain();
-		addChild(panMain);
+		//panCancel = new PanelCancel();
+		//addChild(panCancel);
 		
-		panTop = new PanelTop();
-		addChild(panTop);
-		
-		panArs = new PanelArsenal();
-		addChild(panArs);
-		
-		panInGame = new PanelInGame();
-		addChild(panInGame);
+		//world = new World();
+		//addChild(world);
+		//
+		//panMain = new PanelMain();
+		//addChild(panMain);
+		//
+		//panTop = new PanelTop();
+		//addChild(panTop);
+		//
+		//panArs = new PanelArsenal();
+		//addChild(panArs);
+		//
+		//panInGame = new PanelInGame();
+		//addChild(panInGame);
 	}
 	
 	public function log(msg:String) {

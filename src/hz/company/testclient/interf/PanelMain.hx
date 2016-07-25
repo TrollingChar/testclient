@@ -35,7 +35,7 @@ class PanelMain extends Panel
 			Main.I.panInGame.hidden = false;
 		});
 		btn.x = 350;
-		btn.y = 150;
+		btn.y = 250;
 		addChild(btn);
 		//btn = new Button("Экран", function(e:MouseEvent) {
 			//if (stage.displayState == StageDisplayState.FULL_SCREEN_INTERACTIVE)			

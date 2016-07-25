@@ -1,4 +1,4 @@
-package;
+package hz.company.testclient;
 import flash.display.*;
 import flash.events.*;
 import flash.net.*;
@@ -16,12 +16,13 @@ class Connection
 	var host:String;
 	var port:Int;
 	var connected:Bool;
+	
+	var id:Int;
 
-	public function new(host:String, port:Int, main:Sprite) 
+	public function new(host:String, port:Int) 
 	{
 		this.host = host;
 		this.port = port;
-		this.main = main;
 		connected = false;
 		socket = new Socket();
 		socket.addEventListener(SecurityErrorEvent.SECURITY_ERROR, this.onError);
@@ -32,8 +33,9 @@ class Connection
 		socket.addEventListener(ProgressEvent.SOCKET_DATA, this.onSocketData);
     }
 	
-	public function connect()
+	public function connect(id:Int)
 	{
+		this.id = id;
 		socket.connect(host, port);
 	}
 	
@@ -52,26 +54,27 @@ class Connection
 	function onConnect(e:Event)
 	{
 		connected = true;
+		sendAuth(id);
 		
-		var textfield:TextField = new TextField();
-		textfield.width = 960;
-		textfield.height = textfield.y = 100;
-		textfield.text = "кекеке";
-		textfield.textColor = 0x00FF00;
-		textfield.type = TextFieldType.INPUT;
-		
-		main.stage.addChild(textfield);
-		textfield.addEventListener(KeyboardEvent.KEY_DOWN, function(event:KeyboardEvent){
-			if (event.charCode == 13){
-				/*var i:Null<Int> = Std.parseInt(textfield.text);
-				trace(textfield.text);
-				if (i != null) {
-					send(Base64Codec.Encode(i));
-				}*/
-				send(textfield.text);
-				textfield.text = "";
-			}
-		});
+		//var textfield:TextField = new TextField();
+		//textfield.width = 960;
+		//textfield.height = textfield.y = 100;
+		//textfield.text = "кекеке";
+		//textfield.textColor = 0x00FF00;
+		//textfield.type = TextFieldType.INPUT;
+		//
+		//main.stage.addChild(textfield);
+		//textfield.addEventListener(KeyboardEvent.KEY_DOWN, function(event:KeyboardEvent){
+			//if (event.charCode == 13){
+				///*var i:Null<Int> = Std.parseInt(textfield.text);
+				//trace(textfield.text);
+				//if (i != null) {
+					//send(Base64Codec.Encode(i));
+				//}*/
+				//send(textfield.text);
+				//textfield.text = "";
+			//}
+		//});
 	}
 	
 	function onClose(e:Event)
@@ -83,7 +86,7 @@ class Connection
 	{
 		if (!connected) 
 		{
-			connect();
+			connect(id);
 		}
 	}
 	
