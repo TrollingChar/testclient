@@ -43,7 +43,7 @@ class ColliderCircle extends Collider
 		// вектор скорости тоже раскладываем
 		var v_ij:Point2D = Geometry.convertToBasis(v, i, j);
 		
-		// объект движется не в ту сторону
+		// объект движется не в ту сторону или не долетает
 		if (v_ij.y <= ac_ij.y)
 			return null;
 		
