@@ -98,12 +98,28 @@ class Connection
 		send("1");
 	}
 	
-	function sendReady() {
+	function sendReadyToBattle() {
 		send("2");		
 	}
 	
-	function sendNotReady() {
+	function sendCancelBattle() {
 		send("3");		
+	}
+	
+	function receiveLoginConfirm() {
+		
+	}
+	
+	function receivePing() {
+		
+	}
+	
+	function receiveCancelBattle() {
+		
+	}
+	
+	function receiveStartBattle() {
+		
 	}
 	
 	function onSocketData(e:ProgressEvent)
@@ -113,8 +129,13 @@ class Connection
 		switch (s.charAt(0)) 
 		{
 			case "0":
+				receiveLoginConfirm();
+				break;
 			case "1":
+				receivePing();
+				break;
 			default:
+				
 		}
 	}
 }
