@@ -24,7 +24,8 @@ class PanelConnection extends Panel
 			Main.I.connection = new Connection(txt1.text, 8080);
 			Main.I.connection.connect(i);
 			
-			//здесь нужно дописать то, что после ответа сервера
+			
+			
 			
 		});
 		btn.x = 350;

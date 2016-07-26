@@ -94,20 +94,21 @@ class Connection
 		send("0" + Base64Codec.Encode(id));
 	}
 	
-	function sendPing() {
+	public function sendPing() {
 		send("1");
 	}
 	
-	function sendReadyToBattle() {
+	public function sendReadyToBattle() {
 		send("2");		
 	}
 	
-	function sendCancelBattle() {
+	public function sendCancelBattle() {
 		send("3");		
 	}
 	
 	function receiveLoginConfirm() {
-		
+		Main.I.panConnection.hidden = true;
+		Main.I.panMain.hidden = false;
 	}
 	
 	function receivePing() {
@@ -115,7 +116,8 @@ class Connection
 	}
 	
 	function receiveCancelBattle() {
-		
+		Main.I.panCancel.hidden = true;
+		Main.I.panMain.hidden = false;
 	}
 	
 	function receiveStartBattle() {
@@ -130,10 +132,8 @@ class Connection
 		{
 			case "0":
 				receiveLoginConfirm();
-				break;
 			case "1":
 				receivePing();
-				break;
 			default:
 				
 		}

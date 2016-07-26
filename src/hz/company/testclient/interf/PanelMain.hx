@@ -31,8 +31,8 @@ class PanelMain extends Panel
 		//addChild(btn);
 		btn = new Button("Играть", function(e:MouseEvent) {
 			hidden = true;
-			Main.I.panArs.hidden =
-			Main.I.panInGame.hidden = false;
+			Main.I.panCancel.hidden = false;
+			Main.I.connection.sendReadyToBattle();
 		});
 		btn.x = 350;
 		btn.y = 150;
@@ -72,7 +72,7 @@ class PanelMain extends Panel
 		//
 		//addChild(text);
 		//Main.I.showPanel(this);
-		hidden = false;
+		hidden = true;
 	}
 	
 	override function resize(event:Event)

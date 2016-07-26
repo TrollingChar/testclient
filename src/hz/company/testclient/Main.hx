@@ -35,8 +35,8 @@ class Main extends Sprite
 		
 		I = this;
 		
-		//panConnection = new PanelConnection();
-		//addChild(panConnection);
+		panConnection = new PanelConnection();
+		addChild(panConnection);
 		
 		//panCancel = new PanelCancel();
 		//addChild(panCancel);
