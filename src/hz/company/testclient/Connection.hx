@@ -133,6 +133,8 @@ class Connection
 				receiveLoginConfirm();
 			case "1":
 				receivePing();
+			case "2":
+				receiveCancelBattle();
 			default:
 				
 		}
