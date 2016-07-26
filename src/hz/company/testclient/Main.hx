@@ -38,8 +38,6 @@ class Main extends Sprite
 		panConnection = new PanelConnection();
 		addChild(panConnection);
 		
-		//panCancel = new PanelCancel();
-		//addChild(panCancel);
 		
 		//world = new World();
 		//addChild(world);
@@ -49,6 +47,9 @@ class Main extends Sprite
 		
 		panHelp = new PanelHelp();
 		addChild(panHelp);
+		
+		panCancel = new PanelCancel();
+		addChild(panCancel);
 		//
 		//panTop = new PanelTop();
 		//addChild(panTop);

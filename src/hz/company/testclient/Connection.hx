@@ -11,11 +11,10 @@ import Std;
  */
 class Connection
 {
-	var main:Sprite;
 	var socket:Socket;
 	var host:String;
 	var port:Int;
-	var connected:Bool;
+	public var connected:Bool;
 	
 	var id:Int;
 
@@ -55,7 +54,7 @@ class Connection
 	{
 		connected = true;
 		sendAuth(id);
-		
+
 		//var textfield:TextField = new TextField();
 		//textfield.width = 960;
 		//textfield.height = textfield.y = 100;
@@ -63,7 +62,7 @@ class Connection
 		//textfield.textColor = 0x00FF00;
 		//textfield.type = TextFieldType.INPUT;
 		//
-		//main.stage.addChild(textfield);
+		//Main.I.panConnection.addChild(textfield);
 		//textfield.addEventListener(KeyboardEvent.KEY_DOWN, function(event:KeyboardEvent){
 			//if (event.charCode == 13){
 				///*var i:Null<Int> = Std.parseInt(textfield.text);

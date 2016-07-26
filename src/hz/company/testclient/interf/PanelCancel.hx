@@ -23,7 +23,7 @@ class PanelCancel extends Panel
 		btn.y = 250;
 		addChild(btn);
 		
-		hidden = false;
+		hidden = true;
 	}
 	
 	override function resize(event:Event)

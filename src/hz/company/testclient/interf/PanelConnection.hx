@@ -20,13 +20,9 @@ class PanelConnection extends Panel
 			var i:Null<Int> = Std.parseInt(txt2.text);
 			if (i == null) 
 				return;
-				
+			//if (Main.I.connection.connected) Main.I.connection.close();
 			Main.I.connection = new Connection(txt1.text, 8080);
 			Main.I.connection.connect(i);
-			
-			
-			
-			
 		});
 		btn.x = 350;
 		btn.y = 300;
