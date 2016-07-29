@@ -46,4 +46,22 @@ class Base64Codec
 		if (!initialized) Init();
 		return map[c];
 	}
+	
+	static public function DecodFromString():Int
+	{
+		if (!initialized) Init();
+		//var str:String = s;
+		var sum:Int = 0;
+		for (i in 0...s.length){
+			if (s.charAt(i) != "="){
+				sum = sum * 64 + Decode(s.charAt(i));
+			}
+			else{
+				s = s.substring(i++);
+				return sum;
+			}
+		}
+		
+        return -1;
+	}
 }
