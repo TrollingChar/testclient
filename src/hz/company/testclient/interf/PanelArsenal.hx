@@ -30,6 +30,7 @@ class PanelArsenal extends Panel
 				addChild(btn);
 			}
 		}
+		hidden = true;
 	}
 	
 	override function resize(event:Event)

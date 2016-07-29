@@ -60,12 +60,12 @@ class Main extends Sprite
 		//
 		//panTop = new PanelTop();
 		//addChild(panTop);
-		//
-		//panArs = new PanelArsenal();
-		//addChild(panArs);
-		//
-		//panInGame = new PanelInGame();
-		//addChild(panInGame);
+		
+		panArs = new PanelArsenal();
+		addChild(panArs);
+		
+		panInGame = new PanelInGame();
+		addChild(panInGame);
 	}
 	
 	public function log(msg:String) {

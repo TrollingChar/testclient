@@ -122,7 +122,9 @@ class Connection
 	}
 	
 	function receiveStartBattle() {
-		
+		Main.I.panCancel.hidden = true;
+		Main.I.panArs.hidden = false;
+		Main.I.panInGame.hidden = false;
 	}
 	
 	function onSocketData(e:ProgressEvent)
