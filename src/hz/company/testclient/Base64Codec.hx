@@ -47,7 +47,7 @@ class Base64Codec
 		return map[c];
 	}
 	
-	static public function DecodFromString():Int
+	static public function DecodeFromString():Int
 	{
 		if (!initialized) Init();
 		//var str:String = s;
@@ -57,7 +57,7 @@ class Base64Codec
 				sum = sum * 64 + Decode(s.charAt(i));
 			}
 			else{
-				s = s.substring(i++);
+				s = s.substring(i+1);
 				return sum;
 			}
 		}

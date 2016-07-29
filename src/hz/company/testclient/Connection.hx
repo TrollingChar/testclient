@@ -123,6 +123,7 @@ class Connection
 	
 	function receiveStartBattle() {
 		Main.I.panCancel.hidden = true;
+		Main.I.panCancel.position = 0;
 		Main.I.panArs.hidden = false;
 		Main.I.panInGame.hidden = false;
 	}
