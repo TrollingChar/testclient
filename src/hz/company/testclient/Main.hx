@@ -19,7 +19,9 @@ class Main extends Sprite
 	static public var I:Main;
 	
 	public var connection:Connection;
+	public var id:Int;
 	
+	public var debugTextField:TextField;
 	public var panMain:Panel;
 	public var panTop:Panel;
 	public var panArs:Panel;
@@ -34,6 +36,11 @@ class Main extends Sprite
 		super();
 		
 		I = this;
+		Random.init(0);
+		
+		debugTextField = new TextField();
+		debugTextField.text = "test";
+		addChild(debugTextField);
 		
 		panConnection = new PanelConnection();
 		addChild(panConnection);

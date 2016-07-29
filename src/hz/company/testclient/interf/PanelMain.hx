@@ -32,7 +32,7 @@ class PanelMain extends Panel
 		btn = new Button("Играть", function(e:MouseEvent) {
 			hidden = true;
 			Main.I.panCancel.hidden = false;
-			Main.I.connection.sendReadyToBattle();
+			Main.I.connection.sendToBattle();
 		});
 		btn.x = 350;
 		btn.y = 150;

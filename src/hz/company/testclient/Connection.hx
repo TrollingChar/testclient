@@ -4,6 +4,7 @@ import flash.events.*;
 import flash.net.*;
 import flash.text.*;
 import Std;
+import hz.company.testclient.bf.InputState;
 
 /**
  * ...
@@ -90,31 +91,32 @@ class Connection
 	}
 	
 	function sendAuth(id:Int) {
-		send("0" + Base64Codec.Encode(id));
+		send(Base64Codec.EncodeToChar(ClientCommands.AUTHORIZE) + Base64Codec.Encode(id));
 	}
 	
 	public function sendPing() {
-		send("1");
+		send("");
 	}
 	
-	public function sendReadyToBattle() {
-		send("2");		
+	public function sendToBattle() {
+		send(Base64Codec.EncodeToChar(ClientCommands.TO_BATTLE));
 	}
 	
-	public function sendCancelBattle() {
-		send("3");		
+	public function sendCancel() {
+		send(Base64Codec.EncodeToChar(ClientCommands.CANCEL));		
 	}
 	
-	function receiveLoginConfirm() {
+	public function sendInput(input:InputState) {
+		// сделать в классе InputState
+		send(Base64Codec.EncodeToChar(ClientCommands.INPUT_DATA));
+	}
+	
+	function receiveAuthConfirm() {
 		Main.I.panConnection.hidden = true;
 		Main.I.panMain.hidden = false;
 	}
 	
-	function receivePing() {
-		
-	}
-	
-	function receiveCancelBattle() {
+	function receiveCancel() {
 		Main.I.panCancel.hidden = true;
 		Main.I.panMain.hidden = false;
 	}
@@ -126,17 +128,50 @@ class Connection
 	function onSocketData(e:ProgressEvent)
 	{
 		var s:String = socket.readUTF();
-		trace(s);
-		switch (s.charAt(0)) 
+		
+		Main.I.debugTextField.text = s;
+		
+		var cmd:Int = Base64Codec.Decode(s.charAt(0));
+		s = s.substring(1);
+		
+		switch (cmd) 
 		{
-			case "0":
-				receiveLoginConfirm();
-			case "1":
-				receivePing();
-			case "2":
-				receiveCancelBattle();
+			case ServerCommands.AUTH_CONFIRM:
+				receiveAuthConfirm();
+			case ServerCommands.START_BATTLE:
+				receiveStartBattle();
+			case ServerCommands.CANCEL:
+				receiveCancel();
+			case ServerCommands.HIS_TURN:
+				receiveHisTurn();
+			case ServerCommands.INPUT_DATA:
+				receiveInput();
+			case ServerCommands.PLAYER_LEFT:
+				receivePlayerLeft();
+			case ServerCommands.END_BATTLE:
+				receiveEndBattle();
 			default:
 				
 		}
+	}
+	
+	function receiveEndBattle() 
+	{
+		
+	}
+	
+	function receivePlayerLeft() 
+	{
+		
+	}
+	
+	function receiveInput() 
+	{
+		
+	}
+	
+	function receiveHisTurn() 
+	{
+		
 	}
 }

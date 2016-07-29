@@ -1,4 +1,5 @@
 package hz.company.testclient.bf.objects;
+import hz.company.testclient.bf.Team;
 
 /**
  * ...
@@ -7,9 +8,14 @@ package hz.company.testclient.bf.objects;
 class Worm extends Object
 {
 	public var hp:Int;
+	public var team:Team;
 
 	public function new() 
 	{
+		super();
+	}
+	
+	public function onAddToTeam() {
 		
 	}
 	

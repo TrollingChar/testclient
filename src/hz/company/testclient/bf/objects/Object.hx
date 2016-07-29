@@ -59,12 +59,14 @@ class Object // extends Sprite (спрайты добавляются отдел
 	}
 	
 	public function addCollider(collider:Collider) {
+		colliders.add(collider);
 		collider.object = this;
 		collider.updateTiles();
 	}
 	
 	public function removeCollider(collider:Collider) {
-		
+		collider.freeTiles();
+		colliders.remove(collider);
 	}
 	
 	function renderSprites() 
@@ -75,11 +77,6 @@ class Object // extends Sprite (спрайты добавляются отдел
 	public function onRemove() 
 	{
 		controller = null;
-	}
-	
-	public function add(collider:Collider) {
-		colliders.add(collider);
-		collider.updateTiles();
 	}
 	
 }
