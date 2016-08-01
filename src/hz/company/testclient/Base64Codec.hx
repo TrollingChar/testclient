@@ -8,7 +8,7 @@ import haxe.ds.HashMap;
 class Base64Codec
 {
 	static var initialized:Bool = false;
-	static var s:String;
+	public static var s:String;
 	//static var map:Object;
 	static var map:Map<String, Int>;
 

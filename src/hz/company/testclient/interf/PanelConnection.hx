@@ -1,6 +1,7 @@
 package hz.company.testclient.interf;
 import flash.events.*;
 import openfl.display.*;
+import openfl.system.Security;
 
 /**
  * ...
@@ -18,10 +19,13 @@ class PanelConnection extends Panel
 		
 		btn = new Button("Вход", function(e:MouseEvent) {
 			var i:Null<Int> = Std.parseInt(txt2.text);
-			if (i == null) 
+			if (i == null) {
 				return;
-			//if (Main.I.connection.connected) Main.I.connection.close();
+			}
 			Main.I.connection = new Connection(txt1.text, 8080);
+			//Security.allowDomain("*");
+			//Security.allowInsecureDomain("*");
+			//Security.loadPolicyFile("xmlsocket://" + txt1.text + ":843");
 			Main.I.connection.connect(i);
 		});
 		btn.x = 350;

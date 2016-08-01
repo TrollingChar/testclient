@@ -21,9 +21,9 @@ class PanelArsenal extends Panel
 			{
 				var btn:Sprite = new ButtonIcon(Std.string(Std.int(Math.random()*10)), function(e:MouseEvent) 
 				{
-					this.hidden =
-					Main.I.panInGame.hidden = true;
-					Main.I.panMain.hidden = false;
+					//this.hidden =
+					//Main.I.panInGame.hidden = true;
+					//Main.I.panMain.hidden = false;
 				});
 				btn.x = x * 120;
 				btn.y = 10 + y * 120;

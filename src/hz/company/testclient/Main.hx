@@ -8,6 +8,7 @@ import hz.company.testclient.bf.colliders.Collider;
 import hz.company.testclient.bf.colliders.ColliderCircle;
 import openfl.display.*;
 import hz.company.testclient.geom.Point2D;
+import openfl.system.Security;
 import openfl.text.TextField;
 
 /**
@@ -40,6 +41,8 @@ class Main extends Sprite
 		
 		debugTextField = new TextField();
 		debugTextField.text = "test";
+		debugTextField.width = 1000;
+		debugTextField.height = 600;
 		addChild(debugTextField);
 		
 		panConnection = new PanelConnection();
@@ -57,9 +60,9 @@ class Main extends Sprite
 		
 		panCancel = new PanelCancel();
 		addChild(panCancel);
-		//
-		//panTop = new PanelTop();
-		//addChild(panTop);
+		
+		panTop = new PanelTop();
+		addChild(panTop);
 		
 		panArs = new PanelArsenal();
 		addChild(panArs);

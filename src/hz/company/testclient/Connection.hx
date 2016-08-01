@@ -21,22 +21,26 @@ class Connection
 
 	public function new(host:String, port:Int) 
 	{
+		//Main.I.debugTextField.text = "entering connection.new";
 		this.host = host;
 		this.port = port;
 		connected = false;
 		socket = new Socket();
-		socket.addEventListener(SecurityErrorEvent.SECURITY_ERROR, this.onError);
-		socket.addEventListener(IOErrorEvent.IO_ERROR, this.onError);
-		socket.addEventListener(ErrorEvent.ERROR, this.onError);
-		socket.addEventListener(Event.CONNECT, this.onConnect);
-		socket.addEventListener(Event.CLOSE, this.onClose);
-		socket.addEventListener(ProgressEvent.SOCKET_DATA, this.onSocketData);
+		socket.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onError);
+		socket.addEventListener(IOErrorEvent.IO_ERROR, onError);
+		socket.addEventListener(ErrorEvent.ERROR, onError);
+		socket.addEventListener(Event.CONNECT, onConnect);
+		socket.addEventListener(Event.CLOSE, onClose);
+		socket.addEventListener(ProgressEvent.SOCKET_DATA, onSocketData);
+		//Main.I.debugTextField.text = "leaving connection.new";
     }
 	
 	public function connect(id:Int)
 	{
+		//Main.I.debugTextField.text = "preparing to connect";
 		this.id = id;
 		socket.connect(host, port);
+		//Main.I.debugTextField.text = "connecting";
 	}
 	
 	public function close()
@@ -53,8 +57,9 @@ class Connection
 	
 	function onConnect(e:Event)
 	{
+		//Main.I.debugTextField.text = "connected";
 		connected = true;
-		sendAuth(id);
+		sendAuth();
 
 		//var textfield:TextField = new TextField();
 		//textfield.width = 960;
@@ -84,13 +89,15 @@ class Connection
 	
 	function onError(e:Event)
 	{
+		//Main.I.debugTextField.text = "error!";
 		if (!connected) 
 		{
 			connect(id);
 		}
 	}
 	
-	function sendAuth(id:Int) {
+	function sendAuth() {		
+		//Main.I.debugTextField.text = "sending auth data";
 		send(Base64Codec.EncodeToChar(ClientCommands.AUTHORIZE) + Base64Codec.Encode(id));
 	}
 	
@@ -121,11 +128,21 @@ class Connection
 		Main.I.panMain.hidden = false;
 	}
 	
-	function receiveStartBattle() {
-		Main.I.panCancel.hidden = true;
-		Main.I.panCancel.position = 0;
+	function receiveStartBattle(s:String) {
+		Main.I.panCancel.hidden =
+		Main.I.panMain.hidden = true;
+		Main.I.panCancel.position =
+		Main.I.panMain.position = 0;
 		Main.I.panArs.hidden = false;
 		Main.I.panInGame.hidden = false;
+		
+		Main.I.debugTextField.text = "Начать игру между игроками:\n";
+		var i:Int = Base64Codec.Decode(s.charAt(0));
+		Base64Codec.s = s.substring(1);
+		for (j in 0...i) 
+		{
+			Main.I.debugTextField.text += " Игрок #" + Std.string(Base64Codec.DecodeFromString()) + "\n";
+		}
 	}
 	
 	function onSocketData(e:ProgressEvent)
@@ -142,7 +159,7 @@ class Connection
 			case ServerCommands.AUTH_CONFIRM:
 				receiveAuthConfirm();
 			case ServerCommands.START_BATTLE:
-				receiveStartBattle();
+				receiveStartBattle(s);
 			case ServerCommands.CANCEL:
 				receiveCancel();
 			case ServerCommands.HIS_TURN:
