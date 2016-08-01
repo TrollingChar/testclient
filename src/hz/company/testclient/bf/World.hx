@@ -146,8 +146,7 @@ class World extends Sprite
 		object.onAdd();
 	}
 	
-	public function move(object:Object) {
-		
+	public function move(object:Object) {		
 		// фильтр коллайдеров по тайлам
 		
 		// фильтр перекрывающихся с коллайдером объектов

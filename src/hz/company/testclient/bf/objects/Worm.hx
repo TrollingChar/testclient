@@ -8,8 +8,16 @@ import hz.company.testclient.bf.Team;
  */
 class Worm extends Object
 {
+	
 	public var hp:Int;
 	public var team:Team;
+	
+	public function onAddToTeam() 
+	{
+		
+	}
+	
+	/*
 	var wormMask:Array;
 	public var mc:WormMC;
 	public var tf:TextField;
@@ -22,7 +30,7 @@ class Worm extends Object
 	public static inline var body:Float = 5;
 	public static inline var dangerSpeed:Float = 12;
 		
-	public function new(hp:Int, name:String  = "Червяк") 
+	public function new(hp:Int, name:String = "Червяк") 
 	{
 		super();
 		vx = vy = 0;
@@ -34,68 +42,18 @@ class Worm extends Object
 	public function onAddToTeam() {
 		
 	}
-	
-	public /*override*/ function occupies1(x:Int, y:Int) {
-		x -= Math.ceil(this.x);
-		y -= Math.ceil(this.y);
-		if(wormMask[y+5])
-			return wormMask[y+5][x+5];
-		return false;
-	}
-	
-	public override function hitTestCircle(x:Float, y:Float, r:Float):Bool {
-		return Physics.hitTestCircles(x, y, r, _x, _y, head)
-			|| Physics.hitTestCircles(x, y, r, _x, _y+body, head)
-			|| Physics.hitTestCircleRectangle(x, y, r, _x-head, _y, _x+head, _y+body);
-	}
-	
-	public override function hitTestRectangle(left:Float, top:Float, right:Float, bottom:Float):Bool {
-		return Physics.hitTestRectangles(_x-head, _y, _x+head, _y+body, left, top, right, bottom)
-			|| Physics.hitTestCircleRectangle(_x, _y, head, left, top, right, bottom)
-			|| Physics.hitTestCircleRectangle(_x, _y+body, head, left, top, right, bottom);
-	}
-	
-	public override function getCircleCollision(x:Float, y:Float, r:Float, vx:Float, vy:Float):CollisionParams {
-		var cp:CollisionParams;
-		var temp:CollisionParams;				
-		// upper body (rectangle)
-		cp = Physics.getCircleRectangleCollision(x, y, r, _x-head, _y, _x+head, _y+body, vx, vy);
-		// head       (circle)			
-		temp = Physics.getCirclesCollision(x, y, r, _x, _y, head, vx, vy);
-		if(!cp) cp = temp; else if(temp) if(temp.d < cp.d) cp = temp;
-		// lower body (circle)
-		temp = Physics.getCirclesCollision(x, y, r, _x, _y+body, head, vx, vy);
-		if(!cp) cp = temp; else if(temp) if(temp.d < cp.d) cp = temp;
 		
-		return cp;
-	}
-		
-	public override function getRectangleCollision(left:Float, top:Float, right:Float, bottom:Float, vx:Float, vy:Float):CollisionParams {
-		var cp:CollisionParams,
-		var temp:CollisionParams;				
-		// upper body (rectangle)
-		cp = Physics.getRectanglesCollision(left, top, right, bottom, _x-head, _y, _x+head, _y+body, vx, vy);
-		// head       (circle)			
-		temp = Physics.getRectangleCircleCollision(left, top, right, bottom, _x, _y, head, vx, vy);
-		if(!cp) cp = temp; else if(temp) if(temp.d < cp.d) cp = temp;
-		// lower body (circle)
-		temp = Physics.getRectangleCircleCollision(left, top, right, bottom, _x, _y+body, head, vx, vy);
-		if(!cp) cp = temp; else if(temp) if(temp.d < cp.d) cp = temp;
-			
-		return cp;
-	}
-		
-	// head radius = 5, dist = 5
-	public override function occupies(x:Int, y:Int) {			
-		//return(this.x-x)*(this.x-x) + (this.y-y)*(this.y-y) < 100;
-		if(this.x-x > head) return false;
-		if(x-this.x > head) return false;
-		if(y-this.y > 0 && y-this.y < body) return true;
-		if((this.x-x)*(this.x-x) + (this.y-y)*(this.y-y) < head*head) return true;
-		y -= body;
-		if((this.x-x)*(this.x-x) + (this.y-y)*(this.y-y) < head*head) return true;
-		return false;
-	}
+	//// head radius = 5, dist = 5
+	//public override function occupies(x:Int, y:Int) {			
+		////return(this.x-x)*(this.x-x) + (this.y-y)*(this.y-y) < 100;
+		//if(this.x-x > head) return false;
+		//if(x-this.x > head) return false;
+		//if(y-this.y > 0 && y-this.y < body) return true;
+		//if((this.x-x)*(this.x-x) + (this.y-y)*(this.y-y) < head*head) return true;
+		//y -= body;
+		//if((this.x-x)*(this.x-x) + (this.y-y)*(this.y-y) < head*head) return true;
+		//return false;
+	//}
 
 	public override function addTo(map:Map) {
 		super.addTo(map);
@@ -317,7 +275,7 @@ class Worm extends Object
 			return checkBelow(x, y);
 			// 5 = gap, -5 = wall
 		}
-		/*
+		
 		public function checkLeft() {
 			for(var i:int = 5; i > -5; i--)
 				if(!collided(x-1, y+i)) return i;
@@ -337,7 +295,7 @@ class Worm extends Object
 				if(!collided(x, y+i)) return i;
 			return -5;
 			// 5 = gap, -5 = wall
-		}*/
+		}
 		
 		public function checkAbove() {
 			for(i in -5...5)
@@ -352,9 +310,9 @@ class Worm extends Object
 		}		
 		
 		public override function applyAffection(vx:Float, vy:Float) {
-			/*if(controller is WormControllerWalk)
-				y += Math.max(Math.min(0, checkAbove()+1), Math.min(0, vx>0 ? checkLeft() : checkRight()));
-			*/
+			//if(controller is WormControllerWalk)
+				//y += Math.max(Math.min(0, checkAbove()+1), Math.min(0, vx>0 ? checkLeft() : checkRight()));
+			
 			controller = new WormControllerSlide(this);
 			super.applyAffection(vx, vy);
 		}
@@ -371,6 +329,16 @@ class Worm extends Object
 			}
 		}
 		
+		function get_hp():Int 
+		{
+			return hp;
+		}
+		
+		function set_hp(value:Int):Int 
+		{
+			return hp = value;
+		}
+		
 		public function get team():Team {
 			return team;
 		}
@@ -379,5 +347,5 @@ class Worm extends Object
 			team = val;
 			if(tf) tf.textColor = team.color;
 			if(tfName) tfName.textColor = team.color;
-		}
+		}*/
 }

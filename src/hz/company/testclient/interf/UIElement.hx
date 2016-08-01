@@ -13,78 +13,60 @@ import format.*;
  */
 class UIElement extends Sprite
 {
-	var shape:Shape;
-	var tf:TextFormat;
-	var coff:Int;
-	var goff:Int;
-	var con:Int;
-	var gon:Int;
-	public var textfield:TextField;
+	static var textFormat:TextFormat;
+	
+	public var text(get, set):String;
+	public var color(get, set):Int;
+	@:isVar public var glow(get, set):Bool;
+	@:isVar public var glowFilter(get, set):GlowFilter;
 
-	public function new(colorOff:Int, glowOff:Int, colorOn:Int, glowOn:Int) 
+	public function new() 
 	{
 		super();
-		coff = colorOff;
-		goff = glowOff;
-		con = colorOn;
-		gon = glowOn;
-		var svg:SVG;
-		svg = new SVG(Assets.getText("img/button.svg"));
-		shape = new Shape();
-		svg.render(shape.graphics);
 		
-		addChild(shape);
-		
-		// text
-		tf = new TextFormat(Assets.getFont("font/Jura-Medium.ttf").fontName, 42, coff);
-		tf.align = TextFormatAlign.CENTER;
-		
-		textfield = new TextField();
-		textfield.width = 300;
-		textfield.height = 100;
-		textfield.defaultTextFormat = tf;
-		textfield.selectable = false;
-		textfield.text = s;
-		textfield.embedFonts = true;
-		textfield.y = 25;
-		textfield.autoSize = TextFieldAutoSize.CENTER;
-		textfield.cacheAsBitmap = true;
-		
-		addChild(textfield);		
-		addEventListener(MouseEvent.MOUSE_OVER, mouseOver);
-		addEventListener(MouseEvent.MOUSE_OUT, mouseOut);
-		addEventListener(MouseEvent.CLICK, func);
+		if (textFormat == null) {			
+			textFormat = new TextFormat(Assets.getFont("font/Jura-Medium.ttf").fontName, 42);
+			textFormat.align = TextFormatAlign.CENTER;
+		}
 	}
 	
-	function get_textfield(){ return textfield.text; } 
-	
-	function set_textfield(s:String){ 
-		return s; 
-	} 
-	
-	function mouseOut(event:MouseEvent)
+	function get_text():String 
 	{
-		textfield.textColor = coff;
-		
-		var filt = textfield.filters;
-		filt.pop();
-		textfield.filters = filt;
-		/*
-		addChildAt(shape, 0);
-		removeChild(shapePressed);
-		*/
+		return "ERROR";
 	}
 	
-	function mouseOver(event:MouseEvent)
-	{		
-		textfield.textColor = con;
-		
-		var filt = textfield.filters;
-		filt.push(new GlowFilter(gon));
-		textfield.filters = filt;
-		/*
-		addChildAt(shapePressed, 0);
-		removeChild(shape);
-		*/
+	function set_text(value:String):String 
+	{
+		return value;
+	}
+	
+	function get_glowFilter():GlowFilter 
+	{
+		return glowFilter;
+	}
+	
+	function set_glowFilter(value:GlowFilter):GlowFilter 
+	{
+		return glowFilter = value;
+	}
+	
+	function get_color():Int 
+	{
+		return 0;
+	}
+	
+	function set_color(value:Int):Int 
+	{
+		return value;
+	}
+	
+	function get_glow():Bool 
+	{
+		return glow;
+	}
+	
+	function set_glow(value:Bool):Bool 
+	{
+		return glow = value;
 	}
 }

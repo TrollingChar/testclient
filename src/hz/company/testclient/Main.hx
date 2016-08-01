@@ -1,5 +1,6 @@
 package hz.company.testclient;
 
+import openfl.filters.GlowFilter;
 import openfl.events.Event;
 import openfl.geom.Point;
 import hz.company.testclient.interf.*;
@@ -69,6 +70,11 @@ class Main extends Sprite
 		
 		panInGame = new PanelInGame();
 		addChild(panInGame);
+		
+		var label:Label = new Label("Label 1", 0xFFFFFF, new GlowFilter(0xFF00FF), true);
+		label.x = 350;
+		label.text = "Азазазаззазазазаззазазаззаз";
+		addChild(label);
 	}
 	
 	public function log(msg:String) {

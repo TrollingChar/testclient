@@ -20,7 +20,7 @@ class Object // extends Sprite (спрайты добавляются отдел
 	
 	public function new() 
 	{
-		
+		velocity = new Point2D(0, 0);
 	}
 	
 	function get_controller():Controller 
