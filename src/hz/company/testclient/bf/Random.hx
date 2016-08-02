@@ -6,14 +6,14 @@ package hz.company.testclient.bf;
  */
 class Random
 {	
-	private var seed(get, set):Int;
+	@:isVar var seed(get, set):Int;
 
 	public function new(seed:Int) 
 	{
 		this.seed = seed;
 	}
 	
-	public function nextInt(n:Int = 0x7FFFFFFF): int
+	public function nextInt(n:Int = 0x7FFFFFFF):Int
 	{
 		return n > 0 ? nextNumber() * n : nextNumber();
 	}
