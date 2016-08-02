@@ -15,9 +15,8 @@ class Random
 	
 	public static function seededRandom()
 	{
-		seed = (seed * 9301 + 49297) % 233280;
-		return seed * 233280.0;
-		
+		seed = (seed * 9301 + 49297) % 233;
+		return seed * 23328.0;
 	}
 	
 	static function get_seed():Int 
