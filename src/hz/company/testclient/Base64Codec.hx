@@ -8,16 +8,17 @@ import haxe.ds.HashMap;
 class Base64Codec
 {
 	static var initialized:Bool = false;
-	public static var s:String;
+	public static var array:String;
+	static public var s:String;
 	//static var map:Object;
 	static var map:Map<String, Int>;
 
 	static public function Init(str:String = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz./")
 	{
-		s = str;
+		array = str;
 		map = new Map<String, Int>();
 		for (i in 0...str.length) {
-			map[s.charAt(i)] = i;
+			map[array.charAt(i)] = i;
 		}
 		initialized = true;
 	}
@@ -25,7 +26,7 @@ class Base64Codec
 	static public function EncodeToChar(n:Int):String
 	{
 		if (!initialized) Init();
-		return (n & ~63) == 0 ? s.charAt(n) : '?';
+		return (n & ~63) == 0 ? array.charAt(n) : '?';
 	}
 	
 	static public function Encode(n:Int):String

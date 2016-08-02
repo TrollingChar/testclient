@@ -28,12 +28,27 @@ class Collider
 		return null;
 	}
 	
+	@:deprecated
+	public function addToWorld() {
+		
+	}
+	
+	@:deprecated
+	public function removeFromWorld() {
+		
+	}
+	
 	public function updateTiles() {
 		
 	}
 	
 	public function freeTiles() {
 		
+	}
+	
+	public function passableFor(collider:Collider) {
+		// объекты не сталкиваются сами с собой
+		return collider.object == object;
 	}
 	
 }

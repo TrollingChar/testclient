@@ -6,7 +6,6 @@ package hz.company.testclient;
  */
 class Random
 {
-
 	static public function init(seed:Int) 
 	{
 		

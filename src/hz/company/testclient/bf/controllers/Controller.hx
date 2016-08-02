@@ -1,4 +1,5 @@
 package hz.company.testclient.bf.controllers;
+import hz.company.testclient.bf.controllers.Controller;
 import hz.company.testclient.bf.objects.Object;
 
 /**
@@ -9,10 +10,26 @@ class Controller
 {
 	public var object:Object;
 	public var fuse:Int = 2000;
+	
+	public function onRemove() 
+	{
+		
+	}
+	
+	public function onAdd() 
+	{
+		
+	}
+	
+	public function update() 
+	{
+		
+	}
+	
+	
+	/*
+	public var object:Object;
 	var map:Map;
-	var bounceForbidX:Float,
-	var bounceForbidY:Float,
-	var bounceForbidR:Float;
 
 	public function new(object:Object) 
 	{
@@ -52,4 +69,5 @@ class Controller
 	public function die() {
 		//map.removeEventListener(Event.ENTER_FRAME, _work);
 	}
+	*/
 }

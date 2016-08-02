@@ -11,17 +11,12 @@ import format.*;
  * ...
  * @author 
  */
-class Button extends Sprite
+class Button extends Label
 {
 	var shape:Shape;
-	var shapePressed:Shape;
 	
-	var tf:TextFormat;
-	public var textfield:TextField;
-	
-	public function new(s:String, func:MouseEvent->Void) 
+	public function new(callback:MouseEvent->Void, text:String) 
 	{
-		super();
 		
 		// button
 		var svg:SVG;
@@ -31,50 +26,22 @@ class Button extends Sprite
 		
 		addChild(shape);
 		
-		// text
-		tf = new TextFormat(Assets.getFont("font/Jura-Medium.ttf").fontName, 42, 0x889999);
-		tf.align = TextFormatAlign.CENTER;
+		super(text, 0x889999, new GlowFilter(0xFFFF00), false);
 		
-		textfield = new TextField();
-		textfield.width = 300;
-		textfield.height = 100;
-		textfield.defaultTextFormat = tf;
-		textfield.selectable = false;
-		textfield.text = s;
-		textfield.embedFonts = true;
-		textfield.y = 25;
-		textfield.autoSize = TextFieldAutoSize.CENTER;
-		textfield.cacheAsBitmap = true;
-		
-		addChild(textfield);		
 		addEventListener(MouseEvent.MOUSE_OVER, mouseOver);
 		addEventListener(MouseEvent.MOUSE_OUT, mouseOut);
-		addEventListener(MouseEvent.CLICK, func);		
+		addEventListener(MouseEvent.CLICK, callback);		
 	}
 	
 	function mouseOut(event:MouseEvent)
 	{
-		textfield.textColor = 0x889999;
-		
-		var filt = textfield.filters;
-		filt.pop();
-		textfield.filters = filt;
-		/*
-		addChildAt(shape, 0);
-		removeChild(shapePressed);
-		*/
+		color = 0x889999;
+		glow = false;
 	}
 	
 	function mouseOver(event:MouseEvent)
 	{		
-		textfield.textColor = 0xFFFFFF;
-		
-		var filt = textfield.filters;
-		filt.push(new GlowFilter(0xFFFF00));
-		textfield.filters = filt;
-		/*
-		addChildAt(shapePressed, 0);
-		removeChild(shape);
-		*/
+		color = 0xFFFFFF;
+		glow = true;
 	}
 }

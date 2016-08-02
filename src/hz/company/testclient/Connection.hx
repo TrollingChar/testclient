@@ -4,7 +4,10 @@ import flash.events.*;
 import flash.net.*;
 import flash.text.*;
 import Std;
+import haxe.ds.IntMap;
 import hz.company.testclient.bf.InputState;
+import hz.company.testclient.bf.Team;
+import hz.company.testclient.bf.World;
 
 /**
  * ...
@@ -21,7 +24,6 @@ class Connection
 
 	public function new(host:String, port:Int) 
 	{
-		//Main.I.debugTextField.text = "entering connection.new";
 		this.host = host;
 		this.port = port;
 		connected = false;
@@ -32,15 +34,12 @@ class Connection
 		socket.addEventListener(Event.CONNECT, onConnect);
 		socket.addEventListener(Event.CLOSE, onClose);
 		socket.addEventListener(ProgressEvent.SOCKET_DATA, onSocketData);
-		//Main.I.debugTextField.text = "leaving connection.new";
     }
 	
 	public function connect(id:Int)
 	{
-		//Main.I.debugTextField.text = "preparing to connect";
 		this.id = id;
 		socket.connect(host, port);
-		//Main.I.debugTextField.text = "connecting";
 	}
 	
 	public function close()
@@ -57,29 +56,8 @@ class Connection
 	
 	function onConnect(e:Event)
 	{
-		//Main.I.debugTextField.text = "connected";
 		connected = true;
 		sendAuth();
-
-		//var textfield:TextField = new TextField();
-		//textfield.width = 960;
-		//textfield.height = textfield.y = 100;
-		//textfield.text = "кекеке";
-		//textfield.textColor = 0x00FF00;
-		//textfield.type = TextFieldType.INPUT;
-		//
-		//Main.I.panConnection.addChild(textfield);
-		//textfield.addEventListener(KeyboardEvent.KEY_DOWN, function(event:KeyboardEvent){
-			//if (event.charCode == 13){
-				///*var i:Null<Int> = Std.parseInt(textfield.text);
-				//trace(textfield.text);
-				//if (i != null) {
-					//send(Base64Codec.Encode(i));
-				//}*/
-				//send(textfield.text);
-				//textfield.text = "";
-			//}
-		//});
 	}
 	
 	function onClose(e:Event)
@@ -89,7 +67,6 @@ class Connection
 	
 	function onError(e:Event)
 	{
-		//Main.I.debugTextField.text = "error!";
 		if (!connected) 
 		{
 			connect(id);
@@ -97,7 +74,6 @@ class Connection
 	}
 	
 	function sendAuth() {		
-		//Main.I.debugTextField.text = "sending auth data";
 		send(Base64Codec.EncodeToChar(ClientCommands.AUTHORIZE) + Base64Codec.Encode(id));
 	}
 	
@@ -118,6 +94,11 @@ class Connection
 		send(Base64Codec.EncodeToChar(ClientCommands.INPUT_DATA));
 	}
 	
+	public function sendSynchronize(alive:Bool) 
+	{
+		send(Base64Codec.EncodeToChar(ClientCommands.SYNCHRONIZE));// + (alive ? "" : "-"));
+	}
+	
 	function receiveAuthConfirm() {
 		Main.I.panConnection.hidden = true;
 		Main.I.panMain.hidden = false;
@@ -136,20 +117,24 @@ class Connection
 		Main.I.panArs.hidden = false;
 		Main.I.panInGame.hidden = false;
 		
-		Main.I.debugTextField.text = "Начать игру между игроками:\n";
 		var i:Int = Base64Codec.Decode(s.charAt(0));
+		
+		var teams:IntMap<Team> = new IntMap<Team>();
 		Base64Codec.s = s.substring(1);
 		for (j in 0...i) 
 		{
-			Main.I.debugTextField.text += " Игрок #" + Std.string(Base64Codec.DecodeFromString()) + "\n";
+			teams.set(Base64Codec.DecodeFromString(), new Team());
 		}
+		
+		Main.I.world = new World(teams);
+		Main.I.addChildAt(Main.I.world, 0);
 	}
 	
 	function onSocketData(e:ProgressEvent)
 	{
 		var s:String = socket.readUTF();
 		
-		Main.I.debugTextField.text = s;
+		//Main.I.log(s);
 		
 		var cmd:Int = Base64Codec.Decode(s.charAt(0));
 		s = s.substring(1);
@@ -163,7 +148,7 @@ class Connection
 			case ServerCommands.CANCEL:
 				receiveCancel();
 			case ServerCommands.HIS_TURN:
-				receiveHisTurn();
+				receiveHisTurn(s);
 			case ServerCommands.INPUT_DATA:
 				receiveInput();
 			case ServerCommands.PLAYER_LEFT:
@@ -187,11 +172,14 @@ class Connection
 	
 	function receiveInput() 
 	{
-		
+		Main.I.world.update();
 	}
 	
-	function receiveHisTurn() 
+	function receiveHisTurn(s:String) 
 	{
-		
+		Base64Codec.s = s;
+		Main.I.world.myTurn = Base64Codec.DecodeFromString() == id;
+		Main.I.world.syncronized = true;
+		Main.I.world.changeState();
 	}
 }

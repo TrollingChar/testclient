@@ -18,6 +18,7 @@ class Label extends UIElement
 		textField = new TextField();
 		textField.width = 300;
 		textField.height = 100;
+		textField.y = 25;
 		textField.defaultTextFormat = UIElement.textFormat;
 		textField.selectable = false;
 		textField.cacheAsBitmap = 

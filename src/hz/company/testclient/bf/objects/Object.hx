@@ -74,6 +74,10 @@ class Object // extends Sprite (спрайты добавляются отдел
 		
 	}
 	
+	function removeSprites() {
+		
+	}
+	
 	public function onRemove() 
 	{
 		controller = null;

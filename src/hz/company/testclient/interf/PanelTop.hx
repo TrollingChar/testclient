@@ -15,13 +15,13 @@ class PanelTop extends Panel
 	{
 		super();
 		
-		btn = new ButtonIcon("", function(e:MouseEvent) {
+		btn = new ButtonIcon(function(e:MouseEvent) {
 			if (stage.displayState == StageDisplayState.NORMAL) {
 				stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
 			} else {
 				stage.displayState = StageDisplayState.NORMAL;
 			}
-		});
+		}, "");
 		
 		btn.x = 880;
 		btn.y = 0;

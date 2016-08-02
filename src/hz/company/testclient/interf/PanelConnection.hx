@@ -17,7 +17,7 @@ class PanelConnection extends Panel
 	{
 		super();
 		
-		btn = new Button("Вход", function(e:MouseEvent) {
+		btn = new Button(function(e:MouseEvent) {
 			var i:Null<Int> = Std.parseInt(txt2.text);
 			if (i == null) {
 				return;
@@ -27,7 +27,7 @@ class PanelConnection extends Panel
 			//Security.allowInsecureDomain("*");
 			//Security.loadPolicyFile("xmlsocket://" + txt1.text + ":843");
 			Main.I.connection.connect(i);
-		});
+		}, "Вход");
 		btn.x = 350;
 		btn.y = 300;
 		addChild(btn);

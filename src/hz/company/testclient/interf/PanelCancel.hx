@@ -16,9 +16,9 @@ class PanelCancel extends Panel
 		
 		var btn:Sprite;
 		
-		btn = new Button("Отмена", function(e:MouseEvent) {
+		btn = new Button(function(e:MouseEvent) {
 			Main.I.connection.sendCancel();
-		});
+		}, "Отмена");
 		btn.x = 350;
 		btn.y = 250;
 		addChild(btn);

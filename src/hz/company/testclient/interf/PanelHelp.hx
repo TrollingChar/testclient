@@ -37,10 +37,10 @@ class PanelHelp extends Panel
 		txt.cacheAsBitmap = true;
 		addChild(txt);
 		
-		btn = new Button("Вернуться", function(e:MouseEvent) {
+		btn = new Button(function(e:MouseEvent) {
 			hidden = true;
 			Main.I.panMain.hidden = false;
-		});
+		}, "Вернуться");
 		btn.x = 350;
 		btn.y = 400;
 		addChild(btn);

@@ -10,19 +10,19 @@ import openfl.display.*;
  */
 class PanelInGame extends Panel
 {
-	var btn1:Sprite;
-	var btn2:Sprite;
+	public var btn1:ButtonIcon;
+	public var btn2:ButtonIcon;
 
 	public function new() 
 	{
 		super();
 		
-		btn1 = new ButtonIcon("", function(e:MouseEvent) {
+		btn1 = new ButtonIcon(function(e:MouseEvent) {
 			
-		});		
-		btn2 = new ButtonIcon("", function(e:MouseEvent) {
+		}, "");		
+		btn2 = new ButtonIcon(function(e:MouseEvent) {
 			
-		});
+		}, "");
 		
 		btn1.x = 0;
 		btn1.y = 500;

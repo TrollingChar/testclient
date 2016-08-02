@@ -16,22 +16,25 @@ import openfl.display.Sprite;
  */
 class World extends Sprite
 {
-	var syncronized:Bool;			// когда действия игроков нужно синхронизировать, событие таймера не обрабатывается
-	var myTurn:Bool;				// но во время моего хода это по моему клиенту синхронизируются все остальные
-	var timer:Int;					// в миллисекундах
+	public var syncronized:Bool;	// когда действия игроков нужно синхронизировать, событие таймера не обрабатывается
+	public var myTurn:Bool;			// но во время моего хода это по моему клиенту синхронизируются все остальные
+	@:isVar var timer(get, set):Int;// в миллисекундах
+	@:isVar var timerVisible(get, set):Bool;
+	var timerFrozen:Bool;			// идет время на таймере или нет
 	var input:InputState;			// данные мыши и клавиатуры этого компьютера
 	var nextState:GameState;
 	var teams:IntMap<Team>;			// на первое время
 	var land:BitmapData;
 	var objects : List<Object>;
-	//var colliders : List<Collider>;
+	var colliders : List<Collider>;
 	var tiles:IntMap < IntMap<Tile> > ;
 	
 	var layers:Array<Sprite>;		// слои для вывода спрайтов
 
-	public function new() 
+	public function new(teams:IntMap<Team>) 
 	{
 		super();
+		this.teams = teams;
 		addEventListener(Event.ADDED_TO_STAGE, addedToStage);
 	}
 	
@@ -43,7 +46,7 @@ class World extends Sprite
 		land = Assets.getBitmapData("img/coffee_map.png");
 		addChild(new Bitmap(land));
 		
-		nextState = GameState.REMOVE_0HP;
+		enterState(GameState.REMOVE_0HP);
 		
 		stage.addEventListener(Event.ENTER_FRAME, enterFrame);
 	}
@@ -64,7 +67,7 @@ class World extends Sprite
 		if (timer < time) timer = time;
 	}
 	
-	function changeState() {
+	public function changeState() {
 		switch (nextState) 
 		{
 			case GameState.BEFORE_TURN:
@@ -85,11 +88,12 @@ class World extends Sprite
 	}
 	
 	function enterState(state:GameState) {
-		switch (nextState) 
+		switch (state) 
 		{
 			case GameState.BEFORE_TURN: {
+				Main.I.debugTextField.text = "BEFORE TURN";
 				nextState = GameState.SYNCHRONIZING;
-				if (Random.float() < .1) {
+				if (Random.float() < 1) {
 					// drop crates
 					wait();
 				} else {
@@ -97,22 +101,29 @@ class World extends Sprite
 				}
 			}
 			case GameState.SYNCHRONIZING: {
+				Main.I.debugTextField.text = "SYNCHRONIZING";
 				nextState = GameState.TURN;
 				syncronized = true;
+				Main.I.connection.sendSynchronize(true);
 			}
 			case GameState.TURN: {
+				Main.I.debugTextField.text = "TURN";
 				nextState = GameState.ENDING_TURN;
 				wait(30000);
+				timerVisible = true;
 			}
 			case GameState.ENDING_TURN: {
+				Main.I.debugTextField.text = "ENDING TURN";
 				nextState = GameState.AFTER_TURN;
+				//timerVisible = false;
 				syncronized =
 				myTurn = false;
 				wait();
 			}
 			case GameState.AFTER_TURN: {
+				Main.I.debugTextField.text = "AFTER TURN";
 				nextState = GameState.REMOVE_0HP;
-				if (Random.float() < .1) {
+				if (Random.float() < 1) {
 					// poison damage
 					wait();
 				} else {
@@ -120,12 +131,13 @@ class World extends Sprite
 				}
 			}
 			case GameState.REMOVE_0HP: {
-				if (Random.float() < .1) {
+				Main.I.debugTextField.text = "REMOVE 0 HP";
+				if (Random.float() < 0) {
 					// hitpointless worms begin exploding
 					wait();
 				} else {
 					nextState = GameState.BEFORE_TURN;
-					changeState;
+					changeState();
 				}
 			}
 			default:
@@ -134,9 +146,12 @@ class World extends Sprite
 	}
 	
 	public function update(input:InputState = null)
-	{		
+	{
 		for (object in objects) {
 		}
+		
+		if(!timerFrozen) timer -= 20;
+		if (timer <= 0) changeState();
 	}
 	
 	public function add(object:Object)
@@ -146,7 +161,7 @@ class World extends Sprite
 		object.onAdd();
 	}
 	
-	public function move(object:Object) {		
+	public function move(object:Object) {
 		// фильтр коллайдеров по тайлам
 		
 		// фильтр перекрывающихся с коллайдером объектов
@@ -165,6 +180,30 @@ class World extends Sprite
 		object.onRemove();
 		// ...
 		object.world = null;
+	}
+	
+	function get_timerVisible():Bool 
+	{
+		return timerVisible;
+	}
+	
+	function set_timerVisible(value:Bool):Bool 
+	{
+		//Main.I.panInGame.btn1.text = value ? timer > 0 ? Std.string(Std.int((timer + 999) / 1000)) : "0" : "";
+		Main.I.panInGame.btn1.text = value ? timer > 0 ? Std.string(timer) : "0" : "";
+		return timerVisible = value;
+	}
+	
+	function get_timer():Int 
+	{
+		return timer;
+	}
+	
+	function set_timer(value:Int):Int 
+	{
+		var i:Int = value > 0 ? Std.int((value + 999) / 1000) : 0;
+		if (timerVisible) Main.I.panInGame.btn1.text = Std.string(value);
+		return timer = value;
 	}
 	
 }

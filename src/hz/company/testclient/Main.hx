@@ -23,11 +23,11 @@ class Main extends Sprite
 	public var connection:Connection;
 	public var id:Int;
 	
-	public var debugTextField:TextField;
+	public var debugTextField:Label;
 	public var panMain:Panel;
 	public var panTop:Panel;
 	public var panArs:Panel;
-	public var panInGame:Panel;
+	public var panInGame:PanelInGame;
 	public var panConnection:Panel;
 	public var panCancel:Panel;
 	public var panHelp:Panel;
@@ -40,19 +40,14 @@ class Main extends Sprite
 		I = this;
 		Random.init(0);
 		
-		debugTextField = new TextField();
-		debugTextField.text = "test";
-		debugTextField.width = 1000;
-		debugTextField.height = 600;
+		debugTextField = new Label("test", 0xFFFFFF, new GlowFilter(0x00FFFF), true);
+		debugTextField.x = 350;
+		debugTextField.y = -25;
 		addChild(debugTextField);
 		
 		panConnection = new PanelConnection();
 		addChild(panConnection);
-		
-		
-		//world = new World();
-		//addChild(world);
-		//
+						
 		panMain = new PanelMain();
 		addChild(panMain);
 		
@@ -71,14 +66,16 @@ class Main extends Sprite
 		panInGame = new PanelInGame();
 		addChild(panInGame);
 		
+		/*
 		var label:Label = new Label("Label 1", 0xFFFFFF, new GlowFilter(0xFF00FF), true);
 		label.x = 350;
 		label.text = "Азазазаззазазазаззазазаззаз";
 		addChild(label);
+		*/
 	}
 	
 	public function log(msg:String) {
-		// здесь мы выводим сообщение о том, что именно пошло не так
+		debugTextField.text = msg;
 	}
 	
 }

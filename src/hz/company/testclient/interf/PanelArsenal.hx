@@ -19,12 +19,12 @@ class PanelArsenal extends Panel
 		{
 			for (y in 0...rows)
 			{
-				var btn:Sprite = new ButtonIcon(Std.string(Std.int(Math.random()*10)), function(e:MouseEvent) 
+				var btn:Sprite = new ButtonIcon(function(e:MouseEvent) 
 				{
 					//this.hidden =
 					//Main.I.panInGame.hidden = true;
 					//Main.I.panMain.hidden = false;
-				});
+				}, Std.string(Std.int(Math.random()*20)));
 				btn.x = x * 120;
 				btn.y = 10 + y * 120;
 				addChild(btn);

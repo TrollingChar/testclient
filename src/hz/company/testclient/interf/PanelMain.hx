@@ -29,20 +29,20 @@ class PanelMain extends Panel
 		//btn.x = 200;
 		//btn.y = 250;
 		//addChild(btn);
-		btn = new Button("Играть", function(e:MouseEvent) {
+		btn = new Button(function(e:MouseEvent) {
 			hidden = true;
 			Main.I.panCancel.hidden = false;
 			Main.I.connection.sendToBattle();
-		});
+		}, "Играть");
 		btn.x = 350;
 		btn.y = 150;
 		addChild(btn);
 		
-		btn2 = new Button("Помощь", function(e:MouseEvent) {
+		btn2 = new Button(function(e:MouseEvent) {
 			hidden = true;
 			Main.I.panHelp.hidden = false;
 			
-		});
+		}, "Помощь");
 		btn2.x = 350;
 		btn2.y = 300;
 		addChild(btn2);
