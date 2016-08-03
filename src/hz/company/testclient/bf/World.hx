@@ -2,6 +2,7 @@ package hz.company.testclient.bf;
 import flash.events.Event;
 import haxe.ds.HashMap;
 import haxe.ds.IntMap;
+import haxe.io.Input;
 import hz.company.testclient.bf.colliders.Collider;
 import hz.company.testclient.bf.objects.Object;
 import hz.company.testclient.bf.objects.Worm;
@@ -18,10 +19,16 @@ class World extends Sprite
 {
 	public var syncronized:Bool;	// когда действия игроков нужно синхронизировать, событие таймера не обрабатывается
 	public var myTurn:Bool;			// но во время моего хода это по моему клиенту синхронизируются все остальные
+	
+	//var msgId:Int;				// номер сообщения с данными мыши и клавиатуры
+	var input:InputState;			// данные мыши и клавиатуры этого компьютера
+	var inMap:IntMap<InputState>;	// собранные данные
+	var whiteBar:Int;				// номер следующего ожидаемого сообщения
+	var redBar:Int;					// номер следующего обрабатываемого сообщения
+	
 	@:isVar var timer(get, set):Int;// в миллисекундах
 	@:isVar var timerVisible(get, set):Bool;
 	var timerFrozen:Bool;			// идет время на таймере или нет
-	var input:InputState;			// данные мыши и клавиатуры этого компьютера
 	var nextState:GameState;
 	var teams:IntMap<Team>;			// на первое время
 	var land:BitmapData;
@@ -57,6 +64,8 @@ class World extends Sprite
 			if (myTurn) {
 				update(input);
 				Main.I.connection.sendInput(input);
+			} else {
+				// считывать из буфера
 			}
 		} else {
 			update();
@@ -93,7 +102,7 @@ class World extends Sprite
 			case GameState.BEFORE_TURN: {
 				Main.I.debugTextField.text = "BEFORE TURN";
 				nextState = GameState.SYNCHRONIZING;
-				if (Random.float() < 1) {
+				if (.5 < 1) {
 					// drop crates
 					wait();
 				} else {
@@ -108,6 +117,8 @@ class World extends Sprite
 			}
 			case GameState.TURN: {
 				Main.I.debugTextField.text = "TURN";
+				whiteBar =
+				redBar = 0;
 				nextState = GameState.ENDING_TURN;
 				wait(30000);
 				timerVisible = true;
@@ -123,7 +134,7 @@ class World extends Sprite
 			case GameState.AFTER_TURN: {
 				Main.I.debugTextField.text = "AFTER TURN";
 				nextState = GameState.REMOVE_0HP;
-				if (Random.float() < 1) {
+				if (.5 < 1) {
 					// poison damage
 					wait();
 				} else {
@@ -132,7 +143,7 @@ class World extends Sprite
 			}
 			case GameState.REMOVE_0HP: {
 				Main.I.debugTextField.text = "REMOVE 0 HP";
-				if (Random.float() < 0) {
+				if (.5 < 0) {
 					// hitpointless worms begin exploding
 					wait();
 				} else {

@@ -9,24 +9,28 @@ import openfl.events.*;
  */
 class PanelArsenal extends Panel
 {
-	static inline var cols:Int = 8;
+	static inline var cols:Int = 10;
 	static inline var rows:Int = 5;
+	public var btns:Array<ButtonIcon>;
 	
 	public function new() 
 	{
+		btns = new Array<ButtonIcon>();
+		
 		super();
 		for (x in 0...cols)
 		{
 			for (y in 0...rows)
 			{
-				var btn:Sprite = new ButtonIcon(function(e:MouseEvent) 
+				var btn:ButtonIcon = new ButtonIcon(function(e:MouseEvent) 
 				{
 					//this.hidden =
 					//Main.I.panInGame.hidden = true;
 					//Main.I.panMain.hidden = false;
-				}, Std.string(Std.int(Math.random()*20)));
+				}, "");
 				btn.x = x * 120;
 				btn.y = 10 + y * 120;
+				btns[x + y * 10] = btn;
 				addChild(btn);
 			}
 		}

@@ -26,7 +26,7 @@ class Main extends Sprite
 	public var debugTextField:Label;
 	public var panMain:Panel;
 	public var panTop:Panel;
-	public var panArs:Panel;
+	public var panArs:PanelArsenal;
 	public var panInGame:PanelInGame;
 	public var panConnection:Panel;
 	public var panCancel:Panel;
@@ -38,7 +38,6 @@ class Main extends Sprite
 		super();
 		
 		I = this;
-		Random.init(0);
 		
 		debugTextField = new Label("test", 0xFFFFFF, new GlowFilter(0x00FFFF), true);
 		debugTextField.x = 350;

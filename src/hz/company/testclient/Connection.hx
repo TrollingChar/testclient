@@ -150,7 +150,7 @@ class Connection
 			case ServerCommands.HIS_TURN:
 				receiveHisTurn(s);
 			case ServerCommands.INPUT_DATA:
-				receiveInput();
+				receiveInput(s);
 			case ServerCommands.PLAYER_LEFT:
 				receivePlayerLeft();
 			case ServerCommands.END_BATTLE:
@@ -170,8 +170,11 @@ class Connection
 		
 	}
 	
-	function receiveInput() 
+	function receiveInput(s:String) 
 	{
+		Base64Codec.s = s;
+		var i:Int = Base64Codec.DecodeFromString();
+		Main.I.panArs.btns[i % 50].text = Std.string(i);
 		Main.I.world.update();
 	}
 	
