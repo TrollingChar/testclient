@@ -10,15 +10,17 @@ import openfl.Assets;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 import openfl.display.Sprite;
+import openfl.utils.Timer;
 
 /**
  * ...
  * @author I'm
  */
 class World extends Sprite
-{
+{	
 	public var syncronized:Bool;	// когда действия игроков нужно синхронизировать, событие таймера не обрабатывается
 	public var myTurn:Bool;			// но во время моего хода это по моему клиенту синхронизируются все остальные
+	public var synchronizer:Synchronizer;
 	
 	//var msgId:Int;				// номер сообщения с данными мыши и клавиатуры
 	var input:InputState;			// данные мыши и клавиатуры этого компьютера
@@ -60,12 +62,18 @@ class World extends Sprite
 	
 	private function enterFrame(e:Event):Void 
 	{
+		Main.I.debugTextField.glow = true;
 		if (syncronized) {
 			if (myTurn) {
 				update(input);
 				Main.I.connection.sendInput(input);
 			} else {
-				// считывать из буфера
+				/*var state:InputState = synchronizer.readNext();
+				if (state != null) {
+					update(state);
+				} else {
+					Main.I.debugTextField.glow = false;					
+				}*/
 			}
 		} else {
 			update();
@@ -117,8 +125,7 @@ class World extends Sprite
 			}
 			case GameState.TURN: {
 				Main.I.debugTextField.text = "TURN";
-				whiteBar =
-				redBar = 0;
+				synchronizer = new Synchronizer();
 				nextState = GameState.ENDING_TURN;
 				wait(30000);
 				timerVisible = true;
@@ -126,6 +133,7 @@ class World extends Sprite
 			case GameState.ENDING_TURN: {
 				Main.I.debugTextField.text = "ENDING TURN";
 				nextState = GameState.AFTER_TURN;
+				synchronizer.shutdown();
 				//timerVisible = false;
 				syncronized =
 				myTurn = false;

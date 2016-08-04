@@ -99,6 +99,11 @@ class Connection
 		send(Base64Codec.EncodeToChar(ClientCommands.SYNCHRONIZE));// + (alive ? "" : "-"));
 	}
 	
+	public function sendRepeat(msgId:Int) 
+	{
+		send(Base64Codec.EncodeToChar(ClientCommands.REPEAT) + Base64Codec.Encode(msgId));
+	}
+	
 	function receiveAuthConfirm() {
 		Main.I.panConnection.hidden = true;
 		Main.I.panMain.hidden = false;
@@ -132,31 +137,33 @@ class Connection
 	
 	function onSocketData(e:ProgressEvent)
 	{
-		var s:String = socket.readUTF();
-		
-		//Main.I.log(s);
-		
-		var cmd:Int = Base64Codec.Decode(s.charAt(0));
-		s = s.substring(1);
-		
-		switch (cmd) 
-		{
-			case ServerCommands.AUTH_CONFIRM:
-				receiveAuthConfirm();
-			case ServerCommands.START_BATTLE:
-				receiveStartBattle(s);
-			case ServerCommands.CANCEL:
-				receiveCancel();
-			case ServerCommands.HIS_TURN:
-				receiveHisTurn(s);
-			case ServerCommands.INPUT_DATA:
-				receiveInput(s);
-			case ServerCommands.PLAYER_LEFT:
-				receivePlayerLeft();
-			case ServerCommands.END_BATTLE:
-				receiveEndBattle();
-			default:
-				
+		while(socket.bytesAvailable > 0) {
+			var s:String = socket.readUTF();
+			
+			//Main.I.log(s);
+			
+			var cmd:Int = Base64Codec.Decode(s.charAt(0));
+			s = s.substring(1);
+			
+			switch (cmd) 
+			{
+				case ServerCommands.AUTH_CONFIRM:
+					receiveAuthConfirm();
+				case ServerCommands.START_BATTLE:
+					receiveStartBattle(s);
+				case ServerCommands.CANCEL:
+					receiveCancel();
+				case ServerCommands.HIS_TURN:
+					receiveHisTurn(s);
+				case ServerCommands.INPUT_DATA:
+					receiveInput(s);
+				case ServerCommands.PLAYER_LEFT:
+					receivePlayerLeft();
+				case ServerCommands.END_BATTLE:
+					receiveEndBattle();
+				default:
+					
+			}
 		}
 	}
 	
@@ -176,6 +183,7 @@ class Connection
 		var i:Int = Base64Codec.DecodeFromString();
 		Main.I.panArs.btns[i % 50].text = Std.string(i);
 		Main.I.world.update();
+		//Main.I.world.synchronizer.receive(i, new InputState(0, 0));// Base64Codec.s);
 	}
 	
 	function receiveHisTurn(s:String) 

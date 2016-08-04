@@ -10,5 +10,5 @@ class ClientCommands {
     public static inline var CANCEL:Int = 2;
     public static inline var SYNCHRONIZE:Int = 3;
     public static inline var INPUT_DATA:Int = 4;
-    public static inline var REPEAT:Int = 5;
+	public static inline var REPEAT:Int = 5;
 }
