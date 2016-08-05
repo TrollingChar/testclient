@@ -29,13 +29,8 @@ class Collider
 	}
 	
 	@:deprecated
-	public function addToWorld() {
-		
-	}
-	
-	@:deprecated
-	public function removeFromWorld() {
-		
+	public function update() {
+		// recompute cachePoint
 	}
 	
 	public function updateTiles() {

@@ -201,6 +201,16 @@ class World extends Sprite
 		object.world = null;
 	}
 	
+	public function addCollider(collider:Collider) 
+	{
+		
+	}
+	
+	public function removeCollider(collider:Collider) 
+	{
+		
+	}
+	
 	function get_timerVisible():Bool 
 	{
 		return timerVisible;
