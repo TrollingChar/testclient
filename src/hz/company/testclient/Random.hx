@@ -106,7 +106,7 @@ class Random
 		}
 		
 		/* generates a random number on [0,0xffffffff]-interval */
-		private function genrand_int32():Int {
+		public function genrand_int32():Int {
 			var y:Int;
 			var mag01:Array<Int>=[0x0, MATRIX_A];
 			/* mag01[x] = x * MATRIX_A  for x=0,1 */

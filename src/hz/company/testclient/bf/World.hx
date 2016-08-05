@@ -124,7 +124,7 @@ class World extends Sprite
 				Main.I.connection.sendSynchronize(true);
 			}
 			case GameState.TURN: {
-				Main.I.debugTextField.text = "TURN";
+				Main.I.debugTextField.text = myTurn ? "MY TURN" : "TURN";
 				synchronizer = new Synchronizer();
 				nextState = GameState.ENDING_TURN;
 				wait(30000);
