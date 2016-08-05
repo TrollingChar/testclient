@@ -16,4 +16,23 @@ class ColliderPoint extends Collider
 		super();
 	}
 	
+	override public function getTop() : Float
+	{
+		return cachePoint.y;
+	}
+	
+	override public function getLeft() : Float
+	{
+		return cachePoint.y;
+	}
+	
+	override public function getBottom() : Float
+	{
+		return cachePoint.y;
+	}
+	
+	override public function getRight() : Float
+	{
+		return cachePoint.x;
+	}
 }

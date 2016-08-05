@@ -124,4 +124,24 @@ class ColliderCircle extends Collider
 		return new Collision(relativePath, this, collider, normal, collisionPoint);
 	}
 	
+    override public function getTop() : Float
+	{
+		return cachePoint.y - radius;
+	}
+	
+	override public function getLeft() : Float
+	{
+		return cachePoint.x - radius;
+	}
+	
+	override public function getBottom() : Float
+	{
+		return cachePoint.y + radius;
+	}
+	
+	override public function getRight() : Float
+	{
+		return cachePoint.x + radius;
+	}
+	
 }

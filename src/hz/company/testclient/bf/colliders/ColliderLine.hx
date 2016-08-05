@@ -18,4 +18,24 @@ class ColliderLine extends Collider
 		
 	}
 	
+	override public function getTop() : Float
+	{
+		return Math.min(cachePoint0.y, cachePoint1.y);
+	}
+	
+	override public function getLeft() : Float
+	{
+		return Math.min(cachePoint0.x, cachePoint1.x);
+	}
+	
+	override public function getBottom() : Float
+	{
+		return Math.max(cachePoint0.y, cachePoint1.y);		
+	}
+	
+	override public function getRight() : Float
+	{
+		return Math.max(cachePoint0.x, cachePoint1.x);
+	}
+		
 }

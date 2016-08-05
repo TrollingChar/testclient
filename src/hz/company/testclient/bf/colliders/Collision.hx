@@ -27,5 +27,4 @@ class Collision
 		this.point = point;
 		this.normal = normal;
 	}
-	
 }

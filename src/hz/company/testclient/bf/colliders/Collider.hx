@@ -51,4 +51,24 @@ class Collider
 		return collider.object == object;
 	}
 	
+	public function getTop() : Float
+	{
+		return object.position.y;
+	}
+	
+	public function getLeft() : Float
+	{
+		return object.position.x;
+	}
+	
+	public function getBottom() : Float
+	{
+		return object.position.y;
+	}
+	
+	public function getRight() : Float
+	{
+		return object.position.x;
+	}
+	
 }
