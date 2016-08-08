@@ -28,6 +28,7 @@ class Main extends Sprite
 	public var panCancel:Panel;
 	public var panHelp:Panel;
 	public var world:World;
+	public var panResult:PanelResult;
 
 	public function new() 
 	{
@@ -68,6 +69,9 @@ class Main extends Sprite
 		
 		panInGame = new PanelInGame();
 		addChild(panInGame);
+		
+		panResult = new PanelResult();
+		addChild(panResult);
 		
 		/*
 		var label:Label = new Label("Label 1", 0xFFFFFF, new GlowFilter(0xFF00FF), true);

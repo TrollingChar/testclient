@@ -160,16 +160,26 @@ class Connection
 				case ServerCommands.PLAYER_LEFT:
 					receivePlayerLeft();
 				case ServerCommands.END_BATTLE:
-					receiveEndBattle();
+					receiveEndBattle(s);
 				default:
 					
 			}
 		}
 	}
 	
-	function receiveEndBattle() 
+	function receiveEndBattle(s:String) 
 	{
-		
+		Base64Codec.s = s;
+		if (s == Std.string(id)) {
+			Main.I.panResult.isWin(1);
+		}
+		if (s == "0") {
+			Main.I.panResult.isWin(2);
+		}
+		if (s != Std.string(id)) {
+			Main.I.panResult.isWin(3);
+		}
+		Main.I.panResult.hidden = false;
 	}
 	
 	function receivePlayerLeft() 
