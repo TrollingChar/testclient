@@ -19,6 +19,10 @@ class ColliderCircle extends Collider
 		this.cachePoint = point;
 		this.radius = radius;
 	}
+	override public function update() 
+	{
+		cachePoint = object.position + offset;
+	}
 	
 	override public function collideWithPoint(collider:ColliderPoint):Collision 
 	{

@@ -20,6 +20,11 @@ class ColliderPoint extends Collider
 		this.cachePoint = point;
 	}
 	
+	override public function update() 
+	{
+		cachePoint = object.position + offset;
+	}
+	
 	override public function collideWithLine(collider:ColliderLine):Collision 
 	{
 		return CollisionDetection.pointToLine(this, collider, object.velocity);

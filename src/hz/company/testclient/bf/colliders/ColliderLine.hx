@@ -22,6 +22,12 @@ class ColliderLine extends Collider
 		this.cachePoint1 = point1;
 	}
 	
+	override public function update() 
+	{
+		cachePoint0 = object.position + offset0;
+		cachePoint1 = object.position + offset1;
+	}
+	
 	override public function collideWithCircle(collider:ColliderCircle):Collision 
 	{
 		return CollisionDetection.circleToLine(collider, this, -object.velocity).reverse();
