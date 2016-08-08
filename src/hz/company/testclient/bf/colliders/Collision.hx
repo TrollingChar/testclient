@@ -28,7 +28,7 @@ class Collision
 		this.normal = normal;
 	}
 	
-	public function reverse():Collision {
-		return new Collision(relativePath, collided, collider, -normal);
+	static public function reverse(c:Collision):Collision {
+		return c == null ? null : new Collision(c.relativePath, c.collided, c.collider, -c.normal);
 	}
 }

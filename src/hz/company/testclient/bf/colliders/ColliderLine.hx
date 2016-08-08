@@ -32,12 +32,12 @@ class ColliderLine extends Collider
 	
 	override public function collideWithCircle(collider:ColliderCircle):Collision 
 	{
-		return CollisionDetection.circleToLine(collider, this, -object.velocity).reverse();
+		return Collision.reverse(CollisionDetection.circleToLine(collider, this, -object.velocity));
 	}
 	
 	override public function collideWithPoint(collider:ColliderPoint):Collision 
 	{
-		return CollisionDetection.pointToLine(collider, this, -object.velocity).reverse();
+		return Collision.reverse(CollisionDetection.pointToLine(collider, this, -object.velocity));
 	}
 	
 	override public function getTop() : Float
