@@ -42,9 +42,7 @@ class InputState
 		var flags:Int = Base64Codec.DecodeFromString();
 		var s:String = Base64Codec.s;
 		s = s.substring(0, s.length - 1);
-		Main.I.log(s);
 		var b:Bytes = Base64.decode(s);
-		Main.I.log("ok");
 		var x:Float = b.getDouble(0);
 		var y:Float = b.getDouble(8);
 		return new InputState(x, y, flags);
