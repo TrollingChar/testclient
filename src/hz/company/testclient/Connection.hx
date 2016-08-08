@@ -90,7 +90,6 @@ class Connection
 	}
 	
 	public function sendInput(input:InputState) {
-		// сделать в классе InputState
 		send(Base64Codec.EncodeToChar(ClientCommands.INPUT_DATA) + input.toString());
 	}
 	
@@ -189,11 +188,7 @@ class Connection
 	
 	function receiveInput(s:String) 
 	{
-		//Base64Codec.s = s;
-		//var i:Int = Base64Codec.DecodeFromString();
-		//Main.I.panArs.btns[i % 50].text = Std.string(i);
 		Main.I.world.update(InputState.parse(s));
-		//Main.I.world.synchronizer.receive(i, new InputState(0, 0));// Base64Codec.s);
 	}
 	
 	function receiveHisTurn(s:String) 
