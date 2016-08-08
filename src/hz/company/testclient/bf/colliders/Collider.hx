@@ -28,6 +28,18 @@ class Collider
 		return null;
 	}
 	
+	public function relationToPoint(collider:ColliderPoint):Int {
+		return 0;
+	}
+	
+	public function relationToLine(collider:ColliderLine):Int {
+		return 0;
+	}
+	
+	public function relationToCircle(collider:ColliderCircle):Int {
+		return 0;
+	}
+	
 	
 	@:deprecated
 	public function update() {
