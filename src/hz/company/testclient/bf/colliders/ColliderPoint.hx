@@ -14,9 +14,10 @@ class ColliderPoint extends Collider
 	public var offset:Point2D;
 	public var cachePoint:Point2D;	
 
-	public function new(offset:Point2D) 
+	public function new(point:Point2D) 
 	{
 		super();
+		this.cachePoint = point;
 	}
 	
 	override public function collideWithLine(collider:ColliderLine):Collision 

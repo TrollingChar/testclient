@@ -13,9 +13,11 @@ class ColliderCircle extends Collider
 	public var cachePoint:Point2D;
 	public var radius:Float;
 	
-	public function new() 
+	public function new(point:Point2D, radius:Float) 
 	{
 		super();		
+		this.cachePoint = point;
+		this.radius = radius;
 	}
 	
 	override public function collideWithPoint(collider:ColliderPoint):Collision 

@@ -15,9 +15,11 @@ class ColliderLine extends Collider
 	public var cachePoint0:Point2D;
 	public var cachePoint1:Point2D;
 
-	public function new() 
+	public function new(point0:Point2D, point1:Point2D) 
 	{
 		super();		
+		this.cachePoint0 = point0;
+		this.cachePoint1 = point1;
 	}
 	
 	override public function collideWithCircle(collider:ColliderCircle):Collision 
