@@ -15,10 +15,12 @@ class ColliderCircle extends Collider
 	
 	public function new(point:Point2D, radius:Float) 
 	{
-		super();		
+		super();
+		this.offset =
 		this.cachePoint = point;
 		this.radius = radius;
 	}
+	
 	override public function update() 
 	{
 		cachePoint = object.position + offset;

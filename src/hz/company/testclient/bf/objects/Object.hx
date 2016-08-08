@@ -61,8 +61,8 @@ class Object // extends Sprite (спрайты добавляются отдел
 	}
 	
 	public function addCollider(collider:Collider) {
-		colliders.add(collider);
 		collider.object = this;
+		colliders.add(collider);
 		//collider.updateTiles();
 		collider.update();
 		world.addCollider(collider);

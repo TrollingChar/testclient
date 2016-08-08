@@ -15,6 +15,7 @@ import openfl.Assets;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 import openfl.display.Sprite;
+import openfl.events.MouseEvent;
 import openfl.utils.Timer;
 
 /**
@@ -68,12 +69,15 @@ class World extends Sprite
 		// инициализация игры
 		enterState(GameState.REMOVE_0HP);
 		
-		var ball = new TestBall();
-		ball.position = new Point2D(100, 100);
-		add(ball);
-		
 		// пуск основного таймера!
 		stage.addEventListener(Event.ENTER_FRAME, enterFrame);
+		stage.addEventListener(MouseEvent.MOUSE_MOVE, stage_mouseMove);
+	}
+	
+	private function stage_mouseMove(e:MouseEvent):Void 
+	{
+		Main.I.input.x = e.stageX;
+		Main.I.input.y = e.stageY;
 	}
 	
 	private function enterFrame(e:Event):Void 
@@ -92,7 +96,7 @@ class World extends Sprite
 				}*/
 			}
 		} else {
-			update();
+			update(Main.I.input);
 		}
 	}
 	
@@ -181,16 +185,23 @@ class World extends Sprite
 	}
 	
 	public function isLand(x:Int, y:Int):Bool {
-		return false;
+		return land.getPixel32(x, y) >>> 24 != 0;
 	}
 	
-	public function update(input:InputState = null)
+	public function update(input:InputState)
 	{
 		for (object in objects) {
 			object.controller.update();
 		}
 		for (object in objects) {
 			move(object);
+		}
+		
+		if (timer % 200 == 0 && input.flags & InputState.mb != 0) {
+			var ball = new TestBall();
+			ball.position = new Point2D(input.x, input.y);
+			ball.velocity = new Point2D(Main.I.random.genrand_float() - .5, Main.I.random.genrand_float() - .5);
+			add(ball);
 		}
 		
 		if(!timerFrozen) timer -= 20;

@@ -18,6 +18,7 @@ class Main extends Sprite
 	public var connection:Connection;
 	public var input:InputState;			// данные мыши и клавиатуры этого компьютера
 	public var id:Int;						// id игрока
+	public var random:Random;
 	
 	public var debugTextField:Label;
 	public var panMain:Panel;
@@ -35,6 +36,8 @@ class Main extends Sprite
 		super();
 		
 		I = this;
+		
+		random = new Random(100500);
 		
 		debugTextField = new Label("test", 0xFFFFFF, new GlowFilter(0x00FFFF), true);
 		debugTextField.x = 350;

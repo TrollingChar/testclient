@@ -124,7 +124,7 @@ class CollisionDetection
 		var bd:Float = circle.radius;
 		
 		// если объекты никогда не столкнутся
-		if (bd > bh)
+		if (bh > bd)
 			return null;
 		
 		var ah:Float = Geometry.cathetus(ab, bh);
@@ -133,7 +133,7 @@ class CollisionDetection
 		
 		// так не бывает
 		if (Math.isNaN(ad)) {
-			Main.I.log("Error: ColliderCircle.collideWithCircle : ad == NaN!");
+			Main.I.log("Error: ColliderCircle.collideWithCircle: " + (Math.isNaN(ah) ? "ah == " : "") + (Math.isNaN(dh) ? "dh == " : "") + "NaN!");
 			return null;
 		}
 		
@@ -187,7 +187,7 @@ class CollisionDetection
 		var bd:Float = circle0.radius + circle1.radius;
 		
 		// если объекты никогда не столкнутся
-		if (bd > bh)
+		if (bh > bd)
 			return null;
 		
 		var ah:Float = Geometry.cathetus(ab, bh);

@@ -22,8 +22,9 @@ class Random
 		var returnArray:Array<Int>;
 		
 		
-		public function new() {
-		
+		public function new(seed:Int) {
+			mt = new Array<Int>();
+			init_genrand(seed);
 		}
 		
 		public function twist(_seed:Int, _returnLength:Int, _maxSize:Int):Array<Int> {
@@ -57,7 +58,7 @@ class Random
 		
 		
 		/* initializes mt[N] with a seed */
-		function init_genrand(_seed:Int) {
+		public function init_genrand(_seed:Int) {
 			mt[0]= _seed & 0xffffffff;
 			for (mti in 1...N) {
 				mt[mti] = (1812433253 * (mt[mti-1] ^ (mt[mti-1] >> 30)) + mti);
@@ -140,6 +141,12 @@ class Random
 			y ^= (y >> 18);
 			
 			return y;
+		}
+		
+		public function genrand_float():Float {
+			var float:Float = genrand_int32() / 4294967296.0;
+			if (float < 0) float += 1.0;
+			return float;
 		}
 		
 		/* generates a random number on [0,0x7fffffff]-interval */

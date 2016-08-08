@@ -17,8 +17,10 @@ class ColliderLine extends Collider
 
 	public function new(point0:Point2D, point1:Point2D) 
 	{
-		super();		
+		super();
+		this.offset0 =
 		this.cachePoint0 = point0;
+		this.offset1 =
 		this.cachePoint1 = point1;
 	}
 	

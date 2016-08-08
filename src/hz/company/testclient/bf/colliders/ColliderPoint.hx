@@ -17,6 +17,7 @@ class ColliderPoint extends Collider
 	public function new(point:Point2D) 
 	{
 		super();
+		this.offset =
 		this.cachePoint = point;
 	}
 	
