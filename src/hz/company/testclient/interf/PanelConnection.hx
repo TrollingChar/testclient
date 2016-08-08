@@ -23,8 +23,8 @@ class PanelConnection extends Panel
 				return;
 			}
 			Main.I.connection = new Connection(txt1.text, 8080);
-			//Security.allowDomain("*");
-			//Security.allowInsecureDomain("*");
+			Security.allowDomain("*");
+			Security.allowInsecureDomain("*");
 			//Security.loadPolicyFile("xmlsocket://" + txt1.text + ":843");
 			Main.I.connection.connect(i);
 		}, "Вход");

@@ -1,4 +1,7 @@
 package hz.company.testclient.bf.colliders;
+import hz.company.testclient.bf.colliders.ColliderCircle;
+import hz.company.testclient.bf.colliders.ColliderLine;
+import hz.company.testclient.bf.colliders.Collision;
 import hz.company.testclient.geom.Point2D;
 import openfl.geom.Point;
 
@@ -8,12 +11,22 @@ import openfl.geom.Point;
  */
 class ColliderPoint extends Collider
 {
-	var offset:Point2D;
-	var cachePoint:Point2D;	
+	public var offset:Point2D;
+	public var cachePoint:Point2D;	
 
 	public function new(offset:Point2D) 
 	{
 		super();
+	}
+	
+	override public function collideWithLine(collider:ColliderLine):Collision 
+	{
+		return CollisionDetection.pointToLine(this, collider, object.velocity);
+	}
+	
+	override public function collideWithCircle(collider:ColliderCircle):Collision
+	{
+		return CollisionDetection.pointToCircle(this, collider, -object.velocity);
 	}
 	
 	override public function getTop() : Float

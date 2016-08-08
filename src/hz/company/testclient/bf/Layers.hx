@@ -7,14 +7,18 @@ package hz.company.testclient.bf;
 class Layers
 {
 
-	public static inline var a = 0;
-	public static inline var b = 1;
-	public static inline var c = 2;
-	public static inline var d = 3;
-	public static inline var e = 4;
-	public static inline var f = 5;
+	public static inline var WATER = 0;
+	public static inline var SURFACE = 1;
+	public static inline var CRATE = 2;
+	public static inline var PROJECTILE = 3;
+	public static inline var WORM = 4;
+	public static inline var WEAPON = 5;
+	public static inline var SMOKE_SHADOW = 6;
+	public static inline var SMOKE = 7;
+	public static inline var TERRAIN = 8;
+	public static inline var TEXT = 9;
 	
-	public static inline var AMOUNT = 6;
+	public static inline var AMOUNT = 10;
 	// количество слоев
 	
 }

@@ -4,8 +4,12 @@ import haxe.ds.HashMap;
 import haxe.ds.IntMap;
 import haxe.io.Input;
 import hz.company.testclient.bf.colliders.Collider;
+import hz.company.testclient.bf.colliders.Collision;
+import hz.company.testclient.bf.colliders.CollisionDetection;
 import hz.company.testclient.bf.objects.Object;
+import hz.company.testclient.bf.objects.TestBall;
 import hz.company.testclient.bf.objects.Worm;
+import hz.company.testclient.geom.Point2D;
 import openfl.Assets;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
@@ -22,23 +26,19 @@ class World extends Sprite
 	public var myTurn:Bool;			// но во время моего хода это по моему клиенту синхронизируются все остальные
 	public var synchronizer:Synchronizer;
 	
-	//var msgId:Int;				// номер сообщения с данными мыши и клавиатуры
-	var input:InputState;			// данные мыши и клавиатуры этого компьютера
-	var inMap:IntMap<InputState>;	// собранные данные
-	var whiteBar:Int;				// номер следующего ожидаемого сообщения
-	var redBar:Int;					// номер следующего обрабатываемого сообщения
-	
-	@:isVar var timer(get, set):Int;// в миллисекундах
-	@:isVar var timerVisible(get, set):Bool;
-	var timerFrozen:Bool;			// идет время на таймере или нет
+	@:isVar var timer(get, set):Int;			// в миллисекундах
+	@:isVar var timerVisible(get, set):Bool;	// видно таймер или нет
+	var timerFrozen:Bool;						// идет время на таймере или нет
 	var nextState:GameState;
-	var teams:IntMap<Team>;			// на первое время
+	var teams:IntMap<Team>;
 	var land:BitmapData;
 	var objects : List<Object>;
 	var colliders : List<Collider>;
 	var tiles:IntMap < IntMap<Tile> > ;
 	
-	var layers:Array<Sprite>;		// слои для вывода спрайтов
+	public var gravity:Float = 0.25;
+	
+	public var layers:Array<Sprite>;// слои для вывода спрайтов
 
 	public function new(teams:IntMap<Team>) 
 	{
@@ -51,12 +51,27 @@ class World extends Sprite
 	{
 		removeEventListener(Event.ADDED_TO_STAGE, addedToStage);
 		
-		this.objects = new List<Object>();
-		land = Assets.getBitmapData("img/coffee_map.png");
-		addChild(new Bitmap(land));
+		// разложить слои
+		layers = new Array<Sprite>();
+		for (i in 0...Layers.AMOUNT) 
+		{
+			addChild(layers[i] = new Sprite());
+		}
 		
+		this.objects = new List<Object>();
+		
+		// создать карту
+		land = Assets.getBitmapData("img/coffee_map.png");
+		layers[Layers.SURFACE].addChild(new Bitmap(land));
+		
+		// инициализация игры
 		enterState(GameState.REMOVE_0HP);
 		
+		var ball = new TestBall();
+		ball.position = new Point2D(100, 100);
+		add(ball);
+		
+		// пуск основного таймера!
 		stage.addEventListener(Event.ENTER_FRAME, enterFrame);
 	}
 	
@@ -65,8 +80,8 @@ class World extends Sprite
 		Main.I.debugTextField.glow = true;
 		if (syncronized) {
 			if (myTurn) {
-				update(input);
-				Main.I.connection.sendInput(input);
+				update(Main.I.input);
+				Main.I.connection.sendInput(Main.I.input);
 			} else {
 				/*var state:InputState = synchronizer.readNext();
 				if (state != null) {
@@ -164,9 +179,17 @@ class World extends Sprite
 		}
 	}
 	
+	public function isLand(x:Int, y:Int):Bool {
+		return false;
+	}
+	
 	public function update(input:InputState = null)
 	{
 		for (object in objects) {
+			object.controller.update();
+		}
+		for (object in objects) {
+			move(object);
 		}
 		
 		if(!timerFrozen) timer -= 20;
@@ -175,9 +198,9 @@ class World extends Sprite
 	
 	public function add(object:Object)
 	{
-		// ...
 		object.world = this;
 		object.onAdd();
+		objects.add(object);
 	}
 	
 	public function move(object:Object) {
@@ -185,19 +208,44 @@ class World extends Sprite
 		
 		// фильтр перекрывающихся с коллайдером объектов
 		
+		var collision:Collision = null;
 		// сталкивание с картой всех примитивов объекта
+		for (collider in object.colliders) 
+		{
+			var top:Int = Math.floor(collider.getTop() + Math.min(0, object.velocity.y));
+			var bottom:Int = Math.ceil(collider.getBottom() + Math.max(0, object.velocity.y));
+			var left:Int = Math.floor(collider.getLeft() + Math.min(0, object.velocity.x));
+			var right:Int = Math.ceil(collider.getRight() + Math.max(0, object.velocity.x));
+			
+			for (x in left...right) 
+			{
+				for (y in top...bottom) 
+				{
+					var temp:Collision;					
+					if (isLand(x - 1, y - 1) || isLand(x, y - 1) || isLand(x - 1, y) || isLand(x, y)) {
+						
+					}
+					
+					if (true)
+					{
+						// столкнуть коллайдер с линиями
+					}
+				}
+			}
+		}
 		
 		// сталкивание с другими коллайдерами всех примитивов объекта
 		
 		// само столкновение с вычислением нормали к поверхности
 		
 		// сдвинуть объект и его коллайдеры
+		object.position += object.velocity;
 	}	
 	
 	public function remove(object:Object)
 	{
+		objects.remove(object);
 		object.onRemove();
-		// ...
 		object.world = null;
 	}
 	

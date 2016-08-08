@@ -19,12 +19,16 @@ class Collision
 						collider:Collider,
 						collided:Collider,
 						normal:Point2D,
-						point:Point2D) 
+						point:Point2D = null) 
 	{
 		this.relativePath = relativePath;
 		this.collider = collider;
 		this.collided = collided;
 		this.point = point;
 		this.normal = normal;
+	}
+	
+	public function reverse():Collision {
+		return new Collision(relativePath, collided, collider, -normal);
 	}
 }

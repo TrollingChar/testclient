@@ -1,4 +1,7 @@
 package hz.company.testclient.bf.colliders;
+import hz.company.testclient.bf.colliders.ColliderCircle;
+import hz.company.testclient.bf.colliders.ColliderPoint;
+import hz.company.testclient.bf.colliders.Collision;
 import hz.company.testclient.geom.Point2D;
 
 /**
@@ -14,8 +17,17 @@ class ColliderLine extends Collider
 
 	public function new() 
 	{
-		super();
-		
+		super();		
+	}
+	
+	override public function collideWithCircle(collider:ColliderCircle):Collision 
+	{
+		return CollisionDetection.circleToLine(collider, this, -object.velocity).reverse();
+	}
+	
+	override public function collideWithPoint(collider:ColliderPoint):Collision 
+	{
+		return CollisionDetection.pointToLine(collider, this, -object.velocity).reverse();
 	}
 	
 	override public function getTop() : Float

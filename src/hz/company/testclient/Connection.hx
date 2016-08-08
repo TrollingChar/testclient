@@ -119,7 +119,7 @@ class Connection
 		Main.I.panMain.hidden = true;
 		Main.I.panCancel.position =
 		Main.I.panMain.position = 0;
-		Main.I.panArs.hidden = false;
+		//Main.I.panArs.hidden =
 		Main.I.panInGame.hidden = false;
 		
 		var i:Int = Base64Codec.Decode(s.charAt(0));

@@ -1,4 +1,5 @@
 package hz.company.testclient.bf.controllers;
+import hz.company.testclient.bf.World;
 import hz.company.testclient.bf.controllers.Controller;
 import hz.company.testclient.bf.objects.Object;
 
@@ -10,6 +11,10 @@ class Controller
 {
 	public var object:Object;
 	public var fuse:Int = 2000;
+	
+	public function new() {
+		
+	}
 	
 	public function onRemove() 
 	{
@@ -23,7 +28,20 @@ class Controller
 	
 	public function update() 
 	{
-		
+		Main.I.log("controller works");
+		if(fuse-- == 0) 
+			fuseCallback();
+		else
+			work();
+	}
+	
+	function fuseCallback() {
+		work();
+	}
+	
+	function work() 
+	{
+		object.velocity.y += object.world.gravity;
 	}
 	
 	

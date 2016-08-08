@@ -1,16 +1,11 @@
 package hz.company.testclient;
 
-import openfl.filters.GlowFilter;
-import openfl.events.Event;
-import openfl.geom.Point;
+import hz.company.testclient.bf.*;
 import hz.company.testclient.interf.*;
-import hz.company.testclient.bf.World;
-import hz.company.testclient.bf.colliders.Collider;
-import hz.company.testclient.bf.colliders.ColliderCircle;
 import openfl.display.*;
-import hz.company.testclient.geom.Point2D;
-import openfl.system.Security;
-import openfl.text.TextField;
+import openfl.filters.*;
+import openfl.events.*;
+import openfl.ui.Keyboard;
 
 /**
  * ...
@@ -21,7 +16,8 @@ class Main extends Sprite
 	static public var I:Main;
 	
 	public var connection:Connection;
-	public var id:Int;
+	public var input:InputState;			// данные мыши и клавиатуры этого компьютера
+	public var id:Int;						// id игрока
 	
 	public var debugTextField:Label;
 	public var panMain:Panel;
@@ -46,6 +42,14 @@ class Main extends Sprite
 		
 		panConnection = new PanelConnection();
 		addChild(panConnection);
+		
+		input = new InputState(0, 0);
+		stage.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+		stage.addEventListener(MouseEvent.MOUSE_UP, mouseUp);
+		stage.addEventListener(MouseEvent.RIGHT_MOUSE_DOWN, rightMouseDown);
+		stage.addEventListener(MouseEvent.RIGHT_MOUSE_UP, rightMouseUp);
+		stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+		stage.addEventListener(KeyboardEvent.KEY_UP, keyUp);
 						
 		panMain = new PanelMain();
 		addChild(panMain);
@@ -71,6 +75,54 @@ class Main extends Sprite
 		label.text = "Азазазаззазазазаззазазаззаз";
 		addChild(label);
 		*/
+	}
+	
+	private function keyUp(e:KeyboardEvent):Void 
+	{
+		debugTextField.text = "released " + Std.string(e.keyCode);
+		switch (e.keyCode) 
+		{
+			case Keyboard.W:		input.flags &= ~InputState.w;
+			case Keyboard.A:		input.flags &= ~InputState.a;
+			case Keyboard.S:		input.flags &= ~InputState.s;
+			case Keyboard.D:		input.flags &= ~InputState.d;
+			case Keyboard.SPACE:	input.flags &= ~InputState.sp;
+			default:
+		}
+	}
+	
+	private function keyDown(e:KeyboardEvent):Void 
+	{
+		debugTextField.text = "pressed " + Std.string(e.keyCode);
+		switch (e.keyCode) 
+		{
+			case Keyboard.W:		input.flags |= InputState.w;
+			case Keyboard.A:		input.flags |= InputState.a;
+			case Keyboard.S:		input.flags |= InputState.s;
+			case Keyboard.D:		input.flags |= InputState.d;
+			case Keyboard.SPACE:	input.flags |= InputState.sp;
+			default:
+		}
+	}
+	
+	private function rightMouseUp(e:MouseEvent):Void 
+	{
+		
+	}
+	
+	private function rightMouseDown(e:MouseEvent):Void 
+	{
+		
+	}
+	
+	private function mouseUp(e:MouseEvent):Void 
+	{
+		input.flags &= ~InputState.mb;
+	}
+	
+	private function mouseDown(e:MouseEvent):Void 
+	{
+		input.flags |= InputState.mb;
 	}
 	
 	public function log(msg:String) {

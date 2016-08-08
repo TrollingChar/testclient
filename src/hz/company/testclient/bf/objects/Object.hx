@@ -15,7 +15,7 @@ class Object // extends Sprite (спрайты добавляются отдел
 	public var colliders:List<Collider>;
 	@:isVar public var controller(get, set):Controller;
 	
-	public var position:Point2D;
+	@:isVar public var position(get, set):Point2D;
 	public var velocity:Point2D;
 	
 	public function new() 
@@ -77,6 +77,11 @@ class Object // extends Sprite (спрайты добавляются отдел
 		
 	}
 	
+	function moveSprites() 
+	{
+		
+	}
+	
 	function removeSprites() {
 		
 	}
@@ -89,6 +94,18 @@ class Object // extends Sprite (спрайты добавляются отдел
 		{
 			colliders.pop().freeTiles();
 		}
+	}
+	
+	function get_position():Point2D 
+	{
+		return position;
+	}
+	
+	function set_position(value:Point2D):Point2D 
+	{
+		position = value;
+		moveSprites();
+		return value;
 	}
 	
 }

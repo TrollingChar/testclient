@@ -1,4 +1,5 @@
 package hz.company.testclient.bf.colliders;
+import hz.company.testclient.geom.Geometry;
 import hz.company.testclient.geom.Point2D;
 
 /**
@@ -7,10 +8,10 @@ import hz.company.testclient.geom.Point2D;
  */
 class CollisionDetection
 {
-	static public function pointToLine(point:ColliderPoint, line:ColliderLine, v:Point2D) {		
+	static public function pointToLine(point:ColliderPoint, line:ColliderLine, v:Point2D):Collision {		
 		var a:Point2D = line.cachePoint0;
 		var b:Point2D = line.cachePoint1;
-		var c:Point2D = circle.cachePoint;		// центр окружности
+		var c:Point2D = point.cachePoint;
 		
 		var ab:Float = a ^ b;
 		if (ab == 0)
@@ -43,10 +44,10 @@ class CollisionDetection
 			offsetI - ac_ij.x > ab)
 			return null;
 		
-		return new Collision(relativePath, circle, line, -j, null);
+		return new Collision(relativePath, point, line, -j);
 	}
 	
-	static public function circleToLine(circle:ColliderCircle, line:ColliderLine, v:Point2D) {
+	static public function circleToLine(circle:ColliderCircle, line:ColliderLine, v:Point2D):Collision {
 		
 		var a:Point2D = line.cachePoint0;
 		var b:Point2D = line.cachePoint1;
@@ -83,10 +84,10 @@ class CollisionDetection
 			offsetI - ac_ij.x > ab)
 			return null;
 		
-		return new Collision(relativePath, circle, line, -j, null);
+		return new Collision(relativePath, circle, line, -j);
 	}
 
-	static public function pointToCircle(point:ColliderCircle, circle:ColliderCircle, v:Point2D) {
+	static public function pointToCircle(point:ColliderPoint, circle:ColliderCircle, v:Point2D):Collision {
 		
 		// Проверить, не нулевой ли радиус у окружности
 		if (circle.radius == 0)
@@ -146,10 +147,10 @@ class CollisionDetection
 		
 		var normal:Point2D = d - b;				// вектор нормали (от поверхности к this)
 		
-		return new Collision(relativePath, circle0, circle1, normal, d);		
+		return new Collision(relativePath, point, circle, normal, d);		
 	}
 
-	static public function circleToCircle(circle0:ColliderCircle, circle1:ColliderCircle, v:Point2D) {
+	static public function circleToCircle(circle0:ColliderCircle, circle1:ColliderCircle, v:Point2D):Collision {
 		
 		// Проверить, не нулевые ли у них радиусы (2 точки)
 		if (circle0.radius == 0 && circle1.radius == 0)
