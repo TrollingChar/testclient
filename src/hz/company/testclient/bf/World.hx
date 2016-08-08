@@ -87,13 +87,6 @@ class World extends Sprite
 			if (myTurn) {
 				update(Main.I.input);
 				Main.I.connection.sendInput(Main.I.input);
-			} else {
-				/*var state:InputState = synchronizer.readNext();
-				if (state != null) {
-					update(state);
-				} else {
-					Main.I.debugTextField.glow = false;					
-				}*/
 			}
 		} else {
 			update(Main.I.input);

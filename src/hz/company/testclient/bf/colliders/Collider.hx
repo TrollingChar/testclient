@@ -28,6 +28,7 @@ class Collider
 		return null;
 	}
 	
+	
 	@:deprecated
 	public function update() {
 		// recompute cachePoint

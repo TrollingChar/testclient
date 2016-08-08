@@ -111,6 +111,13 @@ class CollisionDetection
 		// расстояние между центрами объектов
 		var ab:Float = a ^ b;
 		
+		// длина этого отрезка равна сумме радиусов объектов
+		var bd:Float = circle.radius;
+		
+		// если они перекрываются
+		if (ab < bd)
+			return null;
+		
 		// расстояние между концом пути первого объекта и вторым
 		var bc:Float = b ^ c;
 		
@@ -119,9 +126,6 @@ class CollisionDetection
 		var p:Float = (ab + bc + ac) / 2;
 		var S:Float = Math.sqrt(p * (p - ab) * (p - bc) * (p - ac));		
 		var bh:Float = (2 * S) / ac;			// высота треугольника abc
-		
-		// длина этого отрезка равна сумме радиусов объектов
-		var bd:Float = circle.radius;
 		
 		// если объекты никогда не столкнутся
 		if (bh > bd)
@@ -177,14 +181,18 @@ class CollisionDetection
 		// расстояние между концом пути первого объекта и вторым
 		var bc:Float = b ^ c;
 		
+		// длина этого отрезка равна сумме радиусов объектов
+		var bd:Float = circle0.radius + circle1.radius;
+		
+		// если они перекрываются
+		if (ab < bd)
+			return null;
+		
 		// по формуле Герона находим площадь, затем находим высоту
 		// (расстояние от центра второго объекта до прямой)
 		var p:Float = (ab + bc + ac) / 2;
 		var S:Float = Math.sqrt(p * (p - ab) * (p - bc) * (p - ac));		
 		var bh:Float = (2 * S) / ac;			// высота треугольника abc
-		
-		// длина этого отрезка равна сумме радиусов объектов
-		var bd:Float = circle0.radius + circle1.radius;
 		
 		// если объекты никогда не столкнутся
 		if (bh > bd)
