@@ -1,6 +1,7 @@
 package hz.company.testclient.bf.colliders;
 import hz.company.testclient.bf.Tile;
 import hz.company.testclient.bf.objects.Object;
+import hz.company.testclient.geom.Point2D;
 
 /**
  * ...
@@ -28,15 +29,15 @@ class Collider
 		return null;
 	}
 	
-	public function relationToPoint(collider:ColliderPoint):Int {
+	public function relationToPoint(collider:ColliderPoint):Float {
 		return 0;
 	}
 	
-	public function relationToLine(collider:ColliderLine):Int {
+	public function relationToLine(collider:ColliderLine):Float {
 		return 0;
 	}
 	
-	public function relationToCircle(collider:ColliderCircle):Int {
+	public function relationToCircle(collider:ColliderCircle):Float {
 		return 0;
 	}
 	
@@ -44,6 +45,10 @@ class Collider
 	@:deprecated
 	public function update() {
 		// recompute cachePoint
+	}
+	
+	public function test(objectPosition:Point2D) {
+		
 	}
 	
 	public function updateTiles() {

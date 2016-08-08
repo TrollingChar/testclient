@@ -1,4 +1,6 @@
 package hz.company.testclient.bf.colliders;
+import hz.company.testclient.geom.Geometry;
+import hz.company.testclient.geom.Point2D;
 
 /**
  * ...
@@ -6,8 +8,7 @@ package hz.company.testclient.bf.colliders;
  */
 class RelationDetection
 {
-
-	public static function pointToLine(point:ColliderPoint, line:ColliderLine):Int {
+	public static function pointToLine(point:ColliderPoint, line:ColliderLine):Float {
 		var a:Point2D = line.cachePoint0;
 		var b:Point2D = line.cachePoint1;
 		var c:Point2D = point.cachePoint;
@@ -24,15 +25,15 @@ class RelationDetection
 		return ac_ij.y;
 	}
 	
-	public static function pointToCircle(point:ColliderPoint, circle:ColliderCircle):Int {
+	public static function pointToCircle(point:ColliderPoint, circle:ColliderCircle):Float {
 		var dist:Float = point.cachePoint ^ circle.cachePoint;
 		return dist - circle.radius;
 	}
 
-	public static function circleToLine(circle:ColliderCircle, line:ColliderLine):Int {
+	public static function circleToLine(circle:ColliderCircle, line:ColliderLine):Float {
 		var a:Point2D = line.cachePoint0;
 		var b:Point2D = line.cachePoint1;
-		var c:Point2D = point.cachePoint;
+		var c:Point2D = circle.cachePoint;
 		
 		var ab:Float = a ^ b;
 		if (ab == 0) return 0;
@@ -46,7 +47,7 @@ class RelationDetection
 		return ac_ij.y - circle.radius;		
 	}
 	
-	public static function circleToCircle(circle0:ColliderCircle, circle1:ColliderCircle):Int {
+	public static function circleToCircle(circle0:ColliderCircle, circle1:ColliderCircle):Float {
 		var dist:Float = circle0.cachePoint ^ circle1.cachePoint;
 		var radii:Float = circle0.radius + circle1.radius;
 		return dist - radii;

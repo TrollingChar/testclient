@@ -5,6 +5,7 @@ import format.SVG;
 import hz.company.testclient.bf.colliders.ColliderCircle;
 import hz.company.testclient.bf.colliders.Collision;
 import hz.company.testclient.bf.controllers.Controller;
+import hz.company.testclient.geom.Geometry;
 import hz.company.testclient.geom.Point2D;
 import openfl.Assets;
 
@@ -56,7 +57,10 @@ class TestBall extends Object
 	
 	override public function onCollision(collision:Collision) 
 	{
-		velocity = new Point2D(0, 0);
+		var normal:Point2D = collision.normal;
+		var tangential:Point2D = new Point2D(-normal.y, normal.x);
+		var convertedVelocity:Point2D = Geometry.convertToBasis(velocity, tangential, normal);
+		velocity = tangential * convertedVelocity.x * .9 + normal * convertedVelocity.y * -.5;
 	}
 	
 	override function initColliders()

@@ -41,6 +41,26 @@ class ColliderCircle extends Collider
 		return CollisionDetection.circleToCircle(this, collider, object.velocity);
 	}
 	
+	override public function relationToPoint(collider:ColliderPoint):Float 
+	{
+		return RelationDetection.pointToCircle(collider, this);
+	}
+	
+	override public function relationToLine(collider:ColliderLine):Float 
+	{
+		return RelationDetection.circleToLine(this, collider);
+	}
+	
+	override public function relationToCircle(collider:ColliderCircle):Float 
+	{
+		return RelationDetection.circleToCircle(this, collider);
+	}
+	
+	override public function test(objectPosition:Point2D)
+	{
+		cachePoint = objectPosition + offset;
+	}
+	
     override public function getTop() : Float
 	{
 		return cachePoint.y - radius;

@@ -40,6 +40,22 @@ class ColliderLine extends Collider
 		return Collision.reverse(CollisionDetection.pointToLine(collider, this, -object.velocity));
 	}
 	
+	override public function relationToPoint(collider:ColliderPoint):Float 
+	{
+		return RelationDetection.pointToLine(collider, this);
+	}
+	
+	override public function relationToCircle(collider:ColliderCircle):Float 
+	{
+		return RelationDetection.circleToLine(collider, this);
+	}
+	
+	override public function test(objectPosition:Point2D) 
+	{
+		cachePoint0 = objectPosition + offset0;
+		cachePoint1 = objectPosition + offset1;
+	}
+	
 	override public function getTop() : Float
 	{
 		return Math.min(cachePoint0.y, cachePoint1.y);

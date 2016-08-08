@@ -1,22 +1,11 @@
 package hz.company.testclient.bf;
-import flash.events.Event;
-import haxe.ds.HashMap;
-import haxe.ds.IntMap;
-import haxe.io.Input;
-import hz.company.testclient.bf.colliders.Collider;
-import hz.company.testclient.bf.colliders.ColliderPoint;
-import hz.company.testclient.bf.colliders.Collision;
-import hz.company.testclient.bf.colliders.CollisionDetection;
-import hz.company.testclient.bf.objects.Object;
-import hz.company.testclient.bf.objects.TestBall;
-import hz.company.testclient.bf.objects.Worm;
-import hz.company.testclient.geom.Point2D;
-import openfl.Assets;
-import openfl.display.Bitmap;
-import openfl.display.BitmapData;
-import openfl.display.Sprite;
-import openfl.events.MouseEvent;
-import openfl.utils.Timer;
+import haxe.ds.*;
+import hz.company.testclient.bf.colliders.*;
+import hz.company.testclient.bf.objects.*;
+import hz.company.testclient.geom.*;
+import openfl.*;
+import openfl.display.*;
+import openfl.events.*;
 
 /**
  * ...
@@ -38,7 +27,7 @@ class World extends Sprite
 	var colliders : List<Collider>;
 	var tiles:IntMap < IntMap<Tile> > ;
 	
-	public var gravity:Float = 0.25;
+	public var gravity:Float = 0.5;
 	
 	public var layers:Array<Sprite>;// слои для вывода спрайтов
 
@@ -250,14 +239,45 @@ class World extends Sprite
 		// сталкивание с другими коллайдерами всех примитивов объекта
 		
 		// само столкновение с вычислением нормали к поверхности
-		if(collision == null) {
+		if (collision == null) {
+			// нет препятствий
 			object.position += object.velocity;
 		} else {
-			object.position += object.velocity * collision.relativePath;
+			var collider:Collider = collision.collider;
+			var position:Point2D = object.position;
+			var offset:Point2D = object.velocity * collision.relativePath;
+			var lowerBound:Float = 0;
+			var upperBound:Float = 2;
+			
+			var relationBefore:Float = 0;
+			var relationAfter:Float = 0;
+			
+			while (Math.abs(lowerBound - upperBound) > 0.000001 && lowerBound < 1) 
+			{				
+				var guess:Float = (lowerBound + upperBound) / 2;
+				
+				// сдвигает коллайдер
+				collider.test(position + offset * guess);
+				
+				if (Std.is(collision.collided, ColliderCircle)) {
+					relationAfter = collision.collider.relationToCircle(cast(collision.collided, ColliderCircle));
+				} else if (Std.is(collision.collided, ColliderLine)) {
+					relationAfter = collision.collider.relationToLine(cast(collision.collided, ColliderLine));					
+				} else if (Std.is(collision.collided, ColliderPoint)) {
+					relationAfter = collision.collider.relationToPoint(cast(collision.collided, ColliderPoint));					
+				} else {
+					Main.I.log("unknown collider");
+				}
+				if (relationAfter < 0) {
+					upperBound = guess;
+				} else {
+					lowerBound = guess;
+				}
+			}			
+			
+			object.position += offset * lowerBound;
 			object.onCollision(collision);
 		}
-		
-		// сдвинуть объект и его коллайдеры
 	}	
 	
 	public function remove(object:Object)
