@@ -237,8 +237,12 @@ class World extends Sprite
 					// точки
 					if (isLand(x - 1, y - 1) || isLand(x, y - 1) || isLand(x - 1, y) || isLand(x, y)) {
 						temp = collider.collideWithPoint(new ColliderPoint(new Point2D(x, y)));
-						if (collision == null || collision.relativePath > temp.relativePath) {
-							collision = temp;
+						if(temp != null) {
+							if (collision == null) {
+								collision = temp;
+							} else if (collision.relativePath > temp.relativePath) {
+								collision = temp;							
+							}
 						}
 					}
 					// горизонтальные линии
