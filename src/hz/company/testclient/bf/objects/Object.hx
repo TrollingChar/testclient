@@ -1,6 +1,7 @@
 package hz.company.testclient.bf.objects;
 import hz.company.testclient.bf.World;
 import hz.company.testclient.bf.colliders.Collider;
+import hz.company.testclient.bf.colliders.Collision;
 import hz.company.testclient.bf.controllers.Controller;
 import hz.company.testclient.geom.Point2D;
 import openfl.display.Sprite;
@@ -21,6 +22,7 @@ class Object // extends Sprite (спрайты добавляются отдел
 	public function new() 
 	{
 		velocity = new Point2D(0, 0);
+		colliders = new List<Collider>();
 	}
 	
 	function get_controller():Controller 
@@ -96,6 +98,11 @@ class Object // extends Sprite (спрайты добавляются отдел
 		}
 	}
 	
+	public function onCollision(collision:Collision) 
+	{
+		
+	}
+	
 	function get_position():Point2D 
 	{
 		return position;
@@ -104,6 +111,10 @@ class Object // extends Sprite (спрайты добавляются отдел
 	function set_position(value:Point2D):Point2D 
 	{
 		position = value;
+		for (collider in colliders) 
+		{
+			collider.update();
+		}
 		moveSprites();
 		return value;
 	}

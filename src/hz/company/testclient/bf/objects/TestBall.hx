@@ -2,7 +2,10 @@ package hz.company.testclient.bf.objects;
 import flash.display.Shape;
 import flash.display.Sprite;
 import format.SVG;
+import hz.company.testclient.bf.colliders.ColliderCircle;
+import hz.company.testclient.bf.colliders.Collision;
 import hz.company.testclient.bf.controllers.Controller;
+import hz.company.testclient.geom.Point2D;
 import openfl.Assets;
 
 /**
@@ -16,6 +19,7 @@ class TestBall extends Object
 	public function new() 
 	{
 		super();
+		
 		sprite = new Sprite();
 		var shape:Shape = new Shape();
 		var svg:SVG = new SVG(Assets.getText("img/ball.svg"));
@@ -30,11 +34,6 @@ class TestBall extends Object
 	override function initController() 
 	{
 		controller = new Controller();
-	}
-	
-	override function initColliders() 
-	{
-		super.initColliders();
 	}
 	
 	override function renderSprites() 
@@ -53,5 +52,15 @@ class TestBall extends Object
 	{
 		sprite.x = position.x;
 		sprite.y = position.y;
+	}
+	
+	override public function onCollision(collision:Collision) 
+	{
+		velocity = new Point2D(0, 0);
+	}
+	
+	override function initColliders()
+	{
+		addCollider(new ColliderCircle(new Point2D(0, 0), 5));
 	}
 }

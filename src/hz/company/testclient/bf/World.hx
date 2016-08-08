@@ -4,6 +4,7 @@ import haxe.ds.HashMap;
 import haxe.ds.IntMap;
 import haxe.io.Input;
 import hz.company.testclient.bf.colliders.Collider;
+import hz.company.testclient.bf.colliders.ColliderPoint;
 import hz.company.testclient.bf.colliders.Collision;
 import hz.company.testclient.bf.colliders.CollisionDetection;
 import hz.company.testclient.bf.objects.Object;
@@ -210,7 +211,7 @@ class World extends Sprite
 		
 		var collision:Collision = null;
 		// сталкивание с картой всех примитивов объекта
-		for (collider in object.colliders) 
+		for (collider in object.colliders)
 		{
 			var top:Int = Math.floor(collider.getTop() + Math.min(0, object.velocity.y));
 			var bottom:Int = Math.ceil(collider.getBottom() + Math.max(0, object.velocity.y));
@@ -221,15 +222,19 @@ class World extends Sprite
 			{
 				for (y in top...bottom) 
 				{
-					var temp:Collision;					
+					var temp:Collision;
+					// точки
 					if (isLand(x - 1, y - 1) || isLand(x, y - 1) || isLand(x - 1, y) || isLand(x, y)) {
-						
+						temp = collider.collideWithPoint(new ColliderPoint(new Point2D(x, y)));
+						if (collision == null || collision.relativePath > temp.relativePath) {
+							collision = temp;
+						}
 					}
-					
-					if (true)
-					{
-						// столкнуть коллайдер с линиями
-					}
+					// горизонтальные линии
+					//if (isLand(x, y) || isLand)
+					//{
+						//
+					//}
 				}
 			}
 		}
@@ -237,9 +242,14 @@ class World extends Sprite
 		// сталкивание с другими коллайдерами всех примитивов объекта
 		
 		// само столкновение с вычислением нормали к поверхности
+		if(collision == null) {
+			object.position += object.velocity;
+		} else {
+			object.position += object.velocity * collision.relativePath;
+			object.onCollision(collision);
+		}
 		
 		// сдвинуть объект и его коллайдеры
-		object.position += object.velocity;
 	}	
 	
 	public function remove(object:Object)
