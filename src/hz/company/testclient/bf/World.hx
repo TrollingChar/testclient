@@ -178,14 +178,14 @@ class World extends Sprite
 		for (object in objects) {
 			move(object);
 		}
-		
+		/*
 		if (timer % 200 == 0 && input.flags & InputState.mb != 0) {
 			var ball = new TestBall();
 			ball.position = new Point2D(input.x, input.y);
 			ball.velocity = new Point2D(Main.I.random.genrand_float() - .5, Main.I.random.genrand_float() - .5);
 			add(ball);
 		}
-		
+		*/
 		if(!timerFrozen) timer -= 20;
 		if (timer <= 0) changeState();
 	}
