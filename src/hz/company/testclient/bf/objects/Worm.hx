@@ -1,6 +1,18 @@
 package hz.company.testclient.bf.objects;
+import flash.display.Shape;
+import flash.display.Sprite;
 import flash.text.TextField;
 import hz.company.testclient.bf.Team;
+import hz.company.testclient.bf.colliders.Collision;
+import hz.company.testclient.bf.controllers.WormControllerJump;
+import hz.company.testclient.interf.Label;
+import openfl.Assets;
+import format.SVG;
+import hz.company.testclient.bf.controllers.Controller;
+import hz.company.testclient.geom.Geometry;
+import hz.company.testclient.geom.Point2D;
+
+import hz.company.testclient.bf.colliders.ColliderCircle;
 
 /**
  * ...
@@ -9,8 +21,67 @@ import hz.company.testclient.bf.Team;
 class Worm extends Object
 {
 	
-	public var hp:Int;
+	public var hp:Int = 60;
 	public var team:Team;
+	var sprite:Sprite;
+	var hplabel:Label;
+	
+	public function new() 
+	{
+		super();
+		
+		sprite = new Sprite();
+		var shape:Shape = new Shape();
+		var svg:SVG = new SVG(Assets.getText("img/worm.svg"));
+		svg.render(shape.graphics);
+		shape.scaleX =
+		shape.scaleY = 0.2;
+		shape.x =
+		shape.y = -5;
+		sprite.addChild(shape);
+		hplabel = new Label(Std.string(hp), 0x889999, null, false);
+		hplabel.scaleX = hplabel.scaleY =  0.3;
+		hplabel.x = sprite.x - 45;
+		hplabel.y = sprite.y - 23;
+		sprite.addChild(hplabel);
+	}
+	
+	override function initController() 
+	{
+		controller = new WormControllerJump();
+	}
+	
+	override function renderSprites() 
+	{
+		sprite.x = position.x;
+		sprite.y = position.y;
+		world.layers[Layers.PROJECTILE].addChild(sprite);
+	}
+	
+	override function removeSprites() 
+	{
+		world.layers[Layers.PROJECTILE].removeChild(sprite);
+	}
+	
+	override function moveSprites() 
+	{
+		sprite.x = position.x;
+		sprite.y = position.y;
+	}
+	
+	override public function onCollision(collision:Collision) 
+	{
+		var normal:Point2D = collision.normal;
+		var tangential:Point2D = new Point2D(-normal.y, normal.x);
+		var convertedVelocity:Point2D = Geometry.convertToBasis(velocity, tangential, normal);
+		velocity = tangential * convertedVelocity.x * .9 + normal * convertedVelocity.y * -.5;
+	}
+	
+	override function initColliders()
+	{
+		addCollider(new ColliderCircle(new Point2D(0, 0), 5));
+	}
+	
 	
 	public function onAddToTeam() 
 	{
