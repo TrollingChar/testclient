@@ -18,7 +18,7 @@ class CollisionDetection
 			return null;
 		
 		var i:Point2D = (b - a) / ab;
-		var j:Point2D = new Point2D(i.y, -i.x);	// 90° по часовой стрелке
+		var j:Point2D = new Point2D(-i.y, i.x);	// 90° по часовой стрелке
 		
 		// раскладываем вектор c-a по базису векторов (i, j)
 		var ac_ij:Point2D = Geometry.convertToBasis(a - c, i, j);
@@ -40,9 +40,8 @@ class CollisionDetection
 		var offsetI:Float = ac_ij.x + v_ij.x * relativePath;
 		
 		// столкнулись с прямой но не с отрезком
-		if (offsetI - ac_ij.x < 0 ||
-			offsetI - ac_ij.x > ab)
-			return null;
+		if (offsetI < 0 || offsetI > ab)
+			return null;		
 		
 		return new Collision(relativePath, point, line, -j);
 	}
@@ -58,7 +57,7 @@ class CollisionDetection
 			return null;
 		
 		var i:Point2D = (b - a) / ab;
-		var j:Point2D = new Point2D(i.y, -i.x);	// 90° по часовой стрелке
+		var j:Point2D = new Point2D(-i.y, i.x);	// 90° по часовой стрелке
 		
 		// раскладываем вектор c-a по базису векторов (i, j)
 		var ac_ij:Point2D = Geometry.convertToBasis(a - c, i, j);
@@ -80,8 +79,7 @@ class CollisionDetection
 		var offsetI:Float = ac_ij.x + v_ij.x * relativePath;
 		
 		// столкнулись с прямой но не с отрезком
-		if (offsetI - ac_ij.x < 0 ||
-			offsetI - ac_ij.x > ab)
+		if (offsetI < 0 || offsetI > ab)
 			return null;
 		
 		return new Collision(relativePath, circle, line, -j);

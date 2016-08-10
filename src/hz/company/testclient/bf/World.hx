@@ -13,6 +13,7 @@ import openfl.events.*;
  */
 class World extends Sprite
 {	
+	public var paused:Bool;
 	public var syncronized:Bool;	// когда действия игроков нужно синхронизировать, событие таймера не обрабатывается
 	public var myTurn:Bool;			// но во время моего хода это по моему клиенту синхронизируются все остальные
 	public var synchronizer:Synchronizer;
@@ -74,6 +75,9 @@ class World extends Sprite
 	
 	private function enterFrame(e:Event):Void 
 	{
+		if (paused) return;
+		
+		
 		Main.I.debugTextField.glow = true;
 		if (syncronized) {
 			if (myTurn) {
@@ -183,13 +187,17 @@ class World extends Sprite
 			move(object);
 		}
 		/*
-		if (timer % 200 == 0 && input.flags & InputState.mb != 0) {
-			var worm:Worm = new Worm();
-			worm.position = new Point2D(input.x, input.y);
-			worm.velocity = new Point2D(Main.I.random.genrand_float() - .5, Main.I.random.genrand_float() - .5) * 25;
-			add(worm);
-		}*/
-		
+		if (timer % 200 == 0 && input.flags & InputState.mb != 0 && currentState == GameState.TURN) {
+			//for (i in 0...5) 
+			{
+				var worm:Worm = new Worm();
+				worm.position = new Point2D(input.x, input.y);
+				worm.velocity = new Point2D(10, 30);
+				//worm.velocity = new Point2D(Main.I.random.genrand_float() - .5, Main.I.random.genrand_float() - .5) * 10;
+				add(worm);			
+			}
+		}
+		*/
 		if (timer % 200 == 0 && input.flags & InputState.mb != 0 && currentState == GameState.TURN) {
 			for (i in 0...5) 
 			{

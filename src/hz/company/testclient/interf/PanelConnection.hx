@@ -38,7 +38,7 @@ class PanelConnection extends Panel
 		txt1.y = 150;
 		addChild(txt1);
 		
-		txt2 = new TextBox("72");
+		txt2 = new TextBox(Std.string(Math.floor(Math.random()*1000000)));
 		txt2.x = 500;
 		txt2.y = 150;
 		addChild(txt2);
