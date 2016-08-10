@@ -13,7 +13,7 @@ class Controller
 	public var fuse:Int = 2000;
 	
 	public function new() {
-		
+		super();
 	}
 	
 	public function onRemove() 

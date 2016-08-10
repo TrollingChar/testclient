@@ -27,6 +27,8 @@ class World extends Sprite
 	var colliders : List<Collider>;
 	var tiles:IntMap < IntMap<Tile> > ;
 	
+	public var input:InputState;
+	
 	public var gravity:Float = 0.5;
 	
 	public var layers:Array<Sprite>;// слои для вывода спрайтов
@@ -172,6 +174,7 @@ class World extends Sprite
 	
 	public function update(input:InputState)
 	{
+		this.input = input;
 		for (object in objects) {
 			object.controller.update();
 		}
@@ -321,4 +324,9 @@ class World extends Sprite
 		return timer = value;
 	}
 	
-}
+	public function isWormsFrozen():Bool
+	{
+		return !(timerFrozen);
+	}
+	
+	}
