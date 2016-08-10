@@ -320,4 +320,19 @@ class World extends Sprite
 		return timer = value;
 	}
 	
+	public function dealDamage(x:Int, y:Int, radius:Int, damage:Int, damcap:Int, affectedObjects:Array = null, type:String = 'scripted') {
+			if (!affectedObjects) affectedObjects = objects;
+			
+			for (object in objects)
+			{
+				var r:Float = Math.sqrt((x - obj.x) * (x - obj.x) + (y - obj.y) * (y - obj.y));
+				if (r < radius) {
+					var affection:Number = 1 - r / radius;
+					if (damcap > 0)
+						obj.hurt(Math.min(Math.ceil(affection * damage), damcap), type);
+					else
+						obj.hurt(Math.max(Math.floor(affection*damage), damcap), type);
+				}
+			}	
+		}
 }
