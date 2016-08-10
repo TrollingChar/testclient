@@ -7,8 +7,8 @@ import hz.company.testclient.bf.objects.Worm;
  */
 class Team
 {
+	public var color:Int;
 	var worms:Int;
-	
 	var activeWorm:Worm;
 	var otherWorms:List<Worm>;
 	

@@ -33,7 +33,7 @@ class ColliderPoint extends Collider
 	
 	override public function collideWithCircle(collider:ColliderCircle):Collision
 	{
-		return CollisionDetection.pointToCircle(this, collider, -object.velocity);
+		return CollisionDetection.pointToCircle(this, collider, object.velocity);
 	}
 	
 	override public function relationToCircle(collider:ColliderCircle):Float 
