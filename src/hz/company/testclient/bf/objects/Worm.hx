@@ -73,19 +73,21 @@ class Worm extends Object
 	
 	override public function onCollision(collision:Collision) 
 	{
-		Main.I.log(Std.string(collision.collider));
 		var normal:Point2D = collision.normal;
 		var tangential:Point2D = new Point2D(-normal.y, normal.x);
 		var convertedVelocity:Point2D = Geometry.convertToBasis(velocity, tangential, normal);
-		velocity = tangential * convertedVelocity.x * .45 + normal * convertedVelocity.y * -.25;
+		velocity = tangential * convertedVelocity.x * .9 + normal * convertedVelocity.y * -.5;
+		//velocity = tangential * convertedVelocity.x * .45 + normal * convertedVelocity.y * -.25;
 	}
 	
 	override function initColliders()
 	{
 		addCollider(new ColliderCircle(new Point2D(0, 0), 5));
 		addCollider(new ColliderCircle(new Point2D(0, 5), 5));
-		addCollider(new ColliderLine(new Point2D(5, 0), new Point2D(5, 5)));
-		addCollider(new ColliderLine(new Point2D(-5, 5), new Point2D(-5, 0)));
+		addCollider(new ColliderLine(new Point2D(-5, 0), new Point2D(-5, 5)));
+		addCollider(new ColliderLine(new Point2D(5, 5), new Point2D(5, 0)));
+		
+		//addCollider(new ColliderLine(new Point2D(-5, 10), new Point2D(5, 10)));
 	}	
 	
 	public function onAddToTeam() 

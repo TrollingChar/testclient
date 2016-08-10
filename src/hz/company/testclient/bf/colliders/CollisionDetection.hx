@@ -18,7 +18,7 @@ class CollisionDetection
 			return null;
 		
 		var i:Point2D = (b - a) / ab;
-		var j:Point2D = new Point2D(-i.y, i.x);	// 90° по часовой стрелке
+		var j:Point2D = new Point2D(i.y, -i.x);	// 90° по часовой стрелке
 		
 		// раскладываем вектор c-a по базису векторов (i, j)
 		var ac_ij:Point2D = Geometry.convertToBasis(a - c, i, j);
@@ -58,7 +58,7 @@ class CollisionDetection
 			return null;
 		
 		var i:Point2D = (b - a) / ab;
-		var j:Point2D = new Point2D(-i.y, i.x);	// 90° по часовой стрелке
+		var j:Point2D = new Point2D(i.y, -i.x);	// 90° по часовой стрелке
 		
 		// раскладываем вектор c-a по базису векторов (i, j)
 		var ac_ij:Point2D = Geometry.convertToBasis(a - c, i, j);

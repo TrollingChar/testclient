@@ -144,8 +144,9 @@ class Random
 		}
 		
 		public function genrand_float():Float {
-			var float:Float = genrand_int32() / 4294967296.0;
-			if (float < 0) float += 1.0;
+			var float:Float = genrand_int32() / 2147483648.0;
+			//if (float < 0) float += 1.0;
+			//Main.I.log(Std.string(float));
 			return float;
 		}
 		

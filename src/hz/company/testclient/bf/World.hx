@@ -20,7 +20,10 @@ class World extends Sprite
 	@:isVar var timer(get, set):Int;			// в миллисекундах
 	@:isVar var timerVisible(get, set):Bool;	// видно таймер или нет
 	var timerFrozen:Bool;						// идет время на таймере или нет
+	
 	var nextState:GameState;
+	var currentState:GameState;
+	
 	var teams:IntMap<Team>;
 	var land:BitmapData;
 	var objects : List<Object>;
@@ -107,6 +110,7 @@ class World extends Sprite
 	}
 	
 	function enterState(state:GameState) {
+		currentState = state;
 		switch (state) 
 		{
 			case GameState.BEFORE_TURN: {
@@ -178,12 +182,22 @@ class World extends Sprite
 		for (object in objects) {
 			move(object);
 		}
-		
+		/*
 		if (timer % 200 == 0 && input.flags & InputState.mb != 0) {
 			var worm:Worm = new Worm();
 			worm.position = new Point2D(input.x, input.y);
-			worm.velocity = new Point2D(Main.I.random.genrand_float() - .5, Main.I.random.genrand_float() - .5);
+			worm.velocity = new Point2D(Main.I.random.genrand_float() - .5, Main.I.random.genrand_float() - .5) * 25;
 			add(worm);
+		}*/
+		
+		if (timer % 200 == 0 && input.flags & InputState.mb != 0 && currentState == GameState.TURN) {
+			for (i in 0...5) 
+			{
+				var ball:TestBall = new TestBall();
+				ball.position = new Point2D(input.x, input.y);
+				ball.velocity = new Point2D(Main.I.random.genrand_float() - .5, Main.I.random.genrand_float() - 1.5) * 10;
+				add(ball);				
+			}
 		}
 		
 		if(!timerFrozen) timer -= 20;
