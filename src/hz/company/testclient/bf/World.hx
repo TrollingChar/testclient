@@ -145,7 +145,7 @@ class World extends Sprite
 				nextState = GameState.SYNCHRONIZING;
 				if (Main.I.random.genrand_int32() % 2 == 0) {
 					// drop crates
-					wait();
+					timer = 500;
 				} else {
 					changeState();
 				}
@@ -163,7 +163,7 @@ class World extends Sprite
 				var team:Team = teams.get(activePlayer);
 				Main.I.log(Std.string(team));
 				activeWorm = team.next();
-				wait(15000);
+				timer = 15000;
 				timerVisible = true;
 			}
 			case GameState.ENDING_TURN: {
@@ -174,24 +174,24 @@ class World extends Sprite
 				syncronized = false;
 				activeWorm = null;
 				activePlayer = 0;
-				wait();
+				timer = 500;
 			}
 			case GameState.AFTER_TURN: {
 				Main.I.debugTextField.text = "AFTER TURN";
 				nextState = GameState.REMOVE_0HP;
 				if (Main.I.random.genrand_int32() % 2 == 0) {
 					// poison damage
-					wait();
+					timer = 500;
 				} else {
 					changeState();
 				}
 			}
 			case GameState.REMOVE_0HP: {
 				Main.I.debugTextField.text = "REMOVE 0 HP";
-				if (Main.I.random.genrand_int32() % 5 == 0) {
+				if (Main.I.random.genrand_int32() % 5 == 5) {	// never happens
 					// hitpointless worms begin exploding
 					nextState = GameState.REMOVE_0HP;
-					wait();					
+					timer = 500;
 				} else {
 					nextState = GameState.BEFORE_TURN;
 					changeState();
