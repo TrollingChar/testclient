@@ -65,7 +65,7 @@ class World extends Sprite
 		enterState(GameState.REMOVE_0HP);
 		
 		var worm:Worm = new Worm();
-		worm.position = new Point2D(300, 0);
+		worm.position = new Point2D(500, 0);
 		add(worm);
 		wormFrozen = true;
 		activeWorm = worm;
@@ -77,9 +77,8 @@ class World extends Sprite
 	
 	private function stage_mouseMove(e:MouseEvent):Void 
 	{
-		activeWorm.position.x = Main.I.input.x = e.stageX;
-		activeWorm.position.y = Main.I.input.y = e.stageY;
-		Main.I.log(Std.string(Worm.testBelow(activeWorm.position, this)));
+		Main.I.input.x = e.stageX;
+		Main.I.input.y = e.stageY;
 	}
 	
 	private function enterFrame(e:Event):Void 

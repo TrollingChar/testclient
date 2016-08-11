@@ -24,12 +24,6 @@ class WormControllerWalk extends Controller
 	override function work() 
 	{
 		var worm:Worm = cast(object, Worm);
-		
-		// так не бывает
-		if (worm == null) {
-			Main.I.log("worm == null");
-			return;		
-		}
 	
 		var world:World = worm.world;
 		
@@ -37,7 +31,6 @@ class WormControllerWalk extends Controller
 		{
 			// под ногами нет земли
 			worm.controller = new WormControllerJump();
-			//Main.I.log("fall");
 			return;
 		}
 		
@@ -47,16 +40,14 @@ class WormControllerWalk extends Controller
 		if (world.input.flags & InputState.d != 0)		// вправо
 			offsetX += 1.0;
 		
-		// не твой ход
-		if (worm != world.activeWorm) {
-			//Main.I.log("not your turn");
-			offsetX = 0;
-		}
-		
-		// ты не можешь двигаться
-		if (world.wormFrozen) {
-			//Main.I.log("frozen in place");
-			offsetX = 0;
+		// не твой ход или ты не можешь двигаться
+		if (worm != world.activeWorm || world.wormFrozen) {
+			var offsetY:Float = Worm.testBelow(worm.position, world);		
+			if (offsetY > -5) {
+				// если в стенке не застрял
+				worm.position.y += offsetY;
+			}
+			return;
 		}
 		
 		// повернуться влево или вправо, если ты можешь двигаться
