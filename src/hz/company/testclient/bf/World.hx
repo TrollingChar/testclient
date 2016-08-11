@@ -83,6 +83,11 @@ class World extends Sprite
 		stage.addEventListener(MouseEvent.MOUSE_MOVE, stage_mouseMove);
 	}
 	
+	public function finalize() {
+		stage.removeEventListener(Event.ENTER_FRAME, enterFrame);
+		stage.removeEventListener(MouseEvent.MOUSE_MOVE, stage_mouseMove);
+	}
+	
 	private function stage_mouseMove(e:MouseEvent):Void 
 	{
 		Main.I.input.x = e.stageX;

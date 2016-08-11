@@ -161,7 +161,7 @@ class Connection
 				case ServerCommands.INPUT_DATA:
 					receiveInput(s);
 				case ServerCommands.PLAYER_LEFT:
-					receivePlayerLeft();
+					receivePlayerLeft(s);
 				case ServerCommands.END_BATTLE:
 					receiveEndBattle(s);
 				default:
@@ -172,6 +172,7 @@ class Connection
 	
 	function receiveEndBattle(s:String) 
 	{
+		Main.I.world.finalize();
 		Main.I.removeChild(Main.I.world);
 		Base64Codec.s = s;
 		var winner:Int = Base64Codec.DecodeFromString();
@@ -187,9 +188,13 @@ class Connection
 		Main.I.panResult.hidden = false;
 	}
 	
-	function receivePlayerLeft() 
+	function receivePlayerLeft(s:String) 
 	{
-		Main.I.log("player disconnected");
+		Base64Codec.s = s;
+		var player:Int = Base64Codec.DecodeFromString();
+		if (Main.I.world.activePlayer == player) {
+			Main.I.world.changeState();
+		}
 	}
 	
 	function receiveInput(s:String) 
