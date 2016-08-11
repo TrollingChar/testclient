@@ -132,13 +132,21 @@ class Object // extends Sprite (спрайты добавляются отдел
 			velocity *= v / V;
 	}
 	
-	function get_angle():Float 
+	@:deprecated
+	public function getVelocity():Float
 	{
-		return 0;
+		return velocity ^ new Point2D(0, 0);
 	}
-	
-	function set_angle(value:Float):Float 
+
+	function get_angle():Float
 	{
+		//return Math.atan2(vy, vx);
+		return Math.atan2(velocity.y, velocity.x);
+	}
+
+	function set_angle(value:Float):Float
+	{
+		velocity = getVelocity() * new Point2D(Math.cos(value), Math.sin(value));
 		return value;
 	}
 	

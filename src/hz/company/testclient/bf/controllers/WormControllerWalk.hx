@@ -91,7 +91,7 @@ class WormControllerWalk extends Controller
 		if (world.input.flags & InputState.w != 0)
 		{
 			worm.setVelocity(4);
-			worm.angle += worm.facingRight ? -.5 : .5;
+			worm.angle += worm.facingRight ? .5 : -.5;
 			worm.controller = new WormControllerJump();
 			//worm.controller = new WormControllerBeforeJump(worm);
 			return;
