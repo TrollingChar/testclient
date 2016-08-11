@@ -15,7 +15,7 @@ class World extends Sprite
 {	
 	public var paused:Bool;
 	public var syncronized:Bool;	// когда действия игроков нужно синхронизировать, событие таймера не обрабатывается
-	public var myTurn:Bool;			// но во время моего хода это по моему клиенту синхронизируются все остальные
+	public var activePlayer:Int;	// но во время моего хода это по моему клиенту синхронизируются все остальные
 	public var input:InputState;
 	
 	@:isVar var timer(get, set):Int;			// в миллисекундах
@@ -63,12 +63,20 @@ class World extends Sprite
 		
 		// инициализация игры
 		enterState(GameState.REMOVE_0HP);
-		
-		var worm:Worm = new Worm();
-		worm.position = new Point2D(500, 0);
-		add(worm);
+		for (team in teams) 
+		{			
+			var worm:Worm;
+			worm = new Worm();
+			worm.position = new Point2D(Main.I.random.genrand_int32() % 800, 0);
+			team.add(worm);
+			add(worm);
+			worm = new Worm();
+			worm.position = new Point2D(Main.I.random.genrand_int32() % 800, 0);
+			team.add(worm);
+			add(worm);
+		}
 		wormFrozen = true;
-		activeWorm = worm;
+		timerVisible = true;
 		
 		// пуск основного таймера!
 		stage.addEventListener(Event.ENTER_FRAME, enterFrame);
@@ -83,15 +91,17 @@ class World extends Sprite
 	
 	private function enterFrame(e:Event):Void 
 	{
-		if (paused) return;
-		
+		//if (paused) return;		
+		Main.I.connection.onSocketData(null);
 		
 		Main.I.debugTextField.glow = true;
 		if (syncronized) {
-			if (myTurn) {
-				update(Main.I.input);
-				Main.I.connection.sendInput(Main.I.input);
-			}
+			if (activePlayer == Main.I.id)
+				updateAndSend(Main.I.input);
+			//if (activePlayer == Main.I.id) {
+				//update(Main.I.input);
+				//Main.I.connection.sendInput(Main.I.input);
+			//}
 		} else {
 			update(Main.I.input);
 		}
@@ -128,7 +138,7 @@ class World extends Sprite
 			case GameState.BEFORE_TURN: {
 				Main.I.debugTextField.text = "BEFORE TURN";
 				nextState = GameState.SYNCHRONIZING;
-				if (.5 < 1) {
+				if (Main.I.random.genrand_int32() % 2 == 0) {
 					// drop crates
 					wait();
 				} else {
@@ -142,10 +152,13 @@ class World extends Sprite
 				Main.I.connection.sendSynchronize(true);
 			}
 			case GameState.TURN: {
-				Main.I.debugTextField.text = myTurn ? "MY TURN" : "TURN";
+				Main.I.debugTextField.text = activePlayer == Main.I.id ? "MY TURN" : "TURN";
 				nextState = GameState.ENDING_TURN;
 				wormFrozen = false;
-				wait(30000);
+				var team:Team = teams.get(activePlayer);
+				Main.I.log(Std.string(team));
+				activeWorm = team.next();
+				wait(15000);
 				timerVisible = true;
 			}
 			case GameState.ENDING_TURN: {
@@ -153,14 +166,15 @@ class World extends Sprite
 				nextState = GameState.AFTER_TURN;
 				wormFrozen = true;
 				//timerVisible = false;
-				syncronized =
-				myTurn = false;
+				syncronized = false;
+				activeWorm = null;
+				activePlayer = 0;
 				wait();
 			}
 			case GameState.AFTER_TURN: {
 				Main.I.debugTextField.text = "AFTER TURN";
 				nextState = GameState.REMOVE_0HP;
-				if (.5 < 1) {
+				if (Main.I.random.genrand_int32() % 2 == 0) {
 					// poison damage
 					wait();
 				} else {
@@ -169,9 +183,10 @@ class World extends Sprite
 			}
 			case GameState.REMOVE_0HP: {
 				Main.I.debugTextField.text = "REMOVE 0 HP";
-				if (.5 < 0) {
+				if (Main.I.random.genrand_int32() % 5 == 0) {
 					// hitpointless worms begin exploding
-					wait();
+					nextState = GameState.REMOVE_0HP;
+					wait();					
 				} else {
 					nextState = GameState.BEFORE_TURN;
 					changeState();
@@ -188,6 +203,15 @@ class World extends Sprite
 	
 	public function getObjects():List<Object> {
 		return objects.filter(function(o):Bool {return true;});
+	}
+	
+	function updateAndSend(input:InputState) {
+		if (currentState == GameState.TURN) {
+			Main.I.connection.sendInput(Main.I.input);
+			update(input);
+		} else {
+			Main.I.log("ALARM!");
+		}
 	}
 	
 	public function update(input:InputState)
@@ -222,7 +246,7 @@ class World extends Sprite
 			}
 		}
 		
-		if(!timerFrozen) timer -= 20;
+		if (!timerFrozen) timer -= 20;
 		if (timer <= 0) changeState();
 	}
 	

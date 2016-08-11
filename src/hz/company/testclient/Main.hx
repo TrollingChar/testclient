@@ -86,7 +86,7 @@ class Main extends Sprite
 	
 	private function keyUp(e:KeyboardEvent):Void 
 	{
-		debugTextField.text = "released " + Std.string(e.keyCode);
+		//debugTextField.text = "released " + Std.string(e.keyCode);
 		switch (e.keyCode) 
 		{
 			case Keyboard.W:		input.flags &= ~InputState.w;
@@ -100,7 +100,7 @@ class Main extends Sprite
 	
 	private function keyDown(e:KeyboardEvent):Void 
 	{
-		debugTextField.text = "pressed " + Std.string(e.keyCode);
+		//debugTextField.text = "pressed " + Std.string(e.keyCode);
 		switch (e.keyCode) 
 		{
 			case Keyboard.W:		input.flags |= InputState.w;

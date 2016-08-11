@@ -106,6 +106,7 @@ class Connection
 	function receiveAuthConfirm() {
 		Main.I.panConnection.hidden = true;
 		Main.I.panMain.hidden = false;
+		Main.I.id = id;
 	}
 	
 	function receiveCancel() {
@@ -127,14 +128,17 @@ class Connection
 		Base64Codec.s = s.substring(1);
 		for (j in 0...i) 
 		{
-			teams.set(Base64Codec.DecodeFromString(), new Team());
+			var teamId:Int = Base64Codec.DecodeFromString();
+			teams.set(teamId, new Team(teamId));
 		}
+		
+		Main.I.random = new Random(Base64Codec.DecodeFromString());
 		
 		Main.I.world = new World(teams);
 		Main.I.addChildAt(Main.I.world, 0);
 	}
 	
-	function onSocketData(e:ProgressEvent)
+	public function onSocketData(e:ProgressEvent)
 	{
 		while(socket.bytesAvailable > 0) {
 			var s:String = socket.readUTF();
@@ -168,14 +172,16 @@ class Connection
 	
 	function receiveEndBattle(s:String) 
 	{
+		Main.I.removeChild(Main.I.world);
 		Base64Codec.s = s;
-		if (s == Std.string(id)) {
+		var winner:Int = Base64Codec.DecodeFromString();
+		if (winner == id) {
 			Main.I.panResult.isWin(1);
 		}
-		if (s == "0") {
+		else if (winner == 0) {
 			Main.I.panResult.isWin(2);
 		}
-		if (s != Std.string(id)) {
+		else {
 			Main.I.panResult.isWin(3);
 		}
 		Main.I.panResult.hidden = false;
@@ -183,7 +189,7 @@ class Connection
 	
 	function receivePlayerLeft() 
 	{
-		
+		Main.I.log("player disconnected");
 	}
 	
 	function receiveInput(s:String) 
@@ -194,7 +200,7 @@ class Connection
 	function receiveHisTurn(s:String) 
 	{
 		Base64Codec.s = s;
-		Main.I.world.myTurn = Base64Codec.DecodeFromString() == id;
+		Main.I.world.activePlayer = Base64Codec.DecodeFromString();
 		Main.I.world.syncronized = true;
 		Main.I.world.changeState();
 	}

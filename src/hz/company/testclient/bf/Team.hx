@@ -12,8 +12,9 @@ class Team
 	var activeWorm:Worm;
 	var otherWorms:List<Worm>;
 	
-	public function new() 
+	public function new(color:Int) 
 	{
+		this.color = color;
 		otherWorms = new List();
 		worms = 0;
 	}
@@ -30,7 +31,8 @@ class Team
 		do 
 		{
 			activeWorm = otherWorms.pop();
-		} while (activeWorm != null && activeWorm.hp > 0);
+			if (activeWorm == null) return null;
+		} while (activeWorm.hp <= 0);
 		otherWorms.add(activeWorm);
 		return activeWorm;
 	}
