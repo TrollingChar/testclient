@@ -16,11 +16,13 @@ class World extends Sprite
 	public var paused:Bool;
 	public var syncronized:Bool;	// когда действия игроков нужно синхронизировать, событие таймера не обрабатывается
 	public var myTurn:Bool;			// но во время моего хода это по моему клиенту синхронизируются все остальные
-	public var synchronizer:Synchronizer;
+	public var input:InputState;
 	
 	@:isVar var timer(get, set):Int;			// в миллисекундах
 	@:isVar var timerVisible(get, set):Bool;	// видно таймер или нет
-	var timerFrozen:Bool;						// идет время на таймере или нет
+	public var timerFrozen:Bool;				// идет время на таймере или нет
+	public var activeWorm:Worm;					// червяк, получивший ход
+	public var wormFrozen:Bool;					// червяк не может двигаться
 	
 	var nextState:GameState;
 	var currentState:GameState;
@@ -62,6 +64,12 @@ class World extends Sprite
 		// инициализация игры
 		enterState(GameState.REMOVE_0HP);
 		
+		var worm:Worm = new Worm();
+		worm.position = new Point2D(300, 0);
+		add(worm);
+		wormFrozen = true;
+		activeWorm = worm;
+		
 		// пуск основного таймера!
 		stage.addEventListener(Event.ENTER_FRAME, enterFrame);
 		stage.addEventListener(MouseEvent.MOUSE_MOVE, stage_mouseMove);
@@ -69,8 +77,9 @@ class World extends Sprite
 	
 	private function stage_mouseMove(e:MouseEvent):Void 
 	{
-		Main.I.input.x = e.stageX;
-		Main.I.input.y = e.stageY;
+		activeWorm.position.x = Main.I.input.x = e.stageX;
+		activeWorm.position.y = Main.I.input.y = e.stageY;
+		Main.I.log(Std.string(Worm.testBelow(activeWorm.position, this)));
 	}
 	
 	private function enterFrame(e:Event):Void 
@@ -135,15 +144,15 @@ class World extends Sprite
 			}
 			case GameState.TURN: {
 				Main.I.debugTextField.text = myTurn ? "MY TURN" : "TURN";
-				synchronizer = new Synchronizer();
 				nextState = GameState.ENDING_TURN;
+				wormFrozen = false;
 				wait(30000);
 				timerVisible = true;
 			}
 			case GameState.ENDING_TURN: {
 				Main.I.debugTextField.text = "ENDING TURN";
 				nextState = GameState.AFTER_TURN;
-				synchronizer.shutdown();
+				wormFrozen = true;
 				//timerVisible = false;
 				syncronized =
 				myTurn = false;
@@ -178,8 +187,14 @@ class World extends Sprite
 		return land.getPixel32(x, y) >>> 24 != 0;
 	}
 	
+	public function getObjects():List<Object> {
+		return objects.filter(function(o):Bool {return true;});
+	}
+	
 	public function update(input:InputState)
 	{
+		this.input = input;
+		
 		for (object in objects) {
 			object.controller.update();
 		}

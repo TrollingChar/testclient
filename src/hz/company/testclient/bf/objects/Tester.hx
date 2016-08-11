@@ -1,6 +1,6 @@
 package hz.company.testclient.bf.objects;
-import hz.company.testclient.bf.colliders.ColliderPoint;
-import hz.company.testclient.geom.Point2D;
+import hz.company.testclient.bf.colliders.*;
+import hz.company.testclient.geom.*;
 
 /**
  * ...
@@ -19,7 +19,7 @@ class Tester extends Object
 	
 	override function initColliders() 
 	{
-		addCollider(new ColliderPoint(new Point2D(0, 0)));
+		addCollider(new ColliderCircle(new Point2D(0, 0), 5));
 	}
 	
 }

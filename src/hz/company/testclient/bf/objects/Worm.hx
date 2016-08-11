@@ -7,6 +7,7 @@ import hz.company.testclient.bf.colliders.ColliderLine;
 import hz.company.testclient.bf.colliders.ColliderPoint;
 import hz.company.testclient.bf.colliders.Collision;
 import hz.company.testclient.bf.colliders.RelationDetection;
+import hz.company.testclient.bf.controllers.WormControllerWalk;
 import hz.company.testclient.interf.Label;
 import openfl.Assets;
 import format.SVG;
@@ -22,10 +23,10 @@ import hz.company.testclient.bf.colliders.ColliderCircle;
  * @author 
  */
 class Worm extends Object
-{
-	
+{	
 	public var hp:Int = 60;
 	public var team:Team;
+	public var facingRight:Bool;
 	var sprite:Sprite;
 	var labelHp:Label;
 	
@@ -51,7 +52,7 @@ class Worm extends Object
 	
 	override function initController() 
 	{
-		controller = new Controller();
+		controller = new WormControllerWalk();
 	}
 	
 	override function renderSprites() 
@@ -74,11 +75,11 @@ class Worm extends Object
 	
 	override public function onCollision(collision:Collision) 
 	{
-		//world.paused = true;
-		var normal:Point2D = collision.normal;
-		var tangential:Point2D = new Point2D(-normal.y, normal.x);
-		var convertedVelocity:Point2D = Geometry.convertToBasis(velocity, tangential, normal);
-		velocity = tangential * convertedVelocity.x * .45 + normal * convertedVelocity.y * -.25;
+		controller = new WormControllerWalk();
+		//var normal:Point2D = collision.normal;
+		//var tangential:Point2D = new Point2D(-normal.y, normal.x);
+		//var convertedVelocity:Point2D = Geometry.convertToBasis(velocity, tangential, normal);
+		//velocity = tangential * convertedVelocity.x * .45 + normal * convertedVelocity.y * -.25;
 	}
 	
 	override function initColliders()
@@ -97,12 +98,12 @@ class Worm extends Object
 	}
 	
 	// проверяет землю под указанной точкой
-	public function testBelow(point:Point2D):Float {
+	public static function testBelow(point:Point2D, world:World):Float {	
 		var tester:Tester = new Tester(point);
 		world.add(tester);
 		world.move(tester);
 		world.remove(tester);
-		return tester.position.y - point.y - 5;
+		return tester.position.y - point.y - 5;	
 	}
 	
 	// проверяет землю над указанной точкой

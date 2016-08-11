@@ -18,6 +18,7 @@ class Object // extends Sprite (спрайты добавляются отдел
 	
 	@:isVar public var position(get, set):Point2D;
 	public var velocity:Point2D;
+	public var angle(get, set):Float;
 	
 	public function new() 
 	{
@@ -33,8 +34,10 @@ class Object // extends Sprite (спрайты добавляются отдел
 	function set_controller(value:Controller):Controller 
 	{
 		if (controller != null) controller.onRemove();
-		value.object = this;
-		value.onAdd();
+		if (value != null) {
+			value.object = this;
+			value.onAdd();
+		}
 		return controller = value;
 	}
 	
@@ -116,6 +119,26 @@ class Object // extends Sprite (спрайты добавляются отдел
 			collider.update();
 		}
 		moveSprites();
+		return value;
+	}
+	
+	@:deprecated
+	public function setVelocity(v:Float) 
+	{
+		var V:Float = velocity ^ new Point2D(0, 0);
+		if (V == 0)
+			velocity.y = -v;
+		else
+			velocity *= v / V;
+	}
+	
+	function get_angle():Float 
+	{
+		return 0;
+	}
+	
+	function set_angle(value:Float):Float 
+	{
 		return value;
 	}
 	
