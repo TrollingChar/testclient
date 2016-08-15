@@ -140,34 +140,42 @@ class Connection
 	
 	public function onSocketData(e:ProgressEvent)
 	{
-		while(socket.bytesAvailable > 0) {
-			var s:String = socket.readUTF();
-			
-			//Main.I.log(s);
-			
-			var cmd:Int = Base64Codec.Decode(s.charAt(0));
-			s = s.substring(1);
-			
-			switch (cmd) 
-			{
-				case ServerCommands.AUTH_CONFIRM:
-					receiveAuthConfirm();
-				case ServerCommands.START_BATTLE:
-					receiveStartBattle(s);
-				case ServerCommands.CANCEL:
-					receiveCancel();
-				case ServerCommands.HIS_TURN:
-					receiveHisTurn(s);
-				case ServerCommands.INPUT_DATA:
-					receiveInput(s);
-				case ServerCommands.PLAYER_LEFT:
-					receivePlayerLeft(s);
-				case ServerCommands.END_BATTLE:
-					receiveEndBattle(s);
-				default:
-					
+		try {
+			//Main.I.log(Std.string(socket.bytesAvailable) + " in socket, " + Std.string(e.bytesLoaded) + "/" + Std.string(e.bytesLoaded));
+			while(socket.bytesAvailable > 0) {
+				var s:String = socket.readUTF();
+				Main.I.log(s);
+				
+				var cmd:Int = Base64Codec.Decode(s.charAt(0));
+				s = s.substring(1);
+				
+				switch (cmd) 
+				{
+					case ServerCommands.AUTH_CONFIRM:
+						receiveAuthConfirm();
+					case ServerCommands.START_BATTLE:
+						receiveStartBattle(s);
+					case ServerCommands.CANCEL:
+						receiveCancel();
+					case ServerCommands.HIS_TURN:
+						receiveHisTurn(s);
+					case ServerCommands.INPUT_DATA:
+						receiveInput(s);
+					case ServerCommands.PLAYER_LEFT:
+						receivePlayerLeft(s);
+					case ServerCommands.END_BATTLE:
+						receiveEndBattle(s);
+					default:
+				}
 			}
+		} catch (e:Dynamic) {
+			//Main.I.world.paused = true;
+			Main.I.log("Error: " + Std.string(e));
 		}
+	}
+	
+	public function readData():Bool {
+		return false;
 	}
 	
 	function receiveEndBattle(s:String) 

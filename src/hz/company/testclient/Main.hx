@@ -5,6 +5,8 @@ import hz.company.testclient.interf.*;
 import openfl.display.*;
 import openfl.filters.*;
 import openfl.events.*;
+import openfl.desktop.Clipboard;
+import openfl.desktop.ClipboardFormats;
 import openfl.ui.Keyboard;
 
 /**
@@ -14,6 +16,8 @@ import openfl.ui.Keyboard;
 class Main extends Sprite 
 {
 	static public var I:Main;
+	
+	var logText:String = "game log:\n";
 	
 	public var connection:Connection;
 	public var input:InputState;			// данные мыши и клавиатуры этого компьютера
@@ -107,7 +111,8 @@ class Main extends Sprite
 			case Keyboard.A:		input.flags |= InputState.a;
 			case Keyboard.S:		input.flags |= InputState.s;
 			case Keyboard.D:		input.flags |= InputState.d;
-			case Keyboard.SPACE:	input.flags |= InputState.sp;
+			case Keyboard.SPACE:	input.flags |= InputState.sp;			
+			case Keyboard.C:		Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, logText);
 			default:
 		}
 	}
@@ -119,7 +124,7 @@ class Main extends Sprite
 	
 	private function rightMouseDown(e:MouseEvent):Void 
 	{
-		
+		if (world != null) world.paused = false;
 	}
 	
 	private function mouseUp(e:MouseEvent):Void 
@@ -132,8 +137,11 @@ class Main extends Sprite
 		input.flags |= InputState.mb;
 	}
 	
+	// мы всегда будем знать где вызывается эта функция
+	@:deprecated
 	public function log(msg:String) {
 		debugTextField.text = msg;
+		logText += msg + "\n";
 	}
 	
 }

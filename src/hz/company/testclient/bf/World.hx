@@ -86,6 +86,8 @@ class World extends Sprite
 	public function finalize() {
 		stage.removeEventListener(Event.ENTER_FRAME, enterFrame);
 		stage.removeEventListener(MouseEvent.MOUSE_MOVE, stage_mouseMove);
+		Main.I.panArs.hidden =
+		Main.I.panInGame.hidden = true;
 	}
 	
 	private function stage_mouseMove(e:MouseEvent):Void 
@@ -161,7 +163,7 @@ class World extends Sprite
 				nextState = GameState.ENDING_TURN;
 				wormFrozen = false;
 				var team:Team = teams.get(activePlayer);
-				Main.I.log(Std.string(team));
+				//Main.I.log(Std.string(team));
 				activeWorm = team.next();
 				timer = 15000;
 				timerVisible = true;
@@ -215,7 +217,7 @@ class World extends Sprite
 			Main.I.connection.sendInput(Main.I.input);
 			update(input);
 		} else {
-			Main.I.log("ALARM!");
+			Main.I.log("wrong time to send data");
 		}
 	}
 	
