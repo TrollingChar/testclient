@@ -13,6 +13,7 @@ class PanelResult extends Panel
 {
 	var txt:TextField;
 	var tf:TextFormat;
+	public var text(get, set):String;
 
 	public function new() 
 	{
@@ -47,18 +48,6 @@ class PanelResult extends Panel
 		hidden = true;
 	}
 	
-	public function isWin(i: Int){
-		switch (i){
-			case 1:
-				txt.text = "Вы выиграли";
-			case 2:
-				txt.text = "Ничья";
-			case 3:
-				txt.text = "Вы проиграли";
-			default:
-		}
-	}
-	
 	override function resize(event:Event)
 	{
 		var scX:Float = stage.stageWidth / 1000;
@@ -68,5 +57,15 @@ class PanelResult extends Panel
 		posShown.y = stage.stageHeight / 2 - 300 * scale;
 		posHidden.x = posShown.x;
 		posHidden.y = stage.stageHeight;
+	}
+	
+	function get_text():String 
+	{
+		return txt.text;
+	}
+	
+	function set_text(value:String):String 
+	{
+		return txt.text = value;
 	}
 }

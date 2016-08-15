@@ -1,5 +1,6 @@
 package hz.company.testclient;
 
+import haxe.ds.IntMap;
 import hz.company.testclient.bf.*;
 import hz.company.testclient.interf.*;
 import openfl.display.*;
@@ -142,6 +143,62 @@ class Main extends Sprite
 	public function log(msg:String) {
 		debugTextField.text = msg;
 		logText += msg + "\n";
+	}
+	
+	public function receiveAuthConfirm(id:Int) 
+	{
+		panConnection.hidden = true;
+		panMain.hidden = false;
+		this.id = id;
+	}
+	
+	public function receiveCancel() 
+	{
+		panCancel.hidden = true;
+		panMain.hidden = false;
+	}
+	
+	public function receiveStartBattle(teams:IntMap<Team>, randomSeed:Int) 
+	{
+		random = new Random(randomSeed);
+		
+		panCancel.hidden =
+		panMain.hidden = true;
+		panCancel.position =
+		panMain.position = 0;
+		//panArs.hidden =
+		panInGame.hidden = false;
+		
+		world = new World(teams);
+		addChildAt(world, 0);
+	}
+	
+	public function receiveEndBattle(winner:Int) 
+	{
+		world.finalize();
+		removeChild(world);
+		if(winner == id)
+			panResult.text = "Победа!";
+		else if (winner == 0)
+			panResult.text = "В этом бою нет победителя.";
+		else
+			panResult.text = "Побеждает игрок " + Std.string(id);
+		panResult.hidden = false;
+	}
+	
+	public function receivePlayerLeft(id:Int) 
+	{
+		world.kickPlayer(id);
+	}
+	
+	public function receiveInput(input:InputState) 
+	{
+		world.update(input);
+	}
+	
+	public function receiveHisTurn(id:Int) 
+	{
+		world.setActivePlayer(id);
 	}
 	
 }

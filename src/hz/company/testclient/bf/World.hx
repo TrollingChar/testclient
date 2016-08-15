@@ -364,6 +364,18 @@ class World extends Sprite
 		
 	}
 	
+	public function kickPlayer(id:Int) 
+	{
+		if (id == activePlayer) changeState();
+	}
+	
+	public function setActivePlayer(id:Int) 
+	{
+		syncronized = true;
+		activePlayer = id;
+		changeState();
+	}
+	
 	function get_timerVisible():Bool 
 	{
 		return timerVisible;

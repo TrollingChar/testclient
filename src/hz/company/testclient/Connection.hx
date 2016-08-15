@@ -73,71 +73,6 @@ class Connection
 		}
 	}
 	
-	function sendAuth() {		
-		send(Base64Codec.EncodeToChar(ClientCommands.AUTHORIZE) + Base64Codec.Encode(id));
-	}
-	
-	public function sendPing() {
-		send("");
-	}
-	
-	public function sendToBattle() {
-		send(Base64Codec.EncodeToChar(ClientCommands.TO_BATTLE));
-	}
-	
-	public function sendCancel() {
-		send(Base64Codec.EncodeToChar(ClientCommands.CANCEL));		
-	}
-	
-	public function sendInput(input:InputState) {
-		send(Base64Codec.EncodeToChar(ClientCommands.INPUT_DATA) + input.toString());
-	}
-	
-	public function sendSynchronize(alive:Bool) 
-	{
-		send(Base64Codec.EncodeToChar(ClientCommands.SYNCHRONIZE));// + (alive ? "" : "-"));
-	}
-	
-	public function sendRepeat(msgId:Int) 
-	{
-		send(Base64Codec.EncodeToChar(ClientCommands.REPEAT) + Base64Codec.Encode(msgId));
-	}
-	
-	function receiveAuthConfirm() {
-		Main.I.panConnection.hidden = true;
-		Main.I.panMain.hidden = false;
-		Main.I.id = id;
-	}
-	
-	function receiveCancel() {
-		Main.I.panCancel.hidden = true;
-		Main.I.panMain.hidden = false;
-	}
-	
-	function receiveStartBattle(s:String) {
-		Main.I.panCancel.hidden =
-		Main.I.panMain.hidden = true;
-		Main.I.panCancel.position =
-		Main.I.panMain.position = 0;
-		//Main.I.panArs.hidden =
-		Main.I.panInGame.hidden = false;
-		
-		var i:Int = Base64Codec.Decode(s.charAt(0));
-		
-		var teams:IntMap<Team> = new IntMap<Team>();
-		Base64Codec.s = s.substring(1);
-		for (j in 0...i) 
-		{
-			var teamId:Int = Base64Codec.DecodeFromString();
-			teams.set(teamId, new Team(teamId));
-		}
-		
-		Main.I.random = new Random(Base64Codec.DecodeFromString());
-		
-		Main.I.world = new World(teams);
-		Main.I.addChildAt(Main.I.world, 0);
-	}
-	
 	public function onSocketData(e:ProgressEvent)
 	{
 		try {
@@ -174,47 +109,81 @@ class Connection
 		}
 	}
 	
-	public function readData():Bool {
-		return false;
+	function sendAuth() {		
+		send(Base64Codec.EncodeToChar(ClientCommands.AUTHORIZE) + Base64Codec.Encode(id));
+	}
+	
+	public function sendPing() {
+		send("");
+	}
+	
+	public function sendToBattle() {
+		send(Base64Codec.EncodeToChar(ClientCommands.TO_BATTLE));
+	}
+	
+	public function sendCancel() {
+		send(Base64Codec.EncodeToChar(ClientCommands.CANCEL));		
+	}
+	
+	public function sendInput(input:InputState) {
+		send(Base64Codec.EncodeToChar(ClientCommands.INPUT_DATA) + input.toString());
+	}
+	
+	public function sendSynchronize(alive:Bool) 
+	{
+		send(Base64Codec.EncodeToChar(ClientCommands.SYNCHRONIZE));// + (alive ? "" : "-"));
+	}
+	
+	public function sendRepeat(msgId:Int) 
+	{
+		send(Base64Codec.EncodeToChar(ClientCommands.REPEAT) + Base64Codec.Encode(msgId));
+	}
+	
+	function receiveAuthConfirm() {
+		Main.I.receiveAuthConfirm(id);
+	}
+	
+	function receiveCancel() {
+		Main.I.receiveCancel();
+	}
+	
+	function receiveStartBattle(s:String) {
+		
+		var i:Int = Base64Codec.Decode(s.charAt(0));
+		
+		var teams:IntMap<Team> = new IntMap<Team>();
+		Base64Codec.s = s.substring(1);
+		for (j in 0...i) 
+		{
+			var teamId:Int = Base64Codec.DecodeFromString();
+			teams.set(teamId, new Team(teamId));
+		}
+		
+		// decode
+		Main.I.receiveStartBattle(teams, Base64Codec.DecodeFromString());		
 	}
 	
 	function receiveEndBattle(s:String) 
 	{
-		Main.I.world.finalize();
-		Main.I.removeChild(Main.I.world);
-		Base64Codec.s = s;
-		var winner:Int = Base64Codec.DecodeFromString();
-		if (winner == id) {
-			Main.I.panResult.isWin(1);
-		}
-		else if (winner == 0) {
-			Main.I.panResult.isWin(2);
-		}
-		else {
-			Main.I.panResult.isWin(3);
-		}
-		Main.I.panResult.hidden = false;
+		Base64Codec.s = s;		
+		Main.I.receiveEndBattle(Base64Codec.DecodeFromString());
 	}
 	
 	function receivePlayerLeft(s:String) 
 	{
 		Base64Codec.s = s;
-		var player:Int = Base64Codec.DecodeFromString();
-		if (Main.I.world.activePlayer == player) {
-			Main.I.world.changeState();
-		}
+		Main.I.receivePlayerLeft(Base64Codec.DecodeFromString());
 	}
 	
 	function receiveInput(s:String) 
 	{
-		Main.I.world.update(InputState.parse(s));
+		// decode
+		Main.I.receiveInput(InputState.parse(s));
 	}
 	
 	function receiveHisTurn(s:String) 
 	{
 		Base64Codec.s = s;
-		Main.I.world.activePlayer = Base64Codec.DecodeFromString();
-		Main.I.world.syncronized = true;
-		Main.I.world.changeState();
+		Main.I.receiveHisTurn(Base64Codec.DecodeFromString());
 	}
 }
