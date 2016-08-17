@@ -19,6 +19,7 @@ class Connection
 	var host:String;
 	var port:Int;
 	public var connected:Bool;
+	public var immediateResponse:Bool;
 	
 	var id:Int;
 
@@ -27,6 +28,7 @@ class Connection
 		this.host = host;
 		this.port = port;
 		connected = false;
+		immediateResponse = true;
 		socket = new Socket();
 		socket.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onError);
 		socket.addEventListener(IOErrorEvent.IO_ERROR, onError);
@@ -73,11 +75,15 @@ class Connection
 		}
 	}
 	
-	public function onSocketData(e:ProgressEvent)
+	public function onSocketData(e:ProgressEvent) {
+		var b:Bool = true;
+		while (immediateResponse && b) b = readData();
+	}
+	
+	public function readData():Bool
 	{
 		try {
-			//Main.I.log(Std.string(socket.bytesAvailable) + " in socket, " + Std.string(e.bytesLoaded) + "/" + Std.string(e.bytesLoaded));
-			while(socket.bytesAvailable > 0) {
+			if (socket.bytesAvailable > 0) {
 				var s:String = socket.readUTF();
 				Main.I.log(s);
 				
@@ -101,11 +107,15 @@ class Connection
 					case ServerCommands.END_BATTLE:
 						receiveEndBattle(s);
 					default:
+						Main.I.log("Invalid command");
 				}
+				return true;
 			}
+			return false;
 		} catch (e:Dynamic) {
 			//Main.I.world.paused = true;
 			Main.I.log("Error: " + Std.string(e));
+			return false;
 		}
 	}
 	
@@ -177,7 +187,6 @@ class Connection
 	
 	function receiveInput(s:String) 
 	{
-		// decode
 		Main.I.receiveInput(InputState.parse(s));
 	}
 	
@@ -185,5 +194,6 @@ class Connection
 	{
 		Base64Codec.s = s;
 		Main.I.receiveHisTurn(Base64Codec.DecodeFromString());
+		immediateResponse = false;
 	}
 }

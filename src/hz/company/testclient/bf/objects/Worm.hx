@@ -100,9 +100,9 @@ class Worm extends Object
 	// проверяет землю под указанной точкой
 	public static function testBelow(point:Point2D, world:World):Float {	
 		var tester:Tester = new Tester(point);
-		world.add(tester);
-		world.move(tester);
-		world.remove(tester);
+		world.addObject(tester);
+		world.moveObject(tester);
+		world.removeObject(tester);
 		return tester.position.y - point.y - 5;	
 	}
 	

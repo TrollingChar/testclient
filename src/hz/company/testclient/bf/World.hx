@@ -14,9 +14,10 @@ import openfl.events.*;
 class World extends Sprite
 {	
 	public var paused:Bool;
-	public var syncronized:Bool;	// когда действия игроков нужно синхронизировать, событие таймера не обрабатывается
-	public var activePlayer:Int;	// но во время моего хода это по моему клиенту синхронизируются все остальные
-	public var input:InputState;
+	public var syncronized:Bool;				// когда действия игроков нужно синхронизировать, событие таймера не обрабатывается
+	public var activePlayer:Int;				// но во время моего хода это по моему клиенту синхронизируются все остальные
+	public var input:InputState;				// состояние клавиатуры и мыши текущего игрока
+	public var inputQueue:List<InputState>;		// состояние активного игрока, прочитанное из сокета
 	
 	@:isVar var timer(get, set):Int;			// в миллисекундах
 	@:isVar var timerVisible(get, set):Bool;	// видно таймер или нет
@@ -69,11 +70,11 @@ class World extends Sprite
 			worm = new Worm();
 			worm.position = new Point2D(Main.I.random.genrand_int32() % 800, 0);
 			team.add(worm);
-			add(worm);
+			addObject(worm);
 			worm = new Worm();
 			worm.position = new Point2D(Main.I.random.genrand_int32() % 800, 0);
 			team.add(worm);
-			add(worm);
+			addObject(worm);
 		}
 		wormFrozen = true;
 		timerVisible = true;
@@ -99,16 +100,11 @@ class World extends Sprite
 	private function enterFrame(e:Event):Void 
 	{
 		//if (paused) return;		
-		Main.I.connection.onSocketData(null);
+		Main.I.connection.readData();
 		
-		Main.I.debugTextField.glow = true;
 		if (syncronized) {
 			if (activePlayer == Main.I.id)
 				updateAndSend(Main.I.input);
-			//if (activePlayer == Main.I.id) {
-				//update(Main.I.input);
-				//Main.I.connection.sendInput(Main.I.input);
-			//}
 		} else {
 			update(Main.I.input);
 		}
@@ -171,6 +167,7 @@ class World extends Sprite
 			case GameState.ENDING_TURN: {
 				Main.I.debugTextField.text = "ENDING TURN";
 				nextState = GameState.AFTER_TURN;
+				Main.I.connection.immediateResponse =
 				wormFrozen = true;
 				//timerVisible = false;
 				syncronized = false;
@@ -229,7 +226,7 @@ class World extends Sprite
 			object.controller.update();
 		}
 		for (object in objects) {
-			move(object);
+			moveObject(object);
 		}
 		/*
 		if (timer % 200 == 0 && input.flags & InputState.mb != 0 && currentState == GameState.TURN) {
@@ -249,7 +246,7 @@ class World extends Sprite
 				var ball:TestBall = new TestBall();
 				ball.position = new Point2D(input.x, input.y);
 				ball.velocity = new Point2D(Main.I.random.genrand_float() - .5, Main.I.random.genrand_float() - 1.5) * 10;
-				add(ball);				
+				addObject(ball);				
 			}
 		}
 		
@@ -257,14 +254,14 @@ class World extends Sprite
 		if (timer <= 0) changeState();
 	}
 	
-	public function add(object:Object)
+	public function addObject(object:Object)
 	{
 		object.world = this;
 		object.onAdd();
 		objects.add(object);
 	}
 	
-	public function move(object:Object) {
+	public function moveObject(object:Object) {
 		// фильтр коллайдеров по тайлам
 		
 		// фильтр перекрывающихся с коллайдером объектов
@@ -347,7 +344,7 @@ class World extends Sprite
 		}
 	}	
 	
-	public function remove(object:Object)
+	public function removeObject(object:Object)
 	{
 		objects.remove(object);
 		object.onRemove();
