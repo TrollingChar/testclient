@@ -373,6 +373,16 @@ class World extends Sprite
 		changeState();
 	}
 	
+	public function arsenalKeyDown() 
+	{
+		Main.I.panArs.hidden = !Main.I.panArs.hidden;
+	}
+	
+	public function arsenalKeyUp() 
+	{
+		
+	}
+	
 	function get_timerVisible():Bool 
 	{
 		return timerVisible;

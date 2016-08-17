@@ -99,6 +99,7 @@ class Main extends Sprite
 			case Keyboard.S:		input.flags &= ~InputState.s;
 			case Keyboard.D:		input.flags &= ~InputState.d;
 			case Keyboard.SPACE:	input.flags &= ~InputState.sp;
+			case Keyboard.Q:		if (world != null) world.arsenalKeyUp();
 			default:
 		}
 	}
@@ -112,7 +113,8 @@ class Main extends Sprite
 			case Keyboard.A:		input.flags |= InputState.a;
 			case Keyboard.S:		input.flags |= InputState.s;
 			case Keyboard.D:		input.flags |= InputState.d;
-			case Keyboard.SPACE:	input.flags |= InputState.sp;			
+			case Keyboard.SPACE:	input.flags |= InputState.sp;
+			case Keyboard.Q:		if (world != null) world.arsenalKeyDown();
 			case Keyboard.C:		Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, logText);
 			default:
 		}
