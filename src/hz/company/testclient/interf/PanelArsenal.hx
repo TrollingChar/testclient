@@ -1,5 +1,6 @@
 package hz.company.testclient.interf;
 import hz.company.testclient.interf.*;
+import openfl.Assets;
 import openfl.display.*;
 import openfl.events.*;
 
@@ -18,6 +19,10 @@ class PanelArsenal extends Panel
 		btns = new Array<ButtonIcon>();
 		
 		super();
+		
+		var bmd:BitmapData = Assets.getBitmapData("img/icon_grenade.png");
+		//var bmp:Bitmap = new Bitmap(bmd, PixelSnapping.AUTO, true);
+		
 		for (x in 0...cols)
 		{
 			for (y in 0...rows)
@@ -27,7 +32,7 @@ class PanelArsenal extends Panel
 					//this.hidden =
 					//Main.I.panInGame.hidden = true;
 					//Main.I.panMain.hidden = false;
-				}, "");
+				}, "", new Bitmap(bmd, PixelSnapping.AUTO, true));
 				btn.x = x * 120;
 				btn.y = 10 + y * 120;
 				btns[x + y * 10] = btn;
