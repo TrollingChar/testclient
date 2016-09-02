@@ -17,25 +17,20 @@ class ButtonIcon extends Label
 	var icon:Sprite;
 	var iconVisible(get, set):Bool;
 	
-	public function new(callback:MouseEvent->Void, text:String, icon:Bitmap = null) 
+	public function new(callback:MouseEvent->Void, text:String, icon:Sprite = null) 
 	{
 		var svg:SVG;
 		svg = new SVG(Assets.getText("img/button-icon.svg"));
 		shape = new Shape();
-		svg.render(shape.graphics);
-		
+		svg.render(shape.graphics);		
 		addChild(shape);
 		
 		this.icon = new Sprite();
-		if(icon != null) {
-			icon.x = -icon.width / 2;
-			icon.y = -icon.height / 2;
-			this.icon.addChild(icon);
-		}
 		this.icon.x = shape.width / 2;
 		this.icon.y = shape.height / 2;
-		this.icon.scaleX =
-		this.icon.scaleY = .3;
+		if (icon != null) {
+			this.icon.addChild(icon);
+		}
 		addChild(this.icon);
 		
 		super(text, 0x889999, new GlowFilter(0xFFFF00), false);
@@ -49,12 +44,18 @@ class ButtonIcon extends Label
 	
 	function mouseOut(event:MouseEvent)
 	{
+		if (icon != null)
+			icon.scaleX =
+			icon.scaleY = 1;
 		color = 0x889999;
 		glow = false;
 	}
 	
 	function mouseOver(event:MouseEvent)
-	{		
+	{
+		if (icon != null)
+			icon.scaleX =
+			icon.scaleY = 1.2;
 		color = 0xFFFFFF;
 		glow = true;
 	}

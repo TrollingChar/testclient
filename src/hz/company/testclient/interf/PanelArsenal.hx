@@ -1,5 +1,6 @@
 package hz.company.testclient.interf;
 import hz.company.testclient.interf.*;
+import hz.company.testclient.bf.weapons.Weapons;
 import openfl.Assets;
 import openfl.display.*;
 import openfl.events.*;
@@ -20,19 +21,17 @@ class PanelArsenal extends Panel
 		
 		super();
 		
-		var bmd:BitmapData = Assets.getBitmapData("img/icon_grenade.png");
+		//var bmd:BitmapData = Assets.getBitmapData("img/icon_grenade.png");
 		//var bmp:Bitmap = new Bitmap(bmd, PixelSnapping.AUTO, true);
 		
-		for (x in 0...cols)
+		for (x in 0...Weapons.COLS)
 		{
-			for (y in 0...rows)
+			for (y in 0...Weapons.ROWS)
 			{
 				var btn:ButtonIcon = new ButtonIcon(function(e:MouseEvent) 
 				{
-					//this.hidden =
-					//Main.I.panInGame.hidden = true;
-					//Main.I.panMain.hidden = false;
-				}, "", new Bitmap(bmd, PixelSnapping.AUTO, true));
+					Weapons.createWeaponById(x + y * 10);
+				}, "", Weapons.getIconById(x + y * 10));
 				btn.x = x * 120;
 				btn.y = 10 + y * 120;
 				btns[x + y * 10] = btn;
@@ -44,11 +43,11 @@ class PanelArsenal extends Panel
 	
 	override function resize(event:Event)
 	{
-		var scX:Float = stage.stageWidth / 120 / cols;				// ширина зависит от содержимого
-		var scY:Float = stage.stageHeight / 120 / rows * 0.8;
+		var scX:Float = stage.stageWidth / 120 / Weapons.COLS;				// ширина зависит от содержимого
+		var scY:Float = stage.stageHeight / 120 / Weapons.ROWS * 0.8;
 		var scale:Float = scaleX = scaleY = Math.min(scX, scY);
-		posShown.x = stage.stageWidth / 2 - 60 * cols * scale;
-		posShown.y = stage.stageHeight * .45 - 60 * rows * scale;
+		posShown.x = stage.stageWidth / 2 - 60 * Weapons.COLS * scale;
+		posShown.y = stage.stageHeight * .45 - 60 * Weapons.ROWS * scale;
 		posHidden.x = posShown.x;
 		posHidden.y = stage.stageHeight;
 		position = position;

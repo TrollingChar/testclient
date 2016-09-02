@@ -59,7 +59,7 @@ class World extends Sprite
 		this.objects = new List<Object>();
 		
 		// создать карту
-		land = Assets.getBitmapData("img/coffee_map.png");
+		land = Assets.getBitmapData("img/coffee-map.png");
 		layers[Layers.SURFACE].addChild(new Bitmap(land));
 		
 		// инициализация игры
