@@ -13,13 +13,13 @@ class Tester extends Object
 	{
 		super();
 		this.position = position;
-		this.velocity = new Point2D(0, 10);
+		this.velocity = new Point2D(0, 2*Worm.size);
 		// нет спрайта
 	}
 	
 	override function initColliders() 
 	{
-		addCollider(new ColliderCircle(new Point2D(0, 0), 5));
+		addCollider(new ColliderCircle(new Point2D(0, 0), Worm.size));
 	}
 	
 }

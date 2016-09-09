@@ -43,6 +43,7 @@ class Object // extends Sprite (спрайты добавляются отдел
 	
 	public function update() {
 		controller.update();
+		updateSprites();
 	}
 	
 	public function onAdd()
@@ -77,13 +78,15 @@ class Object // extends Sprite (спрайты добавляются отдел
 		colliders.remove(collider);
 	}
 	
-	function renderSprites() 
-	{
+	function renderSprites() {
 		
 	}
 	
-	function moveSprites() 
-	{
+	function updateSprites() {
+		
+	}
+	
+	function moveSprites() {
 		
 	}
 	

@@ -223,7 +223,7 @@ class World extends Sprite
 		this.input = input;
 		
 		for (object in objects) {
-			object.controller.update();
+			object.update();
 		}
 		for (object in objects) {
 			moveObject(object);

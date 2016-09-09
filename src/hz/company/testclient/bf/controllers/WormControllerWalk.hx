@@ -27,7 +27,7 @@ class WormControllerWalk extends Controller
 	
 		var world:World = worm.world;
 		
-		if (Worm.testBelow(worm.position, world) >= 5)
+		if (Worm.testBelow(worm.position, world) >= Worm.size)
 		{
 			// под ногами нет земли
 			worm.controller = new WormControllerJump();
@@ -43,7 +43,7 @@ class WormControllerWalk extends Controller
 		// не твой ход или ты не можешь двигаться
 		if (worm != world.activeWorm || world.wormFrozen) {
 			var offsetY:Float = Worm.testBelow(worm.position, world);		
-			if (offsetY > -5) {
+			if (offsetY > -Worm.size) {
 				// если в стенке не застрял
 				worm.position.y += offsetY;
 			}
@@ -61,7 +61,7 @@ class WormControllerWalk extends Controller
 			
 		// обработать ползание или стояние на месте
 		var offsetY:Float = Worm.testBelow(worm.position + new Point2D(offsetX, 0), world);		
-		if (offsetY > -5) {
+		if (offsetY > -Worm.size) {
 			// если в стенку не ползешь
 			worm.position += new Point2D(offsetX, offsetY);
 		}
