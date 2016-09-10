@@ -69,7 +69,7 @@ class WormControllerWalk extends Controller
 		// обработать прыжок
 		if (world.input.flags & InputState.s != 0)
 		{
-			worm.setVelocity(6);
+			worm.velocity %= 6;
 			// мы перезаписали offsetX, но мы еще помним флаги и направление червя
 			if (world.input.flags & (InputState.a | InputState.d) != 0)
 			{
@@ -81,7 +81,7 @@ class WormControllerWalk extends Controller
 		}
 		if (world.input.flags & InputState.w != 0)
 		{
-			worm.setVelocity(4);
+			worm.velocity %= 4;
 			worm.angle += worm.facingRight ? .5 : -.5;
 			worm.controller = new WormControllerJump();
 			//worm.controller = new WormControllerBeforeJump(worm);

@@ -1,4 +1,5 @@
 package hz.company.testclient.bf.objects;
+import flash.text.TextField;
 import hz.company.testclient.bf.World;
 import hz.company.testclient.bf.colliders.Collider;
 import hz.company.testclient.bf.colliders.Collision;
@@ -19,6 +20,19 @@ class Object // extends Sprite (спрайты добавляются отдел
 	@:isVar public var position(get, set):Point2D;
 	public var velocity:Point2D;
 	public var angle(get, set):Float;
+	
+	// итак, что мы вообще имеем со спрайтами
+	//
+	// вот есть объект и у объекта всегда есть таймер
+	// но у червяка есть еще и хп и имя
+	// все это можно объединить в hud
+	// и hud отображается на своем отдельном слое
+	// сам спрайт объекта отдельно расположен и подвержен вращению и отражению и т.д.
+	// поэтому
+	public var all:Sprite;			// вообще все
+	public var hud:Sprite;
+	public var obj:Sprite;			// сам объект без текста
+	public var fuseTF:TextField;	// показывает таймер
 	
 	public function new() 
 	{
@@ -125,32 +139,14 @@ class Object // extends Sprite (спрайты добавляются отдел
 		return value;
 	}
 	
-	@:deprecated
-	public function setVelocity(v:Float) 
+	function get_angle():Float 
 	{
-		var V:Float = velocity ^ new Point2D(0, 0);
-		if (V == 0)
-			velocity.y = -v;
-		else
-			velocity *= v / V;
+		return velocity.angle;
 	}
 	
-	@:deprecated
-	public function getVelocity():Float
+	function set_angle(value:Float):Float 
 	{
-		return velocity ^ new Point2D(0, 0);
-	}
-
-	function get_angle():Float
-	{
-		//return Math.atan2(vy, vx);
-		return Math.atan2(velocity.y, velocity.x);
-	}
-
-	function set_angle(value:Float):Float
-	{
-		velocity = getVelocity() * new Point2D(Math.cos(value), Math.sin(value));
-		return value;
+		return velocity.angle = value;
 	}
 	
 }

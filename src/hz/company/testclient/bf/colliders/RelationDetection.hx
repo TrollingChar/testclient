@@ -13,7 +13,7 @@ class RelationDetection
 		var b:Point2D = line.cachePoint1;
 		var c:Point2D = point.cachePoint;
 		
-		var ab:Float = a ^ b;
+		var ab:Float = a...b;
 		if (ab == 0) return 0;
 		
 		var i:Point2D = (b - a) / ab;
@@ -26,7 +26,7 @@ class RelationDetection
 	}
 	
 	public static function pointToCircle(point:ColliderPoint, circle:ColliderCircle):Float {
-		var dist:Float = point.cachePoint ^ circle.cachePoint;
+		var dist:Float = point.cachePoint...circle.cachePoint;
 		return dist - circle.radius;
 	}
 
@@ -35,7 +35,7 @@ class RelationDetection
 		var b:Point2D = line.cachePoint1;
 		var c:Point2D = circle.cachePoint;
 		
-		var ab:Float = a ^ b;
+		var ab:Float = a...b;
 		if (ab == 0) return 0;
 		
 		var i:Point2D = (b - a) / ab;
@@ -48,7 +48,7 @@ class RelationDetection
 	}
 	
 	public static function circleToCircle(circle0:ColliderCircle, circle1:ColliderCircle):Float {
-		var dist:Float = circle0.cachePoint ^ circle1.cachePoint;
+		var dist:Float = circle0.cachePoint...circle1.cachePoint;
 		var radii:Float = circle0.radius + circle1.radius;
 		return dist - radii;
 	}

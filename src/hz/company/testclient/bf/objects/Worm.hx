@@ -33,6 +33,7 @@ class Worm extends Object
 	public var hp:Int = 60;
 	public var team:Team;
 	@:isVar public var facingRight(get, set):Bool;
+	
 	var sprite:Sprite;
 	var wormAndWeapon:Sprite;
 	var animsprite:AnimatedSprite;

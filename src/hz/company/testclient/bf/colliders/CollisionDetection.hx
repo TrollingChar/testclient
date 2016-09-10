@@ -13,7 +13,7 @@ class CollisionDetection
 		var b:Point2D = line.cachePoint1;
 		var c:Point2D = point.cachePoint;
 		
-		var ab:Float = a ^ b;
+		var ab:Float = a...b;
 		if (ab == 0)
 			return null;
 		
@@ -52,7 +52,7 @@ class CollisionDetection
 		var b:Point2D = line.cachePoint1;
 		var c:Point2D = circle.cachePoint;		// центр окружности
 		
-		var ab:Float = a ^ b;
+		var ab:Float = a...b;
 		if (ab == 0)
 			return null;
 		
@@ -102,12 +102,12 @@ class CollisionDetection
 			return null;		
 		
 		// скорость объекта (пройденный путь на данном шаге симуляции)
-		var ac:Float = a ^ c;
+		var ac:Float = a...c;
 		if (ac == 0)
 			return null;
 		
 		// расстояние между центрами объектов
-		var ab:Float = a ^ b;
+		var ab:Float = a...b;
 		
 		// длина этого отрезка равна сумме радиусов объектов
 		var bd:Float = circle.radius;
@@ -117,7 +117,7 @@ class CollisionDetection
 			return null;
 		
 		// расстояние между концом пути первого объекта и вторым
-		var bc:Float = b ^ c;
+		var bc:Float = b...c;
 		
 		// по формуле Герона находим площадь, затем находим высоту
 		// (расстояние от центра второго объекта до прямой)
@@ -169,15 +169,15 @@ class CollisionDetection
 			return null;		
 		
 		// скорость объекта (пройденный путь на данном шаге симуляции)
-		var ac:Float = a ^ c;
+		var ac:Float = a...c;
 		if (ac == 0)
 			return null;
 		
 		// расстояние между центрами объектов
-		var ab:Float = a ^ b;
+		var ab:Float = a...b;
 		
 		// расстояние между концом пути первого объекта и вторым
-		var bc:Float = b ^ c;
+		var bc:Float = b...c;
 		
 		// длина этого отрезка равна сумме радиусов объектов
 		var bd:Float = circle0.radius + circle1.radius;
