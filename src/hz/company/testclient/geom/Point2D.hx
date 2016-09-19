@@ -47,7 +47,7 @@ abstract Point2D(Point) from Point to Point
 	
 	@:op(A % B) static public function normalize(a:Point2D, b:Float):Point2D {
 		var dist:Float = ~a;
-		return dist == 0 ? new Point2D(0, b) : a * b / dist;
+		return dist == 0 ? new Point2D(0, -b) : a * b / dist;
 	}
 	
 	@:op(A >> B) static public function rightShift(a:Point2D, b:Float):Point2D {
@@ -75,8 +75,9 @@ abstract Point2D(Point) from Point to Point
 	
 	function set_angle(value:Float):Float 
 	{
-		x = Math.cos(value);
-		y = Math.sin(value);
+		var dist:Float = Math.sqrt(x*x + y*y);
+		x = dist*Math.cos(value);
+		y = dist*Math.sin(value);
 		return value;
 	}
 	
