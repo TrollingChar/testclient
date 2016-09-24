@@ -34,8 +34,6 @@ class Worm extends Object
 	public var team:Team;
 	@:isVar public var facingRight(get, set):Bool;
 	
-	var sprite:Sprite;
-	var wormAndWeapon:Sprite;
 	var animsprite:AnimatedSprite;
 	var labelHp:Label;
 	
@@ -45,37 +43,35 @@ class Worm extends Object
 		
 		sprite = new Sprite();
 		
-		wormAndWeapon = new Sprite();
-		sprite.addChild(wormAndWeapon);
+		var worm:Sprite = new Sprite();
+		sprite.addChild(worm);
 		
-		// temporary shape
-		//var shape:Shape = new Shape();
-		//var svg:SVG = new SVG(Assets.getText("img/worm.svg"));
-		//svg.render(shape.graphics);
-		//shape.scaleX =
-		//shape.scaleY = 0.4;
-		//shape.x =
-		//shape.y = -size;
-		//sprite.addChild(shape);
-		
-		// new sprite
-		var sheet:Spritesheet = BitmapImporter.create(Assets.getBitmapData("img/worm.png"), 6, 1, 128, 128);
-		sheet.addBehavior(new BehaviorData("stand", [0, 1, 2, 3, 4, 5, 5, 4, 3, 2, 1, 0], true, 100));
+		// new sprite, 184 frames
+		var sheet:Spritesheet = BitmapImporter.create(Assets.getBitmapData("img/worm-all.png"), 184, 1, 128, 128);
+		sheet.addBehavior(new BehaviorData("stand", [0, 1, 2, 3, 4, 5, 6, 6, 5, 4, 3, 2, 1, 0], true, 100));
+		sheet.addBehavior(new BehaviorData("walk", Util.makeArray(7, 25), true, 100));
+		sheet.addBehavior(new BehaviorData("before jump", Util.makeArray(25, 42), false, 100));
+		sheet.addBehavior(new BehaviorData("jump", Util.makeArray(42, 50), true, 100));
+		sheet.addBehavior(new BehaviorData("land", Util.makeArray(50, 69), false, 100));
+		sheet.addBehavior(new BehaviorData("fall", [69], false, 100));
+		sheet.addBehavior(new BehaviorData("slide", Util.makeArray(70, 72), true, 100));
+		sheet.addBehavior(new BehaviorData("recover", Util.makeArray(72, 117), false, 100));
+		sheet.addBehavior(new BehaviorData("explode", Util.makeArray(117, 184), false, 100));
 		//sheet.addBehavior(new BehaviorData("walk", [0]));
 		animsprite = new AnimatedSprite(sheet, true);
 		animsprite.showBehavior("stand");
-		wormAndWeapon.addChild(animsprite);
+		worm.addChild(animsprite);
 		
-		wormAndWeapon.scaleX =
-		wormAndWeapon.scaleY = 0.4;
-		wormAndWeapon.x = wormAndWeapon.width * -.5;
-		wormAndWeapon.y = wormAndWeapon.height * -.5;
+		worm.scaleX =
+		worm.scaleY = 0.4;
+		worm.x = worm.width * -.5;
+		worm.y = worm.height * -.5;
 		
 		labelHp = new Label(Std.string(hp), 0x889999, null, false);
-		labelHp.scaleX = labelHp.scaleY =  	0.5;
+		labelHp.scaleX = labelHp.scaleY = 0.5;
 		labelHp.x = sprite.x - 150 * 0.5;
 		labelHp.y = sprite.y - size * 10;
-		sprite.addChild(labelHp);
+		hud.addChild(labelHp);
 	}
 	
 	override function initController() 
@@ -85,9 +81,10 @@ class Worm extends Object
 	
 	override function renderSprites() 
 	{
-		sprite.x = position.x;
-		sprite.y = position.y;
+		sprite.x = hud.x = position.x;
+		sprite.y = hud.y = position.y;
 		world.layers[Layers.PROJECTILE].addChild(sprite);
+		world.layers[Layers.TEXT].addChild(hud);
 	}
 	
 	override function updateSprites() 
@@ -98,12 +95,13 @@ class Worm extends Object
 	override function removeSprites() 
 	{
 		world.layers[Layers.PROJECTILE].removeChild(sprite);
+		world.layers[Layers.TEXT].removeChild(hud);
 	}
 	
 	override function moveSprites() 
 	{
-		sprite.x = position.x;
-		sprite.y = position.y;
+		sprite.x = hud.x = position.x;
+		sprite.y = hud.y = position.y;
 	}
 	
 	override public function onCollision(collision:Collision) 

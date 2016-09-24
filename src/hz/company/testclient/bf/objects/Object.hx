@@ -5,6 +5,7 @@ import hz.company.testclient.bf.colliders.Collider;
 import hz.company.testclient.bf.colliders.Collision;
 import hz.company.testclient.bf.controllers.Controller;
 import hz.company.testclient.geom.Point2D;
+import hz.company.testclient.interf.Label;
 import openfl.display.Sprite;
 
 /**
@@ -29,15 +30,17 @@ class Object // extends Sprite (спрайты добавляются отдел
 	// и hud отображается на своем отдельном слое
 	// сам спрайт объекта отдельно расположен и подвержен вращению и отражению и т.д.
 	// поэтому
-	public var all:Sprite;			// вообще все
+	
+	public var sprite:Sprite;		// сам объект без текста
 	public var hud:Sprite;
-	public var obj:Sprite;			// сам объект без текста
-	public var fuseTF:TextField;	// показывает таймер
+	public var fuseTF:Label;		// показывает таймер
 	
 	public function new() 
 	{
 		velocity = new Point2D(0, 0);
 		colliders = new List<Collider>();
+		sprite = new Sprite();
+		hud = new Sprite();
 	}
 	
 	function get_controller():Controller 

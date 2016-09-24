@@ -15,8 +15,6 @@ import openfl.Assets;
  */
 class TestBall extends Object
 {
-	var sprite:Sprite;
-
 	public function new() 
 	{
 		super();
