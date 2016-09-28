@@ -1,11 +1,14 @@
 package hz.company.testclient.bf;
 import haxe.ds.*;
+import hz.company.testclient.bf.Tile;
 import hz.company.testclient.bf.colliders.*;
 import hz.company.testclient.bf.objects.*;
 import hz.company.testclient.geom.*;
 import openfl.*;
-import openfl.display.*;
 import openfl.events.*;
+import openfl.display.Bitmap;
+import openfl.display.BitmapData;
+import openfl.display.Sprite;
 
 /**
  * ...
@@ -31,8 +34,8 @@ class World extends Sprite
 	var teams:IntMap<Team>;
 	var land:BitmapData;
 	var objects : List<Object>;
-	var colliders : List<Collider>;
-	var tiles:IntMap < IntMap<Tile> > ;
+	//var colliders : List<Collider>;
+	var tiles:IntMap < IntMap<Tile> > ;			// сначала x, потом y
 	
 	public var gravity:Float = 0.5;
 	
@@ -59,23 +62,32 @@ class World extends Sprite
 		this.objects = new List<Object>();
 		
 		// создать карту
-		land = Assets.getBitmapData("img/coffee-map.png");
+		land = Assets.getBitmapData("img/tiled-map.png");
 		layers[Layers.SURFACE].addChild(new Bitmap(land));
+		tiles = new IntMap<IntMap<Tile>>();
+		for (x in 0...100) 
+		{
+			for (y in 0...50) 
+			{
+				getTileAt(x, y).recomputeLand();
+			}
+		}
 		
 		// инициализация игры
 		enterState(GameState.REMOVE_0HP);
 		for (team in teams) 
-		{			
-			var worm:Worm;
+		{
+			var worm:Worm;			
 			worm = new Worm();
-			worm.position = new Point2D(Main.I.random.genrand_int32() % 800, 0);
-			team.add(worm);
+			worm.position = new Point2D(Main.I.random.genrand_int32() % 800, 100);
+			team.add(worm);			
 			addObject(worm);
 			worm = new Worm();
-			worm.position = new Point2D(Main.I.random.genrand_int32() % 800, 0);
-			team.add(worm);
+			worm.position = new Point2D(Main.I.random.genrand_int32() % 800, 100);
+			team.add(worm);			
 			addObject(worm);
 		}
+		
 		wormFrozen = true;
 		timerVisible = true;
 		
@@ -93,8 +105,13 @@ class World extends Sprite
 	
 	private function stage_mouseMove(e:MouseEvent):Void 
 	{
-		Main.I.input.x = e.stageX;
-		Main.I.input.y = e.stageY;
+		var x:Float = Main.I.input.x = e.stageX;
+		var y:Float = Main.I.input.y = e.stageY;
+		
+		//var _x:Int = Math.floor(x / Tile.size);
+		//var _y:Int = Math.floor(y / Tile.size);
+		//
+		//Main.I.log(Std.string(getTileAt(_x, _y).land));
 	}
 	
 	private function enterFrame(e:Event):Void 
@@ -139,7 +156,7 @@ class World extends Sprite
 		switch (state) 
 		{
 			case GameState.BEFORE_TURN: {
-				Main.I.debugTextField.text = "BEFORE TURN";
+				//Main.I.debugTextField.text = "BEFORE TURN";
 				nextState = GameState.SYNCHRONIZING;
 				if (Main.I.random.genrand_int32() % 2 == 0) {
 					// drop crates
@@ -149,13 +166,13 @@ class World extends Sprite
 				}
 			}
 			case GameState.SYNCHRONIZING: {
-				Main.I.debugTextField.text = "SYNCHRONIZING";
+				//Main.I.debugTextField.text = "SYNCHRONIZING";
 				nextState = GameState.TURN;
 				syncronized = true;
 				Main.I.connection.sendSynchronize(true);
 			}
 			case GameState.TURN: {
-				Main.I.debugTextField.text = activePlayer == Main.I.id ? "MY TURN" : "TURN";
+				//Main.I.debugTextField.text = activePlayer == Main.I.id ? "MY TURN" : "TURN";
 				nextState = GameState.ENDING_TURN;
 				wormFrozen = false;
 				var team:Team = teams.get(activePlayer);
@@ -165,7 +182,7 @@ class World extends Sprite
 				timerVisible = true;
 			}
 			case GameState.ENDING_TURN: {
-				Main.I.debugTextField.text = "ENDING TURN";
+				//Main.I.debugTextField.text = "ENDING TURN";
 				nextState = GameState.AFTER_TURN;
 				Main.I.connection.immediateResponse =
 				wormFrozen = true;
@@ -176,7 +193,7 @@ class World extends Sprite
 				timer = 500;
 			}
 			case GameState.AFTER_TURN: {
-				Main.I.debugTextField.text = "AFTER TURN";
+				//Main.I.debugTextField.text = "AFTER TURN";
 				nextState = GameState.REMOVE_0HP;
 				if (Main.I.random.genrand_int32() % 2 == 0) {
 					// poison damage
@@ -186,7 +203,7 @@ class World extends Sprite
 				}
 			}
 			case GameState.REMOVE_0HP: {
-				Main.I.debugTextField.text = "REMOVE 0 HP";
+				//Main.I.debugTextField.text = "REMOVE 0 HP";
 				if (Main.I.random.genrand_int32() % 5 == 5) {	// never happens
 					// hitpointless worms begin exploding
 					nextState = GameState.REMOVE_0HP;
@@ -225,21 +242,11 @@ class World extends Sprite
 		for (object in objects) {
 			object.update();
 		}
+		
 		for (object in objects) {
 			moveObject(object);
 		}
-		/*
-		if (timer % 200 == 0 && input.flags & InputState.mb != 0 && currentState == GameState.TURN) {
-			//for (i in 0...5) 
-			{
-				var worm:Worm = new Worm();
-				worm.position = new Point2D(input.x, input.y);
-				worm.velocity = new Point2D(10, 30);
-				//worm.velocity = new Point2D(Main.I.random.genrand_float() - .5, Main.I.random.genrand_float() - .5) * 10;
-				add(worm);			
-			}
-		}
-		*/
+		
 		if (timer % 200 == 0 && input.flags & InputState.mb != 0 && currentState == GameState.TURN) {
 			for (i in 0...5) 
 			{
@@ -262,6 +269,85 @@ class World extends Sprite
 	}
 	
 	public function moveObject(object:Object) {
+		var collision:Collision = null;
+		
+		for (collider in object.colliders) 
+		{
+			var top:Float = collider.getTop() + Math.min(0, object.velocity.y);
+			var bottom:Float = collider.getBottom() + Math.max(0, object.velocity.y);
+			var left:Float = collider.getLeft() + Math.min(0, object.velocity.x);
+			var right:Float = collider.getRight() + Math.max(0, object.velocity.x);
+			
+			for (list in getCollidersIn(left, top, right, bottom)) 
+			{
+				for (obstacle in list) 
+				{
+					var temp:Collision = null;
+					if (Std.is(obstacle, ColliderPoint))
+					{
+						temp = collider.collideWithPoint(cast(obstacle, ColliderPoint));
+					} else if (Std.is(obstacle, ColliderLine)) 
+					{
+						temp = collider.collideWithLine(cast(obstacle, ColliderLine));
+					} else if (Std.is(obstacle, ColliderCircle)) 
+					{
+						temp = collider.collideWithCircle(cast(obstacle, ColliderCircle));
+					}
+					if(temp != null) {
+						if (collision == null) {
+							collision = temp;
+						} else if (collision.relativePath > temp.relativePath) {
+							collision = temp;							
+						}
+					}
+				}
+			}
+		}
+		
+		// само столкновение с вычислением нормали к поверхности
+		if (collision == null) {
+			// нет препятствий
+			object.position += object.velocity;
+		} else {
+			var collider:Collider = collision.collider;
+			var position:Point2D = object.position;
+			var offset:Point2D = object.velocity * collision.relativePath;
+			var lowerBound:Float = 0;
+			var upperBound:Float = 2;
+			
+			var relationBefore:Float = 0;
+			var relationAfter:Float = 0;
+			
+			while (Math.abs(lowerBound - upperBound) > 0.000001 && lowerBound < 1) 
+			{				
+				var guess:Float = (lowerBound + upperBound) / 2;
+				
+				// сдвигает коллайдер
+				collider.test(position + offset * guess);
+				
+				if (Std.is(collision.collided, ColliderCircle)) {
+					relationAfter = collision.collider.relationToCircle(cast(collision.collided, ColliderCircle));
+				} else if (Std.is(collision.collided, ColliderLine)) {
+					relationAfter = collision.collider.relationToLine(cast(collision.collided, ColliderLine));					
+				} else if (Std.is(collision.collided, ColliderPoint)) {
+					relationAfter = collision.collider.relationToPoint(cast(collision.collided, ColliderPoint));					
+				} else {
+					Main.I.log("unknown collider");
+				}
+				if (relationAfter <= 0) {
+					upperBound = guess;
+				} else {
+					lowerBound = guess;
+				}
+			}
+			
+			object.position += offset * lowerBound;
+			object.onCollision(collision);
+		}
+	}
+	
+	@:deprecated
+	public function moveObjectOld(object:Object) {
 		// фильтр коллайдеров по тайлам
 		
 		// фильтр перекрывающихся с коллайдером объектов
@@ -301,6 +387,7 @@ class World extends Sprite
 		}
 		
 		// сталкивание с другими коллайдерами всех примитивов объекта
+		
 		
 		// само столкновение с вычислением нормали к поверхности
 		if (collision == null) {
@@ -351,16 +438,6 @@ class World extends Sprite
 		object.world = null;
 	}
 	
-	public function addCollider(collider:Collider) 
-	{
-		
-	}
-	
-	public function removeCollider(collider:Collider) 
-	{
-		
-	}
-	
 	public function kickPlayer(id:Int) 
 	{
 		if (id == activePlayer) changeState();
@@ -381,6 +458,67 @@ class World extends Sprite
 	public function arsenalKeyUp() 
 	{
 		
+	}
+	
+	public function getTileAt(x:Int, y:Int) 
+	{
+		if (tiles.exists(x))
+			if (tiles.get(x).exists(y))
+				return tiles.get(x).get(y);
+		return new Tile(x, y);
+	}
+	
+	public function addTile(tile:Tile) {
+		var x:Int = tile.x;
+		var y:Int = tile.y;
+		if (!tiles.exists(x))
+			tiles.set(x, new IntMap<Tile>());
+		if (!tiles.get(x).exists(y))
+			tiles.get(x).set(y, tile);
+	}
+	
+	// возвращает все коллайдеры из выбранного прямоугольника
+	public function getCollidersIn(left:Float, top:Float, right:Float, bottom:Float):List<List<Collider>>
+	{
+		
+		var result:List<List<Collider>> = new List<List<Collider>>();
+		
+		/*var list:List<Collider> = new List<Collider>();
+		
+		var _top:Int = Math.floor(top);
+		var _bottom:Int = Math.ceil(bottom);
+		var _left:Int = Math.floor(left);
+		var _right:Int = Math.ceil(right);
+		
+		for (x in _left..._right+1) 
+		{
+			for (y in _top..._bottom+1) 
+			{
+				if (isLand(x - 1, y - 1) || isLand(x, y - 1) || isLand(x - 1, y) || isLand(x, y)) {
+					list.add(new ColliderPoint(new Point2D(x, y)));
+				}
+			}
+		}		
+		result.add(list);
+		return result;*/		
+		
+		// сначала посчитать затронутые тайлы
+		var leftTile:Int = Math.ceil(left / Tile.size) - 1;
+		var	topTile:Int = Math.ceil(top / Tile.size) - 1;
+		var	rightTile:Int = Math.floor(right / Tile.size);
+		var	bottomTile:Int = Math.floor(bottom / Tile.size);
+		
+		// затем из каждого достать коллайдеры которые в нем есть
+		for (x in leftTile...rightTile+1) 
+		{
+			for (y in topTile...bottomTile+1) 
+			{
+				var tile:Tile = Main.I.world.getTileAt(x, y);
+				//result.add(tile.colliders);
+				if (tile.land > 0) result.add(tile.getLandColliders(Math.floor(left), Math.floor(top), Math.ceil(right), Math.ceil(bottom)));
+			}
+		}
+		return result;
 	}
 	
 	function get_timerVisible():Bool 

@@ -15,12 +15,12 @@ class ColliderLine extends Collider
 	public var cachePoint0:Point2D;
 	public var cachePoint1:Point2D;
 	
-	//	
-	//	0	\	  1
-	//	.____\____.
-	//		 ^\
-	//		/ \\
-	//		   oo
+	// clockwise!
+	//
+	//   -->
+	//  ^   |
+	//  |   v
+	//   <--
 
 	public function new(point0:Point2D, point1:Point2D) 
 	{

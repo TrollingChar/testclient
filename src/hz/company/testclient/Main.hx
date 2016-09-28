@@ -44,7 +44,7 @@ class Main extends Sprite
 		
 		random = new Random(100500);
 		
-		debugTextField = new Label("test", 0xFFFFFF, new GlowFilter(0x00FFFF), true);
+		debugTextField = new Label("test", 0x66FF66, new GlowFilter(0x00FF00), true);
 		debugTextField.x = 350;
 		debugTextField.y = -25;
 		addChild(debugTextField);
@@ -182,7 +182,7 @@ class Main extends Sprite
 		if(winner == id)
 			panResult.text = "Победа!";
 		else if (winner == 0)
-			panResult.text = "В этом бою нет победителя.";
+			panResult.text = "Ничья";
 		else
 			panResult.text = "Побеждает игрок " + Std.string(id);
 		panResult.hidden = false;

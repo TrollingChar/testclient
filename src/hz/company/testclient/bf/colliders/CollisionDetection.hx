@@ -21,23 +21,23 @@ class CollisionDetection
 		var j:Point2D = new Point2D(-i.y, i.x);	// 90° по часовой стрелке
 		
 		// раскладываем вектор c-a по базису векторов (i, j)
-		var ac_ij:Point2D = Geometry.convertToBasis(a - c, i, j);
+		var ca_ij:Point2D = Geometry.convertToBasis(a - c, i, j);
 		
 		// ac_ij.y -= circle.radius; - единственное различие между точкой и окружностью
 		// объект вообще не с той стороны прямой, поэтому его не обрабатываем
-		if (ac_ij.y < 0)
+		if (ca_ij.y < 0)
 			return null;
 		
 		// вектор скорости тоже раскладываем
 		var v_ij:Point2D = Geometry.convertToBasis(v, i, j);
 		
 		// объект движется не в ту сторону или не долетает
-		if (v_ij.y <= ac_ij.y)
+		if (v_ij.y <= ca_ij.y)
 			return null;
 		
-		var relativePath:Float = ac_ij.y / v_ij.y;
+		var relativePath:Float = ca_ij.y / v_ij.y;
 		
-		var offsetI:Float = ac_ij.x + v_ij.x * relativePath;
+		var offsetI:Float = v_ij.x * relativePath - ca_ij.x;
 		
 		// столкнулись с прямой но не с отрезком
 		if (offsetI < 0 || offsetI > ab)
@@ -60,28 +60,28 @@ class CollisionDetection
 		var j:Point2D = new Point2D(-i.y, i.x);	// 90° по часовой стрелке
 		
 		// раскладываем вектор c-a по базису векторов (i, j)
-		var ac_ij:Point2D = Geometry.convertToBasis(a - c, i, j);
+		var ca_ij:Point2D = Geometry.convertToBasis(a - c, i, j);
 		
-		ac_ij.y -= circle.radius;
+		ca_ij.y -= circle.radius;
 		// объект вообще не с той стороны прямой, поэтому его не обрабатываем
-		if (ac_ij.y < 0)
+		if (ca_ij.y < 0)
 			return null;
 		
 		// вектор скорости тоже раскладываем
 		var v_ij:Point2D = Geometry.convertToBasis(v, i, j);
 		
 		// объект движется не в ту сторону или не долетает
-		if (v_ij.y <= ac_ij.y)
+		if (v_ij.y <= ca_ij.y)
 			return null;
 		
-		var relativePath:Float = ac_ij.y / v_ij.y;
+		var relativePath:Float = ca_ij.y / v_ij.y;
 		
-		var offsetI:Float = ac_ij.x + v_ij.x * relativePath;
+		var offsetI:Float = v_ij.x * relativePath - ca_ij.x;
 		
 		// столкнулись с прямой но не с отрезком
 		if (offsetI < 0 || offsetI > ab)
 			return null;
-		
+			
 		return new Collision(relativePath, circle, line, -j);
 	}
 

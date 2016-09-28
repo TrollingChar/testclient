@@ -130,6 +130,8 @@ class Worm extends Object
 	
 	// проверяет землю под указанной точкой
 	public static function testBelow(point:Point2D, world:World):Float {
+		Main.I.log("test");
+		
 		var tester:Tester = new Tester(point);
 		world.addObject(tester);
 		world.moveObject(tester);

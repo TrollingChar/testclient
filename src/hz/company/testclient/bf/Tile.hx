@@ -1,5 +1,8 @@
 package hz.company.testclient.bf;
 import hz.company.testclient.bf.colliders.Collider;
+import hz.company.testclient.bf.colliders.ColliderLine;
+import hz.company.testclient.bf.colliders.ColliderPoint;
+import hz.company.testclient.geom.Point2D;
 
 /**
  * ...
@@ -7,13 +10,125 @@ import hz.company.testclient.bf.colliders.Collider;
  */
 class Tile
 {
-	public var colliders : List<Collider>;
-	public var land : Bool;
+	static public inline var size:Int = 20;
+	public var x:Int;
+	public var y:Int;						// координаты тайла
+	public var empty:Bool;					// если тайл пуст, то не надо его запоминать в хеш-таблицу
+	public var colliders:List<Collider>;	// коллайдеры, находящиеся здесь
+	public var land:Int;					// число пикселей земли которые находятся в тайле
 	
-	public function new() 
+	public function new(x:Int, y:Int) 
 	{
+		this.x = x;
+		this.y = y;
+		land = 0;
 		colliders = new List<Collider>();
 	}
 	
+	public function recomputeLand() 
+	{
+		land = 0;
+		for (_x in 0...size) 
+		{
+			for (_y in 0...size) 
+			{
+				if (Main.I.world.isLand(_x + x * size, _y + y * size)) land++;
+			}
+		}
+		if(land > 0) Main.I.world.addTile(this);
+	}
 	
+	public function addCollider(collider:Collider) {
+		colliders.add(collider);
+		Main.I.world.addTile(this);
+	}
+	
+	public function removeCollider(collider:Collider) {
+		colliders.remove(collider);
+	}
+	
+	public function getLandColliders(left:Int, top:Int, right:Int, bottom:Int):List<Collider>
+	{		
+		var result:List<Collider> = new List<Collider>();
+		if (land == size * size) {
+			result.add(new ColliderPoint(new Point2D(x, y) * size));
+			result.add(new ColliderPoint(new Point2D(x + 1, y) * size));
+			result.add(new ColliderPoint(new Point2D(x, y + 1) * size));
+			result.add(new ColliderPoint(new Point2D(x + 1, y + 1) * size));
+			result.add(new ColliderLine(new Point2D(x, y) * size, new Point2D(x + 1, y) * size));
+			result.add(new ColliderLine(new Point2D(x + 1, y) * size, new Point2D(x + 1, y + 1) * size));
+			result.add(new ColliderLine(new Point2D(x + 1, y + 1) * size, new Point2D(x, y + 1) * size));
+			result.add(new ColliderLine(new Point2D(x, y + 1) * size, new Point2D(x, y) * size));
+			return result;
+		}
+		
+		//var list:List<Collider> = new List<Collider>();
+		//
+		//if (land == 0) return list;
+		//
+		//for (_x in x*size...(x+1)*size+1) 
+		//{
+			//for (_y in y*size...(y+1)*size+1) 
+			//{
+				//if (Main.I.world.isLand(_x - 1, _y - 1) || Main.I.world.isLand(_x, _y - 1) || Main.I.world.isLand(_x - 1, _y) || Main.I.world.isLand(_x, _y)) {
+					//list.add(new ColliderPoint(new Point2D(_x, _y)));
+				//}
+			//}
+		//}		
+		//return list;
+		
+		//left = Math.min(left, x * size);
+		//top = Math.min(top, y * size);
+		//right = Math.max(right, (x + 1) * size);
+		//bottom = Math.max(bottom, (y+1)*size);
+		
+		if (left < x * size) 
+			left = x * size;
+		if (top < y * size)
+			top = y * size;
+		if (right > (x + 1) * size)
+			right = (x + 1) * size;
+		if (bottom < (y + 1) * size)
+			bottom = (y + 1) * size;
+		
+		// обходим точки
+		for (_x in left...right+1) 
+		{
+			for (_y in top...bottom+1) 
+			{
+				if (Main.I.world.isLand(_x - 1, _y - 1) || Main.I.world.isLand(_x, _y - 1) || Main.I.world.isLand(_x - 1, _y) || Main.I.world.isLand(_x, _y)) {
+					result.add(new ColliderPoint(new Point2D(_x, _y)));
+				}
+				//var count:Int = 0;
+				//if (Main.I.world.isLand(_x, _y)) count++;
+				//if (Main.I.world.isLand(_x - 1, _y)) count++;
+				//if (Main.I.world.isLand(_x, _y - 1)) count++;
+				//if (Main.I.world.isLand(_x - 1, _y - 1)) count++;
+				//
+				//if (count == 1) result.add(new ColliderPoint(new Point2D(_x, _y)));
+			}
+		}
+		
+		//обходим горизонтальные линии
+		for (_x in left...right) 
+		{
+			for (_y in top...bottom+1) 
+			{
+				if (Main.I.world.isLand(_x, _y) && !Main.I.world.isLand(_x, _y - 1)) result.add(new ColliderLine(new Point2D(_x, _y), new Point2D(_x + 1, _y)));
+				if (!Main.I.world.isLand(_x, _y) && Main.I.world.isLand(_x, _y - 1)) result.add(new ColliderLine(new Point2D(_x + 1, _y), new Point2D(_x, _y)));
+			}
+		}
+		
+		// обходим вертикальные линии
+		for (_x in left...right+1) 
+		{
+			for (_y in top...bottom) 
+			{
+				if (Main.I.world.isLand(_x, _y) && !Main.I.world.isLand(_x - 1, _y)) result.add(new ColliderLine(new Point2D(_x, _y + 1), new Point2D(_x, _y)));
+				if (!Main.I.world.isLand(_x, _y) && Main.I.world.isLand(_x - 1, _y)) result.add(new ColliderLine(new Point2D(_x, _y), new Point2D(_x, _y + 1)));
+			}
+		}
+		
+		return result;
+	}
 }

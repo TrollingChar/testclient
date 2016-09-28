@@ -22,7 +22,7 @@ class WormControllerWalk extends Controller
 	}
 	
 	override function work() 
-	{
+	{		
 		var worm:Worm = cast(object, Worm);
 	
 		var world:World = worm.world;
@@ -30,6 +30,7 @@ class WormControllerWalk extends Controller
 		if (Worm.testBelow(worm.position, world) >= Worm.size)
 		{
 			// под ногами нет земли
+			Main.I.log("KEK");
 			worm.controller = new WormControllerJump();
 			return;
 		}
@@ -86,7 +87,7 @@ class WormControllerWalk extends Controller
 			worm.controller = new WormControllerJump();
 			//worm.controller = new WormControllerBeforeJump(worm);
 			return;
-		}		
+		}
 		
 	}
 	
