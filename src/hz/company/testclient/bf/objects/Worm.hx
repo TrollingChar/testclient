@@ -28,11 +28,12 @@ import hz.company.testclient.bf.colliders.ColliderCircle;
  */
 class Worm extends Object
 {	
-	public static inline var size = 7;
+	public static inline var size:Float = 7;
+	public static inline var speed:Float = 0.6;
 	
 	public var hp:Int = 60;
 	public var team:Team;
-	@:isVar public var facingRight(get, set):Bool;
+	@:isVar public var facingRight(get, set):Bool = true;
 	
 	var animsprite:AnimatedSprite;
 	var labelHp:Label;
@@ -107,6 +108,7 @@ class Worm extends Object
 	override public function onCollision(collision:Collision) 
 	{
 		controller = new WormControllerWalk();
+		
 		//var normal:Point2D = collision.normal;
 		//var tangential:Point2D = new Point2D(-normal.y, normal.x);
 		//var convertedVelocity:Point2D = Geometry.convertToBasis(velocity, tangential, normal);
@@ -129,20 +131,18 @@ class Worm extends Object
 	}
 	
 	// проверяет землю под указанной точкой
-	public static function testBelow(point:Point2D, world:World):Float {
-		Main.I.log("test");
-		
-		var tester:Tester = new Tester(point);
-		world.addObject(tester);
-		world.moveObject(tester);
-		world.removeObject(tester);
-		return tester.position.y - point.y - size;	
-	}
+	//public static function testBelow(point:Point2D, world:World):Float {
+		//var tester:Tester = new Tester(point);
+		//world.addObject(tester);
+		//world.moveObject(tester);
+		//world.removeObject(tester);
+		//return tester.position.y - point.y - size;	
+	//}
 	
 	// проверяет землю над указанной точкой
-	public function testAbove(point:Point2D):Float {
-		return 0;
-	}
+	//public function testAbove(point:Point2D):Float {
+		//return 0;
+	//}
 	
 	function get_facingRight():Bool 
 	{
@@ -151,6 +151,7 @@ class Worm extends Object
 	
 	function set_facingRight(value:Bool):Bool 
 	{
+		//sprite.scaleX = value ? 1 : -1;
 		if (facingRight != value) sprite.scaleX *= -1;
 		return facingRight = value;
 	}

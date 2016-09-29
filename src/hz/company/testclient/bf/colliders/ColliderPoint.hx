@@ -24,6 +24,7 @@ class ColliderPoint extends Collider
 	override public function update() 
 	{
 		cachePoint = object.position + offset;
+		super.update();
 	}
 	
 	override public function collideWithLine(collider:ColliderLine):Collision 

@@ -5,6 +5,7 @@ import format.SVG;
 import hz.company.testclient.bf.colliders.ColliderCircle;
 import hz.company.testclient.bf.colliders.Collision;
 import hz.company.testclient.bf.controllers.Controller;
+import hz.company.testclient.bf.controllers.GrenadeController;
 import hz.company.testclient.geom.Geometry;
 import hz.company.testclient.geom.Point2D;
 import openfl.Assets;
@@ -32,7 +33,7 @@ class TestBall extends Object
 	
 	override function initController() 
 	{
-		controller = new Controller();
+		controller = new GrenadeController();
 	}
 	
 	override function renderSprites() 

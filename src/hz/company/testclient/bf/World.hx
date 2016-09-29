@@ -116,14 +116,19 @@ class World extends Sprite
 	
 	private function enterFrame(e:Event):Void 
 	{
-		//if (paused) return;		
-		Main.I.connection.readData();
-		
-		if (syncronized) {
-			if (activePlayer == Main.I.id)
-				updateAndSend(Main.I.input);
-		} else {
-			update(Main.I.input);
+		try 
+		{
+			//if (paused) return;		
+			Main.I.connection.readData();
+			
+			if (syncronized) {
+				if (activePlayer == Main.I.id)
+					updateAndSend(Main.I.input);
+			} else {
+				update(Main.I.input);
+			}
+		} catch (e:Dynamic) {
+			Main.I.log(Std.string(e));
 		}
 	}
 	
@@ -259,6 +264,8 @@ class World extends Sprite
 		
 		if (!timerFrozen) timer -= 20;
 		if (timer <= 0) changeState();
+		
+		Main.I.log(Std.string(objects.length));
 	}
 	
 	public function addObject(object:Object)
@@ -334,7 +341,7 @@ class World extends Sprite
 				} else {
 					Main.I.log("unknown collider");
 				}
-				if (relationAfter <= 0) {
+				if (relationAfter < 0) {
 					upperBound = guess;
 				} else {
 					lowerBound = guess;
@@ -479,28 +486,8 @@ class World extends Sprite
 	
 	// возвращает все коллайдеры из выбранного прямоугольника
 	public function getCollidersIn(left:Float, top:Float, right:Float, bottom:Float):List<List<Collider>>
-	{
-		
+	{		
 		var result:List<List<Collider>> = new List<List<Collider>>();
-		
-		/*var list:List<Collider> = new List<Collider>();
-		
-		var _top:Int = Math.floor(top);
-		var _bottom:Int = Math.ceil(bottom);
-		var _left:Int = Math.floor(left);
-		var _right:Int = Math.ceil(right);
-		
-		for (x in _left..._right+1) 
-		{
-			for (y in _top..._bottom+1) 
-			{
-				if (isLand(x - 1, y - 1) || isLand(x, y - 1) || isLand(x - 1, y) || isLand(x, y)) {
-					list.add(new ColliderPoint(new Point2D(x, y)));
-				}
-			}
-		}		
-		result.add(list);
-		return result;*/		
 		
 		// сначала посчитать затронутые тайлы
 		var leftTile:Int = Math.ceil(left / Tile.size) - 1;

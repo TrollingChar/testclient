@@ -35,6 +35,7 @@ class ColliderLine extends Collider
 	{
 		cachePoint0 = object.position + offset0;
 		cachePoint1 = object.position + offset1;
+		super.update();
 	}
 	
 	override public function collideWithCircle(collider:ColliderCircle):Collision 

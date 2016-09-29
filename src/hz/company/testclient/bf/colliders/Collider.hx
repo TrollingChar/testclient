@@ -14,7 +14,7 @@ class Collider
 
 	public function new() 
 	{
-		
+		tiles = new List<Tile>();
 	}
 	
 	public function collideWithPoint(collider:ColliderPoint):Collision {
@@ -77,6 +77,9 @@ class Collider
 	}
 	
 	public function passableFor(collider:Collider) {
+		// ну хотя бы так:
+		return collider.object != null;
+		
 		// объекты не сталкиваются сами с собой
 		return collider.object == object;
 	}
