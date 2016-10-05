@@ -247,11 +247,11 @@ class World extends Sprite
 		for (object in objects) {
 			object.update();
 		}
-		
+		/*
 		for (object in objects) {
 			moveObject(object);
 		}
-		
+		*/
 		if (timer % 200 == 0 && input.flags & InputState.mb != 0 && currentState == GameState.TURN) {
 			for (i in 0...5) 
 			{
@@ -275,7 +275,9 @@ class World extends Sprite
 		objects.add(object);
 	}
 	
-	public function moveObject(object:Object) {
+	public function moveObject(object:Object) {		
+		if (~object.velocity <= 0) return;
+		
 		var collision:Collision = null;
 		
 		for (collider in object.colliders) 
@@ -347,7 +349,7 @@ class World extends Sprite
 					lowerBound = guess;
 				}
 			}
-			
+			Main.I.log("lower bound = " + Std.string(lowerBound));
 			object.position += offset * lowerBound;
 			object.onCollision(collision);
 		}

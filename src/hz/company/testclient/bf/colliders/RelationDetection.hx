@@ -17,12 +17,12 @@ class RelationDetection
 		if (ab == 0) return 0;
 		
 		var i:Point2D = (b - a) / ab;
-		var j:Point2D = new Point2D(i.y, -i.x);	// 90° по часовой стрелке
+		var j:Point2D = new Point2D(-i.y, i.x);	// 90° по часовой стрелке
 		
 		// раскладываем вектор c-a по базису векторов (i, j)
-		var ac_ij:Point2D = Geometry.convertToBasis(a - c, i, j);
+		var ca_ij:Point2D = Geometry.convertToBasis(a - c, i, j);
 		
-		return ac_ij.y;
+		return ca_ij.y;
 	}
 	
 	public static function pointToCircle(point:ColliderPoint, circle:ColliderCircle):Float {
@@ -39,12 +39,12 @@ class RelationDetection
 		if (ab == 0) return 0;
 		
 		var i:Point2D = (b - a) / ab;
-		var j:Point2D = new Point2D(i.y, -i.x);	// 90° по часовой стрелке
+		var j:Point2D = new Point2D(-i.y, i.x);	// 90° по часовой стрелке
 		
 		// раскладываем вектор c-a по базису векторов (i, j)
-		var ac_ij:Point2D = Geometry.convertToBasis(a - c, i, j);
+		var ca_ij:Point2D = Geometry.convertToBasis(a - c, i, j);
 		
-		return ac_ij.y - circle.radius;		
+		return ca_ij.y - circle.radius;		
 	}
 	
 	public static function circleToCircle(circle0:ColliderCircle, circle1:ColliderCircle):Float {

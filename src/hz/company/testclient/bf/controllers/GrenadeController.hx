@@ -10,7 +10,7 @@ class GrenadeController extends Controller
 	public function new() 
 	{
 		super();
-		fuse = 250;
+		fuse = 5000;
 	}
 	
 	override function fuseCallback() 

@@ -19,7 +19,7 @@ class WormControllerWalk extends Controller
 	
 	override public function onAdd() 
 	{
-		object.velocity = new Point2D(0, 0);
+		object.velocity %= 0;
 	}
 	
 	override function work() 
@@ -51,7 +51,7 @@ class WormControllerWalk extends Controller
 		
 		// не твой ход или ты не можешь двигаться, то просто спуститься до касания с землей
 		if (worm != world.activeWorm || world.wormFrozen) {			
-			worm.position.y += offset * Worm.size * 2 - Worm.size;
+			worm.position += new Point2D(0, offset * Worm.size * 2 - Worm.size);
 			return;
 		}
 		
@@ -92,7 +92,7 @@ class WormControllerWalk extends Controller
 			}
 		} else {
 			// на месте
-			worm.position.y += offset * Worm.size * 2 - Worm.size;
+			worm.position += new Point2D(0, offset * Worm.size * 2 - Worm.size);
 		}
 		
 		//var offsetY:Float = Worm.testBelow(worm.position + new Point2D(offsetX, 0), world);		
@@ -117,7 +117,7 @@ class WormControllerWalk extends Controller
 			{
 				worm.angle += worm.facingRight ? .1 : -.1;
 			}
-			worm.controller = new WormControllerJump();
+			worm.controller = new WormControllerBeforeJump();
 			//worm.controller = new WormControllerBeforeJump(worm);
 			return;
 		}
@@ -125,7 +125,7 @@ class WormControllerWalk extends Controller
 		{
 			worm.velocity %= 5;
 			worm.angle += worm.facingRight ? .5 : -.5;
-			worm.controller = new WormControllerJump();
+			worm.controller = new WormControllerBeforeJump();
 			//worm.controller = new WormControllerBeforeJump(worm);
 			return;
 		}

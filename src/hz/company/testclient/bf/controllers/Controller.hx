@@ -10,7 +10,7 @@ import hz.company.testclient.bf.objects.Object;
 class Controller
 {
 	public var object:Object;
-	public var fuse:Int = 2000;
+	public var fuse:Int = 20000;
 	
 	public function new() {
 		
@@ -28,10 +28,11 @@ class Controller
 	
 	public function update() 
 	{
-		if(fuse-- == 0) 
+		if(fuse == 0) 
 			fuseCallback();
 		else
 			work();
+		fuse -= 20;
 	}
 	
 	function fuseCallback() {
@@ -41,5 +42,6 @@ class Controller
 	function work() 
 	{
 		object.velocity.y += object.world.gravity;
+		Main.I.world.moveObject(object);
 	}
 }

@@ -14,8 +14,8 @@ class Tester extends Object
 	public function new(position:Point2D, velocity:Point2D) 
 	{
 		super();
-		this.position = position;
-		this.velocity = velocity;
+		this.position = position * 1;
+		this.velocity = velocity * 1;
 		//this.velocity = new Point2D(0, 2*Worm.size);
 		// нет спрайта, нечего добавлять
 	}

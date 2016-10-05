@@ -7,6 +7,7 @@ import hz.company.testclient.bf.colliders.ColliderLine;
 import hz.company.testclient.bf.colliders.ColliderPoint;
 import hz.company.testclient.bf.colliders.Collision;
 import hz.company.testclient.bf.colliders.RelationDetection;
+import hz.company.testclient.bf.controllers.WormControllerLand;
 import hz.company.testclient.bf.controllers.WormControllerWalk;
 import hz.company.testclient.interf.Label;
 import openfl.Assets;
@@ -35,7 +36,7 @@ class Worm extends Object
 	public var team:Team;
 	@:isVar public var facingRight(get, set):Bool = true;
 	
-	var animsprite:AnimatedSprite;
+	public var animsprite:AnimatedSprite;
 	var labelHp:Label;
 	
 	public function new() 
@@ -51,9 +52,9 @@ class Worm extends Object
 		var sheet:Spritesheet = BitmapImporter.create(Assets.getBitmapData("img/worm-all.png"), 184, 1, 128, 128);
 		sheet.addBehavior(new BehaviorData("stand", [0, 1, 2, 3, 4, 5, 6, 6, 5, 4, 3, 2, 1, 0], true, 100));
 		sheet.addBehavior(new BehaviorData("walk", Util.makeArray(7, 25), true, 100));
-		sheet.addBehavior(new BehaviorData("before jump", Util.makeArray(25, 42), false, 100));
+		sheet.addBehavior(new BehaviorData("before jump", Util.makeArray(25, 42), false, 20));
 		sheet.addBehavior(new BehaviorData("jump", Util.makeArray(42, 50), true, 100));
-		sheet.addBehavior(new BehaviorData("land", Util.makeArray(50, 69), false, 100));
+		sheet.addBehavior(new BehaviorData("land", Util.makeArray(50, 69), false, 20));
 		sheet.addBehavior(new BehaviorData("fall", [69], false, 100));
 		sheet.addBehavior(new BehaviorData("slide", Util.makeArray(70, 72), true, 100));
 		sheet.addBehavior(new BehaviorData("recover", Util.makeArray(72, 117), false, 100));
@@ -107,7 +108,27 @@ class Worm extends Object
 	
 	override public function onCollision(collision:Collision) 
 	{
-		controller = new WormControllerWalk();
+		controller = new WormControllerLand();
+		Main.I.log("collision: ");
+		if (Std.is(collision.collider, ColliderCircle)) {
+			Main.I.log("circle");
+		} else if (Std.is(collision.collider, ColliderLine)) {
+			Main.I.log("line");				
+		} else if (Std.is(collision.collider, ColliderPoint)) {
+			Main.I.log("point");
+		} else {
+			Main.I.log("unknown collider");
+		}
+		if (Std.is(collision.collided, ColliderCircle)) {
+			Main.I.log("circle");
+		} else if (Std.is(collision.collided, ColliderLine)) {
+			Main.I.log("line");				
+		} else if (Std.is(collision.collided, ColliderPoint)) {
+			Main.I.log("point");
+		} else {
+			Main.I.log("unknown collider");
+		}
+		//animsprite.showBehavior("stand");
 		
 		//var normal:Point2D = collision.normal;
 		//var tangential:Point2D = new Point2D(-normal.y, normal.x);
